@@ -1,0 +1,214 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "postgresql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model Usuario {
+    id              String   @id @default(cuid())
+    nome            String
+    email           String   @unique
+    username        String   @unique
+    password        String
+    confirmpassword String
+    tipo            String
+    cpf             String   @unique
+    permissao       Boolean?
+    telefone        String?
+
+    reset_token        String?
+    reset_token_expiry DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    acessossimulado AcessoSimulado[]
+}
+
+model Simulado {
+    id        String @id @default(cuid())
+    total     String
+    pontuacao String
+    usuarioId String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Contato {
+    id       String @id @default(cuid())
+    nome     String
+    email    String
+    telefone String
+    assunto  String
+    mensagem String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model cursos {
+    id          String   @id @default(cuid())
+    titulo      String
+    subtitulo   String
+    uf          String
+    municipio   String
+    endereco    String
+    data_inicio DateTime @db.Date
+    data_fim    DateTime @db.Date
+    is_active   Boolean
+
+    inscricoes  inscricoes[]
+    professores cursos_professores[]
+    niveis      curso_niveis[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+
+model inscricoes {
+    id             String  @id @default(cuid())
+    nome           String
+    email          String
+    telefone       String
+    cnpj           String?
+    cpf            String?
+    unidadegestora String
+    cargo          String
+    endereco       String
+    bairro         String
+    municipio      String
+    estado         String
+    cep            String
+    curso_id       String
+    nivel_id       String
+
+    nivel curso_niveis @relation(fields: [nivel_id], references: [id], onDelete: Cascade)
+    curso cursos       @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([curso_id])
+    @@index([nivel_id])
+}
+
+model Questao {
+    id String @id @default(cuid())
+
+    pergunta          String
+    respostacorreta   String
+    respostacomentada String
+    nivel             Int?
+    tipo              Int?
+
+    alternativas Alternativa[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Alternativa {
+    id Int @id @default(autoincrement())
+
+    letra     String
+    resposta  String
+    questaoId String
+
+    questao Questao @relation(fields: [questaoId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([questaoId])
+}
+
+model Artigo {
+    id        String @id @default(cuid())
+    texto     String
+    avaliacao Int
+
+    posts Post[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Post {
+    id String @id @default(cuid())
+
+    texto    String
+    artigoId String
+
+    artigo Artigo @relation(fields: [artigoId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([artigoId])
+}
+
+model AcessoSimulado {
+    id        String @id @default(cuid())
+    usuarioId String
+    tipo      Int
+
+    usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+    nivelsimulado Int?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([usuarioId])
+}
+
+model professores {
+    id        String               @id @default(cuid())
+    nome      String
+    curriculo String
+    ext       String?
+    cursos    cursos_professores[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+
+model cursos_professores {
+    curso_id     String @map("curso_id")
+    professor_id String @map("professor_id")
+
+    curso     cursos      @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+    professor professores @relation(fields: [professor_id], references: [id], onDelete: Cascade)
+
+    created_at DateTime @default(now())
+
+    @@id([curso_id, professor_id])
+    @@index([curso_id])
+    @@index([professor_id])
+}
+
+model curso_niveis {
+    id           String  @id @default(cuid())
+    curso_id     String  @map("curso_id")
+    nivel        Int
+    publico_alvo String
+    conteudo     String
+    descricao    String
+    valor        Decimal
+
+    inscricoes inscricoes[]
+    curso      cursos       @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@index([curso_id])
+}

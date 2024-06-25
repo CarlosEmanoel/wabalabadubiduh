@@ -1,0 +1,41 @@
+
+
+
+import React, { useState, useEffect } from 'react';
+import fileFetcherUrlHook from '../../../hooks/files/fileFetcherUrlHook';
+import CircleLoad from '../../loads/circles/CircleLoad';
+
+const FileFetcher = ({ fileName = '', imageWidth = '100%', imageHeight = 'auto', pdfWidth = '100%', pdfHeight = '600px', videoWidth = '100%', videoHeight = 'auto', masked = false }) => {
+    const [fileUrl, setFileUrl] = useState(null);
+    const [mimeType, setMimeType] = useState(null);
+
+    useEffect(() => {
+        fileFetcherUrlHook(fileName, setFileUrl, setMimeType, masked);
+    }, [fileName]);
+
+    if (!fileUrl) {
+        return (
+            <div className='items-center justify-center flex-col flex'>
+                <CircleLoad />
+                Carregando Arquivo...
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            {mimeType === 'application/pdf' ? (
+                <iframe src={fileUrl} width={pdfWidth} height={pdfHeight} title="PDF Viewer"></iframe>
+            ) : mimeType.startsWith('video/') ? (
+                <video width={videoWidth} height={videoHeight} controls>
+                    <source src={fileUrl} type={mimeType} />
+                    Seu navegador não suporta a exibição deste vídeo.
+                </video>
+            ) : (
+                <img src={fileUrl} alt={fileName} style={{ width: imageWidth, height: imageHeight }} />
+            )}
+        </div>
+    );
+};
+
+export default FileFetcher;
