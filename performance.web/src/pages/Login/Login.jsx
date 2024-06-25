@@ -4,7 +4,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import util from "../../services/util";
-import { PSubmitButton, PDefaultModal, PFileFetcher, PInputCodeVerify, PInputFloatingLabel } from "../../components";
+import {
+  PSubmitButton,
+  PDefaultModal,
+  PFileFetcher,
+  PInputCodeVerify,
+  PInputFloatingLabel,
+} from "../../components";
 import "./Login.css";
 import api from "../../services/api";
 
@@ -49,7 +55,7 @@ function Login() {
         },
       });
 
-      if (res.data.success === true) {
+      if (res.data.success) {
         util.setAuthToken(res.data.accessToken);
         // login efetuado com sucesso
         // guardar token no storage
@@ -66,10 +72,10 @@ function Login() {
         }
       } else {
         // erro no login, mostrar mensagem de erro
-        setErro(res.data.message);
+        messages.mensagem.erro(res.data.message);
       }
     } catch (error) {
-      setErro("Erro ao tentar realizar login.");
+      messages.mensagem.erro("Erro ao tentar realizar login.");
     }
   };
 
@@ -115,7 +121,10 @@ function Login() {
   const resetPassword = async (values) => {
     setErro("");
     try {
-      await api.post(`/reset-password`, { token: values.token, newPassword: values.password });
+      await api.post(`/reset-password`, {
+        token: values.token,
+        newPassword: values.password,
+      });
       setPasswordModal(false);
       setErro("");
       setTokenVerified(false);
@@ -168,8 +177,12 @@ function Login() {
                   />
                 </div>
                 <div className="flex sm:flex flex-1 flex-col items-center justify-center shadow-lg bg-white p-4 min-w-screen transition-all ease-in-out duration-500 rounded-lg md:rounded-br-lg md:rounded-tr-lg md:rounded-none py-12">
-                  <a href="/" className="pb-4 flex font-semibold self-start md:hidden">
-                    <PFileFetcher fileName="ic_arrow_caret_left_filled" /> <p>Voltar</p>
+                  <a
+                    href="/"
+                    className="pb-4 flex font-semibold self-start md:hidden"
+                  >
+                    <PFileFetcher fileName="ic_arrow_caret_left_filled" />{" "}
+                    <p>Voltar</p>
                   </a>
                   <span className="mb-8 text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-center transition-all ease-in-out duration-500">
                     Entre na sua conta
@@ -188,16 +201,24 @@ function Login() {
                   <div className="w-full flex flex-col items-center pt-4">
                     <PSubmitButton
                       disabled={!formik.isValid || formik.isSubmitting}
-                      onClick={() => { }}
-                      buttonTitle={formik.isSubmitting ? "Carregando..." : "Entrar"}
+                      onClick={() => {}}
+                      buttonTitle={
+                        formik.isSubmitting ? "Carregando..." : "Entrar"
+                      }
                     />
                     <span className="pt-2 pb-4 text-center text-sm sm:text-base">
                       Você pode também{" "}
-                      <a onClick={() => setPasswordModal(true)} className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500">
+                      <a
+                        onClick={() => setPasswordModal(true)}
+                        className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
+                      >
                         redefinir sua senha
                       </a>{" "}
                       ou{" "}
-                      <a className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500" href="/signup">
+                      <a
+                        className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
+                        href="/signup"
+                      >
                         fazer cadastro
                       </a>
                       .
@@ -209,9 +230,14 @@ function Login() {
           </Form>
         )}
       </Formik>
-      <PDefaultModal isOpen={passwordModal} onClose={() => setPasswordModal(false)}>
+      <PDefaultModal
+        isOpen={passwordModal}
+        onClose={() => setPasswordModal(false)}
+      >
         <div className="m-12 select-none">
-          <h2 className="text-lg text-center font-bold">Redefinição de Senha</h2>
+          <h2 className="text-lg text-center font-bold">
+            Redefinição de Senha
+          </h2>
           {step === 1 && (
             <div className="flex flex-col items-center space-y-4">
               <h2 className="text-sm font-bold">Digite seu e-mail:</h2>
@@ -223,7 +249,9 @@ function Login() {
               />
               <PSubmitButton
                 onClick={requestToken}
-                buttonTitle={`Solicitar Token ${timer > 0 ? `(${timer}s)` : ""}`}
+                buttonTitle={`Solicitar Token ${
+                  timer > 0 ? `(${timer}s)` : ""
+                }`}
                 disabled={!email || timer > 0}
               />
               {erro && <p className="text-red-500">{erro}</p>}
@@ -244,8 +272,17 @@ function Login() {
             <Formik
               initialValues={{ password: "", confirmPassword: "" }}
               validationSchema={yup.object({
-                password: yup.string().min(6, "A senha deve conter, pelo menos, 6 caracteres").required("Digite sua nova senha"),
-                confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'As senhas devem corresponder').required('Confirme sua nova senha'),
+                password: yup
+                  .string()
+                  .min(6, "A senha deve conter, pelo menos, 6 caracteres")
+                  .required("Digite sua nova senha"),
+                confirmPassword: yup
+                  .string()
+                  .oneOf(
+                    [yup.ref("password"), null],
+                    "As senhas devem corresponder"
+                  )
+                  .required("Confirme sua nova senha"),
               })}
               onSubmit={resetPassword}
             >
@@ -253,14 +290,26 @@ function Login() {
                 <Form className="flex flex-col items-center space-y-4">
                   <div className="w-full">
                     <div className="my-4" />
-                    <PInputFloatingLabel name="password" type="password" label="Nova Senha" showIcon />
+                    <PInputFloatingLabel
+                      name="password"
+                      type="password"
+                      label="Nova Senha"
+                      showIcon
+                    />
                     <div className="my-4" />
-                    <PInputFloatingLabel name="confirmPassword" type="password" label="Confirme a Nova Senha" showIcon />
+                    <PInputFloatingLabel
+                      name="confirmPassword"
+                      type="password"
+                      label="Confirme a Nova Senha"
+                      showIcon
+                    />
                   </div>
                   <PSubmitButton
                     disabled={!formik.isValid || formik.isSubmitting}
-                    onClick={() => { }}
-                    buttonTitle={formik.isSubmitting ? "Carregando..." : "Redefinir Senha"}
+                    onClick={() => {}}
+                    buttonTitle={
+                      formik.isSubmitting ? "Carregando..." : "Redefinir Senha"
+                    }
                   />
                   {erro && <p className="text-red-500">{erro}</p>}
                 </Form>

@@ -1,251 +1,181 @@
 import axios from "axios";
-import { useFormik } from "formik";
-import React, { useState, useEffect } from "react";
-import InputMask from "react-input-mask";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
+import { PFileFetcher, PInputFloatingLabel } from "../../components";
+import messages from "../../services/messsages";
+import util from "../../services/util";
 import "./SignUp.css";
 
 const validationSchema = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
-  cpf: yup.string().required("Campo obrigatório"),
+  cpf: yup
+    .string()
+    .test("validate-cpf", "CPF inválido", (value) => util.validarCpf(value))
+    .required("Campo obrigatório"),
   username: yup.string().required("Campo obrigatório"),
   email: yup.string().email("Email inválido").required("Campo obrigatório"),
   password: yup
     .string()
     .min(6, "A senha deve conter, pelo menos, 6 caracteres")
     .required("Campo obrigatório"),
-  confirmpassword: yup.string().required("Campo obrigatório"),
+  confirmpassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "As senhas devem corresponder")
+    .required("Campo obrigatório"),
   telefone: yup
     .string()
-    .min(14, "Telefone inválido")
-    .required("Campo obrigatório"),
+    .matches(/^\d{10,11}$/, "Telefone inválido")
+    .required("Campo obrigatório")
+    .transform((value, originalValue) => originalValue.replace(/[^\d]/g, "")),
 });
-const initial = process.env.NODE_ENV === "production" ? "/performance" : "";
 
 function SignUp() {
   const navigate = useNavigate();
-  const [erro, setErro] = useState("");
 
-  const formik = useFormik({
-    onSubmit: async (values) => {
-      let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API;
+  const initialValues = {
+    nome: "",
+    cpf: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+    tipo: "user",
+    permissao: false,
+    telefone: "",
+  };
 
-      if (process.env.NODE_ENV === "production") {
-        API_ENDPOINT = "https://expansaodigital.tec.br/performance.api";
-      }
-      setErro("");
+  const onSubmit = async (values) => {
+    let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API;
 
-      const res = await axios({
-        method: "post",
-        baseURL: API_ENDPOINT,
-        url: "/usuario",
-        data: values,
-      });
+    if (process.env.NODE_ENV === "production") {
+      API_ENDPOINT = "https://expansaodigital.tec.br/performance.api";
+    }
 
-      if (res.data.success === true) {
-        navigate("/cadastro-efetuado");
-      } else {
-        setErro(res.data.message);
-      }
-    },
-    initialValues: {
-      nome: "",
-      cpf: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmpassword: "",
-      tipo: "user",
-      permissao: false,
-      telefone: "",
-    },
-    validationSchema,
-  });
+    const res = await axios({
+      method: "post",
+      baseURL: API_ENDPOINT,
+      url: "/usuario",
+      data: values,
+    });
+
+    if (res.data.success === true) {
+      navigate("/cadastro-efetuado");
+    } else {
+      messages.mensagem.erro(res.data.message);
+    }
+  };
 
   return (
-    <div id="signup">
-      <div className="container-signup">
-        <form className="form-control" onSubmit={formik.handleSubmit}>
-          <div className="title text-center">
-            <h1>Cadastro de usuário</h1>
-          </div>
-
-          {erro != "" && (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {(formik) => (
+        <Form>
+          <div className="fixed flex items-center justify-center w-screen h-screen overflow-hidden bg-opacity-50">
             <div
-              className="title"
-              style={{
-                border: "1px solid #000000",
-                borderRadius: "12px",
-                padding: "10px",
-                backgroundColor: "#FEEFEF",
-              }}
-            >
-              <h4>Erro</h4>
-              {erro}
-            </div>
-          )}
-
-          <div className="input-group">
-            <div className="input-box">
-              <label htmlFor="nome">Nome completo</label>
-              <input
-                type="text"
-                id="nome"
-                name="nome"
-                placeholder="Digite seu nome completo"
-                error={formik.errors.nome}
-                value={formik.values.nome}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.nome && (
-                <span className="p-1 text-sm text-red-500">
-                  {formik.errors.nome}
-                </span>
-              )}
-            </div>
-
-            <div className="input-box">
-              <label htmlFor="cpf">CPF</label>
-              <InputMask
-                type="text"
-                id="cpf"
-                name="cpf"
-                placeholder="Digite seu CPF"
-                required
-                error={formik.errors.cpf}
-                value={formik.values.cpf}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                mask="999.999.999-99"
-                maskChar={null}
-              />
-              {formik.errors.cpf && (
-                <span className="p-2 text-sm text-red-500">
-                  {formik.errors.cpf}
-                </span>
-              )}
-            </div>
-
-            <div className="input-box">
-              <label htmlFor="email">Seu email</label>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                placeholder="Digite seu email"
-                error={formik.errors.email}
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.email && (
-                <span className="p-2 text-sm text-red-500">
-                  {formik.errors.email}
-                </span>
-              )}
-            </div>
-
-            <div className="input-box">
-              <label htmlFor="username">Seu usuário</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder="Digite um usuário"
-                error={formik.errors.username}
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.username && (
-                <span className="p-2 text-sm text-red-500">
-                  {formik.errors.username}
-                </span>
-              )}
-            </div>
-
-            <div className="input-box">
-              <label htmlFor="password">Digite sua senha</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Digite sua senha"
-                error={formik.errors.password}
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.password && (
-                <span className="p-2 text-sm text-red-500">
-                  {formik.errors.password}
-                </span>
-              )}
-            </div>
-
-            <div className="input-box">
-              <label htmlFor="confirmpassword">Confirme a senha</label>
-              <input
-                type="password"
-                id="confirmpassword"
-                name="confirmpassword"
-                placeholder="Confirme sua senha"
-                error={formik.errors.confirmpassword}
-                value={formik.values.confirmpassword}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.confirmpassword && (
-                <span className="p-2 text-sm text-red-500">
-                  {formik.errors.confirmpassword}
-                </span>
-              )}
-            </div>
-            <div className="input-box">
-              <label htmlFor="telefone">Telefone</label>
-              <InputMask
-                mask={"(99) 99999-9999"}
-                maskChar={null}
-                alwaysShowMask={false}
-                type="text"
-                id="telefone"
-                name="telefone"
-                placeholder="Digite seu telefone"
-                required
-                error={formik.errors.telefone}
-                value={formik.values.telefone}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.telefone && (
-                <span className="p-2 text-sm text-red-500">
-                  {formik.errors.telefone}
-                </span>
-              )}
+              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat"
+              id="background-1"
+            />
+            <div
+              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat"
+              id="background-2"
+            />
+            <div
+              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat"
+              id="background-3"
+            />
+            <div className="mx-4 w-screen sm:w-2/3  md:w-3/4 lg:w-7/12 xl:max-w-3xl">
+              <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2 bg-opacity-0">
+                <div>
+                  <PFileFetcher
+                    width="250"
+                    fileName="public/images/performance-brand.svg"
+                    alt="Logo da Performance"
+                  />
+                  <h2 className="text-xl font-semibold text-gray-700 py-2 text-center border-b-2 border-gray-200 rounded-t-lg">
+                    Cadastre-se
+                  </h2>
+                </div>
+                <div className="overflow-y-auto max-h-[60vh] h-auto px-4 pt-4">
+                  <div className="flex w-full flex-col md:flex-row md:gap-10">
+                    <div className="w-full">
+                      <PInputFloatingLabel name="nome" label="Nome Completo" />
+                    </div>
+                    <div className="w-full md:w-2/5">
+                      <PInputFloatingLabel
+                        name="cpf"
+                        type="cpf"
+                        label="Seu CPF"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-col md:flex-row md:gap-10">
+                    <div className="pt-2 md:w-1/2">
+                      <PInputFloatingLabel
+                        name="email"
+                        label="Seu Email"
+                        showIcon
+                      />
+                    </div>
+                    <div className="pt-2 md:w-1/2">
+                      <PInputFloatingLabel
+                        name="telefone"
+                        type="telefone"
+                        label="Seu Telefone"
+                        showIcon
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-col md:flex-row md:gap-10 ">
+                    <div className="pt-2 md:w-1/3">
+                      <PInputFloatingLabel
+                        name="username"
+                        label="Seu Usuário"
+                        showIcon
+                      />
+                    </div>
+                    <div className="pt-2 md:w-1/3">
+                      <PInputFloatingLabel
+                        name="password"
+                        type="password"
+                        label="Sua Senha"
+                      />
+                    </div>
+                    <div className="pt-2 md:w-1/3">
+                      <PInputFloatingLabel
+                        name="confirmpassword"
+                        type="password"
+                        label="Confirme Sua Senha"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full flex flex-col items-center pt-4">
+                  <button
+                    className="w-full sm:w-11/12 md:w-72 text-white font-bold py-2 rounded text-sm sm:text-base transition-all ease-in-out duration-500 bg-blue-500 disabled:bg-blue-300 hover:bg-blue-600"
+                    type="submit"
+                    disabled={!formik.isValid || formik.isSubmitting}
+                  >
+                    {formik.isSubmitting ? "Carregando..." : "Cadastrar"}
+                  </button>
+                  <span className="pt-2 pb-4 text-center text-sm sm:text-base">
+                    Já possui uma conta? Efetue o{" "}
+                    <a href="/login" className="outline-none">
+                      login
+                    </a>
+                    .
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div id="botao" className="button">
-            <button
-              type="submit"
-              disabled={!formik.isValid || formik.isSubmitting}
-            >
-              {formik.isSubmitting ? "Carregando..." : "Criar minha conta "}
-            </button>
-            <p className="mt-2 text-center font-bold flex justify-center">
-              <a
-                href={"/login"}
-                className="text-center text-blue-700 font-bold"
-              >
-                Entrar na sua conta
-              </a>
-            </p>
-          </div>
-        </form>
-      </div>
-    </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

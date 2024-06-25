@@ -1,10 +1,15 @@
 import React from "react";
+import { Routes } from "./routes/Routes";
+import { ToastContainer } from "react-toastify";
 import "./styles/index.css";
 
-import { Routes } from "./routes/Routes";
-
 function App() {
-  return <Routes isAuthorized={true} />;
+  return (
+    <>
+      <Routes isAuthorized={true} />
+      <ToastContainer />
+    </>
+  );
 }
 
 export default App;

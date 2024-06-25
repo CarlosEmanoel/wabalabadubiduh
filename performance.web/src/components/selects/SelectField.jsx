@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormikContext } from "formik";
 
 const SelectField = ({
@@ -8,6 +8,8 @@ const SelectField = ({
   lista,
   required,
   onChange,
+  disabled = false,
+  optional = false,
   ...props
 }) => {
   const { values, handleChange, handleBlur, touched, errors } =
@@ -34,11 +36,24 @@ const SelectField = ({
    */
   const error = getNestedValue(errors, name);
   const touch = getNestedValue(touched, name);
+  const showError = !!touch && !!error;
+
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
 
   return (
-    <div className={className}>
-      <label htmlFor={name} className="block text-sm font-bold text-gray-600">
+    <div data-show-error={showError} className={`${className} group`}>
+      <label
+        htmlFor={name}
+        className="block text-sm font-bold group-data-[show-error=true]:text-red-600 text-gray-600"
+      >
         {label}
+        {optional && (
+          <span className="ml-1 text-gray-400 text-xs italic font-normal">
+            - Opcional
+          </span>
+        )}
       </label>
       <select
         name={name}
@@ -46,9 +61,10 @@ const SelectField = ({
         onChange={onChange ? onChange : handleChange}
         onBlur={handleBlur}
         value={getNestedValue(values, name)}
-        className={`mt-1 block w-full p-2 border ${
-          touch && error ? "border-red-500" : "border-gray-300"
-        } rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
+        disabled={disabled}
+        className={`block w-full px-2 py-2 border-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10 appearance-none 
+                    rounded-md shadow-sm group-data-[show-error=true]:focus:outline-red-500 disabled:bg-gray-200 disabled:text-gray-500
+                  focus:outline-blue-500 focus:border-blue-500`}
         {...props}
       >
         <option disabled={required} value={""}>

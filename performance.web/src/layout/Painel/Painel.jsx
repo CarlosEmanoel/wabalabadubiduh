@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import PainelNavbar from "./PainelNavbar";
 import Sidebar from "./PainelSidebar";
 import util from "../../services/util";
@@ -36,16 +35,20 @@ const PainelLayout = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PainelNavbar toggleSidebar={handleToggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <PainelNavbar
+        toggleSidebar={handleToggleSidebar}
+        isSidebarOpen={isSidebarOpen}
+      />
       <div className="flex flex-1 pt-16">
         <Sidebar toggleSidebar={handleToggleSidebar} isOpen={isSidebarOpen} />
         <div
-          className={`flex-1 p-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? "ml-64" : "ml-0"}`}
+          className={`flex-1 p-4 transition-all duration-300 ease-in-out ${
+            isSidebarOpen ? "ml-64" : "ml-0"
+          }`}
         >
           <Outlet />
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

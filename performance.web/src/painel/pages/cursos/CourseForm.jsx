@@ -14,7 +14,7 @@ const CourseForm = () => {
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
-  const niveis = [
+  const listaNiveis = [
     { key: "isNotNivel", nivel: "notNivelForm" },
     { key: "isBasic", nivel: "basicForm", title: "Básico" },
     {
@@ -46,7 +46,7 @@ const CourseForm = () => {
                     <h2 className="text-xl font-semibold text-gray-700 py-2 text-center border-solid border-b-2 border-gray-200">
                       Dados Complementares
                     </h2>
-                    {niveis.map(
+                    {listaNiveis.map(
                       (nivel) =>
                         formik.values[nivel.key] && (
                           <NivelForm

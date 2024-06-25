@@ -34,11 +34,11 @@ import ListaContato from "../painel/pages/ListaContato";
 import ListCourses from "../painel/pages/cursos/ListCourses";
 import CourseForm from "../painel/pages/cursos/CourseForm";
 
-import ListaInscricao from "../painel/pages/ListaInscricao";
+import ListSubscribes from "../painel/pages/inscricoes/ListSubscribes";
 import ListaQuestao from "../painel/pages/ListaQuestao";
 import ListaUsuario from "../painel/pages/ListaUsuario";
 import PainelContato_msg from "../painel/pages/PainelContato_msg";
-import PainelInscricao_msg from "../painel/pages/PainelInscricao_msg";
+import ShowSubscribe from "../painel/pages/inscricoes/ShowSubscribe";
 import PainelQuestionario from "../painel/pages/PainelQuestionario";
 import PainelSimulado from "../painel/pages/PainelSimulado";
 import PainelUsuario from "../painel/pages/PainelUsuario";
@@ -52,7 +52,6 @@ import UserListaSimulado from "../painel/pages/UserListaSimulado";
 
 import Subscribe from "../components/Forms/Subscribe/Subscribe";
 import NewCursos from "../painel/pages/NewCursos";
-import New_Inscricao from "../painel/pages/New_Inscricao";
 import UserNovoSimulado from "../painel/pages/UserNovoSimulado";
 import util from "../services/util";
 import SimuladoDiretor from "../painel/pages/SimuladoDiretor";
@@ -282,24 +281,17 @@ export const routes = [
         allowedUserType: "p",
       },
       {
-        name: "listainscricao",
-        title: "Listaisncricao",
-        component: ListaInscricao,
+        name: "listsubscribes",
+        title: "ListSubscribes",
+        component: ListSubscribes,
         path: "/painel/listainscricoes",
         allowedUserType: "p",
       },
       {
-        name: "painelinscricao_msg",
-        title: "painelInscricao_msg",
-        component: PainelInscricao_msg,
+        name: "showsubscribe",
+        title: "ShowSubscribe",
+        component: ShowSubscribe,
         path: "/painel/inscricao/:id",
-        allowedUserType: "p",
-      },
-      {
-        name: "newinscricao",
-        title: "NewInscricao",
-        component: New_Inscricao,
-        path: "/painel/newinscricao",
         allowedUserType: "p",
       },
       {

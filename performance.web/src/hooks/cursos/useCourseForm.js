@@ -34,36 +34,33 @@ const useCourseFormHook = () => {
     if (id) {
       api.get(`/curso/${id}`).then((response) => {
         const { data } = response.data;
-        const dadosComplementares = data.dados_complementares.reduce(
-          (acc, cur) => {
-            const formKey = [
-              "notNivelForm",
-              "basicForm",
-              "intermediaryForm",
-              "advancedForm",
-            ][cur.nivel];
-            acc[formKey] = {
-              ...cur,
-              valor: util.formatMoney(cur.valor),
-              publicoAlvo: cur.publico_alvo,
-            };
-            return acc;
-          },
-          {}
-        );
+        const niveis = data.niveis.reduce((acc, cur) => {
+          const formKey = [
+            "notNivelForm",
+            "basicForm",
+            "intermediaryForm",
+            "advancedForm",
+          ][cur.nivel];
+          acc[formKey] = {
+            ...cur,
+            valor: util.formatMoney(cur.valor),
+            publicoAlvo: cur.publico_alvo,
+          };
+          return acc;
+        }, {});
         setFormValues({
           ...data,
           dataInicio: data.data_inicio.split("T")[0],
           dataFim: data.data_fim.split("T")[0],
           isActive: data.is_active,
-          isNotNivel: !!dadosComplementares.notNivelForm,
-          isBasic: !!dadosComplementares.basicForm,
-          isIntermediary: !!dadosComplementares.intermediaryForm,
-          isAdvanced: !!dadosComplementares.advancedForm,
-          notNivelForm: dadosComplementares.notNivelForm || {},
-          basicForm: dadosComplementares.basicForm || {},
-          intermediaryForm: dadosComplementares.intermediaryForm || {},
-          advancedForm: dadosComplementares.advancedForm || {},
+          isNotNivel: !!niveis.notNivelForm,
+          isBasic: !!niveis.basicForm,
+          isIntermediary: !!niveis.intermediaryForm,
+          isAdvanced: !!niveis.advancedForm,
+          notNivelForm: niveis.notNivelForm || {},
+          basicForm: niveis.basicForm || {},
+          intermediaryForm: niveis.intermediaryForm || {},
+          advancedForm: niveis.advancedForm || {},
           selectedTeachers: data.professores.map((p) => p.professor_id),
           selectedFile: {},
         });
@@ -72,14 +69,14 @@ const useCourseFormHook = () => {
   }, [id]);
 
   const onSubmit = async (values, actions) => {
-    const niveis = [
+    const listaNiveis = [
       { key: "isNotNivel", form: "notNivelForm", nivel: 0 },
       { key: "isBasic", form: "basicForm", nivel: 1 },
       { key: "isIntermediary", form: "intermediaryForm", nivel: 2 },
       { key: "isAdvanced", form: "advancedForm", nivel: 3 },
     ];
 
-    const dadosComplementares = niveis
+    const niveis = listaNiveis
       .filter((nivel) => values[nivel.key])
       .map((nivel) => ({
         ...values[nivel.form],
@@ -90,7 +87,7 @@ const useCourseFormHook = () => {
     try {
       const formattedData = {
         ...values,
-        dadosComplementares,
+        niveis,
         professores: values.selectedTeachers,
       };
       const response = await (id

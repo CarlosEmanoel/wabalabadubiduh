@@ -1,306 +1,170 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState, useCallback } from "react";
 import api from "../../../services/api";
 import util from "../../../services/util";
-import { PDefaultContainer, PSectionContainer } from "../..";
-import { useSendMail } from "../../../hooks";
+import { PDefaultModal, PSuccessModal } from "../..";
+import { Formik, Form } from "formik";
+import * as yup from "yup";
+import useSendEmail from "../../../hooks/responses/useSendEmail";
+import SubscribeForm from "./SubscribeForm";
+import messages from "../../../services/messsages";
 
-const Subscribe = () => {
-  const [sucesso, setSucesso] = useState("");
-  const [erro, setErro] = useState("");
+const conditionalValidation = (type) =>
+  yup.string().when("typeDocument", {
+    is: type,
+    then(schema) {
+      return schema.required("Campo obrigatório");
+    },
+  });
 
-  const insc_initial = {
-    nome: "",
-    email: "",
-    telefone: "",
-    cnpj: "",
-    cpf: "",
-    unidadegestora: "",
-    cargo: "",
-    endereco: "",
-    bairro: "",
-    municipio: "",
-    estado: "",
-    cep: "",
-    cursoId: "clozscdyn0000txd43mk2xsrq",
-  };
+const validationSchema = yup.object().shape({
+  nome: yup.string().required("Campo obrigatório"),
+  email: yup.string().email("Email inválido").required("Campo obrigatório"),
+  telefone: yup
+    .string()
+    .matches(/^\d{10,11}$/, "Telefone inválido")
+    .required("Campo obrigatório")
+    .transform((value, originalValue) => originalValue.replace(/[^\d]/g, "")),
+  typeDocument: yup.string().required("Campo obrigatório"),
+  cnpj: yup.string().when("typeDocument", {
+    is: "1",
+    then(schema) {
+      return schema
+        .min(18, "O CNPJ deve conter 14 dígitos")
+        .required("Campo obrigatório");
+    },
+  }),
+  unidadegestora: conditionalValidation("1"),
+  cpf: yup.string().when("typeDocument", {
+    is: "2",
+    then(schema) {
+      return schema
+        .test("validate-cpf", "CPF inválido", (value) => util.validarCpf(value))
+        .required("Campo obrigatório");
+    },
+  }),
+  cep: yup.string().when("typeDocument", {
+    is: "2",
+    then(schema) {
+      return schema
+        .min(10, "O CEP deve conter 8 dígitos")
+        .required("Campo obrigatório");
+    },
+  }),
+  estado: conditionalValidation("2"),
+  municipio: conditionalValidation("2"),
+  endereco: conditionalValidation("2"),
+  bairro: conditionalValidation("2"),
+});
 
-  const insc_validate = () => {
-    if (inscricao.nome === "") return false;
+const Subscribe = ({ isOpen, onClose, initialValues }) => {
+  const [isOpenSuccess, setIsOpenSuccess] = useState(false);
 
-    if (inscricao.email === "") return false;
+  //   const { sendEmail, success } = useSendEmail();
+  //   const emailData = {
+  //     subject: "Confirmação de Inscrição",
+  //     body: `
+  //         Olá ${inscricao.nome},
 
-    if (inscricao.telefone === "") return false;
+  //         Parabéns! Sua inscrição foi realizada com sucesso. Seguem abaixo os detalhes da sua inscrição:
 
-    if (inscricao.unidadegestora === "") return false;
+  //         Nome: ${inscricao.nome}
+  //         E-mail: ${inscricao.email}
+  //         Telefone: ${inscricao.telefone}
+  //         CNPJ: ${inscricao.cnpj}
+  //         Unidade Gestora: ${inscricao.unidadegestora}
+  //         Cargo: ${inscricao.cargo}
+  //         Endereço: ${inscricao.endereco}
+  //         Bairro: ${inscricao.bairro}
+  //         Município: ${inscricao.municipio}
+  //         Estado: ${inscricao.estado}
+  //         CEP: ${inscricao.cep}
 
-    if (inscricao.cargo === "") return false;
+  //         Estamos entusiasmados por tê-lo(a) em nosso curso e esperamos que esta experiência seja enriquecedora e gratificante.
 
-    if (inscricao.endereco === "") return false;
+  //         Em breve, enviaremos mais informações sobre o curso e outras orientações importantes. Caso tenha alguma dúvida, não hesite em nos contatar através deste e-mail.
 
-    if (inscricao.bairro === "") return false;
+  //         Agradecemos a sua inscrição!
 
-    if (inscricao.municipio === "") return false;
+  //         Atenciosamente,
+  //         Equipe Performance Goiânia
+  //     `,
+  //     from: "inscricao@performance.goiania.br",
+  //     to: inscricao.email,
+  //   };
+  //   async function sendResponse() {
+  //     await sendEmail(emailData);
+  //     console.log(success);
+  //   }
 
-    if (inscricao.estado === "") return false;
+  const handleSubmit = useCallback(
+    async (values) => {
+      let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API;
 
-    if (inscricao.cep === "") return false;
+      if (process.env.NODE_ENV === "production") {
+        API_ENDPOINT = "https://expansaodigital.tec.br/performance.api";
+      }
+      try {
+        const res = await axios.post(`${API_ENDPOINT}/inscricao`, values);
 
-    return true;
-  };
-
-  const valorInscricao = (e) => {
-    let { name, value } = e.target;
-
-    if (name === "telefone") {
-      let nValue = util.mask("telefone", value);
-      setInscricao({ ...inscricao, [name]: nValue });
-    } else if (name === "cnpj") {
-      let nValue = util.mask("cnpj", value);
-      setInscricao({ ...inscricao, [name]: nValue });
-    } else if (name === "cep") {
-      let nValue = util.mask("cep", value);
-      setInscricao({ ...inscricao, [name]: nValue });
-    } else {
-      setInscricao({ ...inscricao, [e.target.name]: e.target.value });
-    }
-  };
-
-  const [inscricao, setInscricao] = useState(insc_initial);
-
-  const { sendEmail, success } = useSendMail();
-  const emailData = {
-    subject: 'Confirmação de Inscrição',
-    body: `
-        Olá ${inscricao.nome},
-        
-        Parabéns! Sua inscrição foi realizada com sucesso. Seguem abaixo os detalhes da sua inscrição:
-
-        Nome: ${inscricao.nome}
-        E-mail: ${inscricao.email}
-        Telefone: ${inscricao.telefone}
-        CNPJ: ${inscricao.cnpj}
-        Unidade Gestora: ${inscricao.unidadegestora}
-        Cargo: ${inscricao.cargo}
-        Endereço: ${inscricao.endereco}
-        Bairro: ${inscricao.bairro}
-        Município: ${inscricao.municipio}
-        Estado: ${inscricao.estado}
-        CEP: ${inscricao.cep}
-
-        Estamos entusiasmados por tê-lo(a) em nosso curso e esperamos que esta experiência seja enriquecedora e gratificante.
-
-        Em breve, enviaremos mais informações sobre o curso e outras orientações importantes. Caso tenha alguma dúvida, não hesite em nos contatar através deste e-mail.
-
-        Agradecemos a sua inscrição!
-
-        Atenciosamente,
-        Equipe Performance Goiânia
-    `,
-    from: 'inscricao@performance.goiania.br',
-    to: inscricao.email
-  };
-  async function sendResponse() {
-    await sendEmail(emailData);
-    console.log(success)
-  }
-
-  const sendInscricao = (e) => {
-    e.preventDefault();
-
-    if (insc_validate()) {
-      api
-        .post("/inscricao", inscricao)
-        .then((response) => {
-          if (response.data.success === true) {
-            setErro("");
-            setSucesso(response.data.message);
-            sendResponse()
-            setInscricao(insc_initial);
-          } else {
-            setSucesso("");
-            setErro(response.data.message);
-          }
-        })
-        .catch((error) => {
-          setSucesso("");
-          if (error.data) setErro(error.data.message);
-          else setErro("Ocorreu um erro! Tente novamente mais tarde.");
-        });
-    } else {
-      setSucesso("");
-      setErro("Por favor, preencha todos os campos!");
-    }
-  };
+        if (res.data.success) {
+          setIsOpenSuccess(true);
+          onClose();
+        } else {
+          messages.mensagem.erro(
+            "Erro ao enviar inscrição, tente novamente mais tarde."
+          );
+        }
+      } catch (error) {
+        messages.mensagem.erro(
+          "Erro ao enviar inscrição, tente novamente mais tarde."
+        );
+      }
+    },
+    [onClose]
+  );
 
   return (
-    <PDefaultContainer>
-      <form className="space-y-8" onSubmit={sendInscricao}>
-        <div className=" input-box w-9/12 mx-auto mt-4 mb-5 rounded-md bg-gray-200 p-8 border border-gray-600">
-          <div className="my-3">
-            <label htmlFor="">Nome completo</label>
-            <input
-              type="text"
-              id="nome"
-              name="nome"
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              placeholder="Digite seu nome completo"
-              value={inscricao.nome}
-              onChange={valorInscricao}
-            />
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="my-3">
-              <label htmlFor="">Email</label>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite seu email"
-                value={inscricao.email}
-                onChange={valorInscricao}
-              />
-            </div>
-            <div className="my-3">
-              <label>Telefone</label>
-              <input
-                type="text"
-                id="telefone"
-                name="telefone"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite um telefone"
-                value={inscricao.telefone}
-                onChange={valorInscricao}
-                maxLength={14}
-              />
-            </div>
-            <div className="my-3">
-              <label htmlFor="">CNPJ para emissão da Nota Fiscal</label>
-              <input
-                type="text"
-                id="cnpj"
-                name="cnpj"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite um CNPJ"
-                value={inscricao.cnpj}
-                onChange={valorInscricao}
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="my-3">
-              <label htmlFor="">Unidade Gestora</label>
-              <input
-                type="text"
-                id="unidadegestora"
-                name="unidadegestora"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite sua unidade gestora"
-                value={inscricao.unidadegestora}
-                onChange={valorInscricao}
-              />
-            </div>
-            <div className="my-3">
-              <label htmlFor="">Cargo</label>
-              <input
-                type="text"
-                id="cargo"
-                name="cargo"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite o cargo"
-                value={inscricao.cargo}
-                onChange={valorInscricao}
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="my-3">
-              <label htmlFor="">Endereço</label>
-              <input
-                type="text"
-                id="endereco"
-                name="endereco"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite o seu endereço"
-                value={inscricao.endereco}
-                onChange={valorInscricao}
-              />
-            </div>
-            <div className="my-3">
-              <label htmlFor="">Bairro</label>
-              <input
-                type="text"
-                id="bairro"
-                name="bairro"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite o seu bairro"
-                value={inscricao.bairro}
-                onChange={valorInscricao}
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="my-3">
-              <label htmlFor="">Município</label>
-              <input
-                type="text"
-                id="municipio"
-                name="municipio"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite seu município"
-                value={inscricao.municipio}
-                onChange={valorInscricao}
-              />
-            </div>
-            <div className="my-3">
-              <label htmlFor="">Estado</label>
-              <input
-                type="text"
-                id="estado"
-                name="estado"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite seu Estado"
-                value={inscricao.estado}
-                onChange={valorInscricao}
-              />
-            </div>
-            <div className="my-3">
-              <label htmlFor="">CEP</label>
-              <input
-                type="cep"
-                id="cep"
-                name="cep"
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-                placeholder="Digite seu CEP"
-                value={inscricao.cep}
-                onChange={valorInscricao}
-              />
-            </div>
-          </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="w-9/12 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+      enableReinitialize
+    >
+      {(formik) => (
+        <>
+          <Form>
+            <PDefaultModal
+              isOpen={isOpen}
+              onClose={onClose}
+              title={"Inscrição"}
+              width={
+                "w-2/3"
+              } /* lembrar de mudar isso e deixar o modal mais responsivo */
+              footer={
+                <button
+                  type="button"
+                  className="btn btn-success w-full md:w-1/2"
+                  onClick={formik.handleSubmit}
+                  disabled={!formik.isValid || formik.isSubmitting}
+                >
+                  Enviar
+                </button>
+              }
             >
-              Enviar
-            </button>
-          </div>
-          <div className="mt-3">
-            {erro !== "" && (
-              <div className="text-red-500 w-80 p-3 mx-auto border-solid border-2 border-red-500 bg-red-100 rounded">
-                {erro}
-              </div>
-            )}{" "}
-            <br />
-            {sucesso !== "" && (
-              <div className="text-green-800 mx-auto w-80 h-15 p-3 border-solid border-2 border-green-500 bg-green-100 rounded">
-                {sucesso}
-              </div>
-            )}
-          </div>
-        </div>
-      </form>
-    </PDefaultContainer>
+              <SubscribeForm />
+            </PDefaultModal>
+            <PSuccessModal
+              title="Inscrição realizada com sucesso!"
+              message="Em breve você receberá um e-mail com as informações da sua inscrição."
+              isOpen={isOpenSuccess}
+              setIsOpen={setIsOpenSuccess}
+              autoCloseTime={5000}
+            />
+          </Form>
+        </>
+      )}
+    </Formik>
   );
 };
 
