@@ -14,7 +14,7 @@ const fileFetcherUrlHook = async (fileName, setFileUrl, setMimeType, createTempU
       setFileUrl(url);
     } else {
       /* Define a URL direta do arquivo no estado (supondo que a URL base esteja configurada corretamente) */
-      setFileUrl(fileApi.defaults.baseURL + fileName);
+      setFileUrl(fileApi.defaults.baseURL + fileName + '?t=' + Date.now());
     }
     util.stopLoading()
     setMimeType(mimeType)

@@ -94,4 +94,4 @@ router.get("/files/:filename", fileFinderMiddleware);
 
 router.post("/deploy", verifyToken, deploy.deploy);
 
-/* router.post('/send-email', sendMailMiddleware); */
+router.post('/send-email', sendMailMiddleware);

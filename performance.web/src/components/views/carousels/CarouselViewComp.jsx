@@ -10,7 +10,7 @@ export default function CarouselView({
   const [currentIndex, setCurrentIndex] = useState(0);
   const childrenArray = React.Children.toArray(children);
   const totalItems = childrenArray.length;
-  const [onPlayHover, setOnPlayHover] = useState(autoPlay)
+  const [onPlayHover, setOnPlayHover] = useState(autoPlay);
 
   const handlePrevClick = () => {
     setCurrentIndex((prevIndex) =>
@@ -25,13 +25,13 @@ export default function CarouselView({
   };
 
   useEffect(() => {
-    if (onPlayHover) {
+    if (onPlayHover && totalItems > 1) {
       const interval = setInterval(() => {
         handleNextClick();
       }, autoPlayInterval);
       return () => clearInterval(interval);
     }
-  }, [currentIndex, onPlayHover, autoPlayInterval]);
+  }, [currentIndex, onPlayHover, autoPlayInterval, totalItems]);
 
   return (
     <>
@@ -50,19 +50,23 @@ export default function CarouselView({
             </div>
           ))}
         </div>
-        <button
-          onClick={handlePrevClick}
-          className="w-12 h-12 absolute top-1/2 left-4 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
-        >
-          <PFileFetcher fileName="ic_arrow_caret_left_white_filled" />
-        </button>
-        <button
-          onClick={handleNextClick}
-          className="w-12 h-12 absolute top-1/2 right-4 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
-        >
-          <PFileFetcher fileName="ic_arrow_caret_right_white_filled" />
-        </button>
-        {indicator && (
+        {totalItems > 1 && (
+          <>
+            <button
+              onClick={handlePrevClick}
+              className="w-12 h-12 absolute top-1/2 left-4 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
+            >
+              <PFileFetcher fileName="ic_arrow_caret_left_white_filled" />
+            </button>
+            <button
+              onClick={handleNextClick}
+              className="w-12 h-12 absolute top-1/2 right-4 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
+            >
+              <PFileFetcher fileName="ic_arrow_caret_right_white_filled" />
+            </button>
+          </>
+        )}
+        {indicator && totalItems > 1 && (
           <div className="flex justify-center mt-auto space-x-2">
             {children.map((_, index) => (
               <button

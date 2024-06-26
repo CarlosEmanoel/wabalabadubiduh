@@ -24,12 +24,11 @@ export default function SecondSection() {
                         </p>
                         <div className="mt-10 flex flex-col items-center md:flex-row gap-2">
                             <PDefaultButton children="Ver Informações" bg="secondary" href="/cursos" />
-                            {/* <PAnimatedIconButton type="outlined" icon='ic_file_newspaper_outlined.svg' /> */}
                         </div>
                     </div>
 
-                    <div className="relative xl:w-1/2 mt-10 lg:mt-0 hidden lg:mb-8 lg:rounded-none lg:w-1/2 lg:block rounded-[6rem] rounded-br-none rounded-tl-none">
-                        <div className="mx-auto w-fit overflow-hidden rounded-[6rem] lg:rounded-xl rounded-br-none rounded-tl-none self-center">
+                    <div className="shadow-lg relative xl:w-1/2 mt-10 lg:mt-0 hidden lg:mb-8 lg:rounded-none lg:w-1/2 lg:block rounded-[6rem] rounded-br-none rounded-tl-none">
+                        <div className="mx-auto shadow-md shadow-black_transparent w-fit overflow-hidden rounded-[6rem] lg:rounded-xl rounded-br-none rounded-tl-none self-center">
                             <PFileFetcher fileName='stock_people_and_blue_puzzle' />
                         </div>
                     </div>

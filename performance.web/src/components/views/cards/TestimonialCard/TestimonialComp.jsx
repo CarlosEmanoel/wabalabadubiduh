@@ -3,7 +3,7 @@ import { PFileFetcher } from "../../..";
 
 export default function Testimonial({ name, role, text, image }) {
   return (
-    <figure className="md:flex bg-slate-100 rounded-xl p-8 md:p-0 justify-center items-center">
+    <figure className="md:flex bg-slate-100 rounded-xl p-8 md:p-0 justify-center items-center shadow-lg shadow-black_transparent">
       <div className="flex-shrink-0 flex justify-center items-center">
         <PFileFetcher 
           className="w-44 h-44 xl:w-80 xl:h-80 md:w-60 md:h-60 object-cover mx-auto md:mx-0 md:mr-6 md:rounded-xl rounded-full" 

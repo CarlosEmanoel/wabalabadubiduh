@@ -1,7 +1,0 @@
-# link do video
-https://www.youtube.com/watch?v=udmuN-BZtIM&list=PLwHsNjmBZ-MJnVNyiaVYHW_dDA5n3mbVk&index=3
-
-
-
-# data grid documentação
-https://react-data-table-component.netlify.app/?path=/docs/api-props--page

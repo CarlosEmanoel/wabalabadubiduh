@@ -1,7 +1,7 @@
 import axios from 'axios';
 import util from '../services/util';
 
-let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API + '/files/';
+let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API + 'files/';
 
 const fileApi = axios.create({
   baseURL: API_ENDPOINT
