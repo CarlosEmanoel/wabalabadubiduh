@@ -3,6 +3,7 @@ import { PInputField, PSelect } from "../..";
 import { useFormikContext } from "formik";
 import useSendEmail from "../../../hooks/responses/useSendEmail";
 import useLocationSearch from "../../../hooks/responses/useLocationSearch";
+import { useResponsive } from "../../../hooks";
 
 const typesDocument = [
   { value: 1, label: "CNPJ" },
@@ -14,6 +15,8 @@ const SubscribeForm = () => {
     useFormikContext();
   const { cepLoading, cepError, fetchCep, fetchUfs } = useLocationSearch();
   const [isValidCep, setIsValidCep] = useState(true);
+
+  const screen = useResponsive();
 
   //   const { sendEmail, success } = useSendEmail();
   //   const emailData = {
@@ -93,134 +96,117 @@ const SubscribeForm = () => {
   };
 
   return (
-    <>
-      <div className="flex flex-col sm:flex-row sm:gap-10">
-        <div className="w-full">
-          <PInputField
-            name="nome"
-            label="Nome Completo"
-            placeholder="Digite seu nome completo"
-          />
-        </div>
-      </div>
-      <div className="flex flex-col sm:flex-row sm:gap-10">
-        <div className="w-full">
-          <PInputField
-            name="cargo"
-            label="Seu Cargo"
-            placeholder="Digite seu cargo"
-            optional
-          />
-        </div>
-      </div>
-      <div className="flex-wrap">
-        <div className="w-full">
-          <PInputField
-            name="telefone"
-            type="telefone"
-            label="Seu Telefone"
-            placeholder="Digite seu telefone"
-          />
-        </div>
-        <div className="w-full">
-          <PInputField
-            name="email"
-            label="Seu E-mail"
-            placeholder="Digite seu e-mail"
-          />
-        </div>
-        <div className="w-full">
-          <PSelect
-            name="typeDocument"
-            label="Tipo do Documento"
-            lista={typesDocument}
-            required
-            onChange={handleTypeChange}
-          />
-        </div>
-        {values.typeDocument === "1" && (
-          <div className="w-full">
-            <PInputField
-              name="cnpj"
-              type="cnpj"
-              label="CNPJ Para Emissão da Nota Fiscal"
-              placeholder="Digite o CNPJ"
-            />
-          </div>
-        )}
-        {values.typeDocument === "2" && (
-          <>
-            <div className="w-full">
-              <PInputField
-                name="cpf"
-                type="cpf"
-                label="Seu CPF"
-                placeholder="Digite seu CPF"
-              />
-            </div>
-            <div className="w-full">
-              <PInputField
-                name="cep"
-                mask="cep"
-                label="Seu CEP"
-                placeholder="Digite seu CEP"
-                onBlur={handleCepBlur}
-                validate={
-                  !isValidCep && touched.cep && !errors.cep
-                    ? "CEP inválido"
-                    : ""
-                }
-              />
-            </div>
-          </>
-        )}
-      </div>
+    <div className="flex flex-wrap justify-between">
+      <PInputField
+        name="nome"
+        label="Nome Completo"
+        placeholder="Digite seu nome completo"
+        className="lg:w-[57%] xl:w-full"
+      />
+      <PInputField
+        name="cargo"
+        label="Seu Cargo"
+        placeholder="Digite seu cargo"
+        optional
+        className="lg:w-[41%] xl:w-[49%]"
+      />
+      <PInputField
+        name="telefone"
+        type="telefone"
+        label="Seu Telefone"
+        placeholder="Digite seu telefone"
+        className="md:w-[49%] xl:w-[24.5%]"
+      />
+
+      <PInputField
+        name="email"
+        label="Seu E-mail"
+        placeholder="Digite seu e-mail"
+        className="md:w-[49%] xl:w-[24.5%]"
+      />
+
+      <PSelect
+        name="typeDocument"
+        label="Tipo do Documento"
+        lista={typesDocument}
+        required
+        onChange={handleTypeChange}
+        className="md:w-[32%] xl:w-[20%]"
+      />
+
+      {values.typeDocument === "1" && (
+        <PInputField
+          name="cnpj"
+          type="cnpj"
+          label="CNPJ Para Emissão da Nota Fiscal"
+          placeholder="Digite o CNPJ"
+          className="md:w-[66%] xl:w-[28%]"
+        />
+      )}
       {values.typeDocument === "2" && (
         <>
-          <div className="w-full">
-            <PInputField
-              name="estado"
-              label="Seu Estado"
-              placeholder="Digite seu estado"
-              disabled
-            />
-          </div>
-          <div className="w-full">
-            <PInputField
-              name="municipio"
-              label="Seu Município"
-              placeholder="Digite seu município"
-              disabled
-            />
-          </div>
-          <div className="w-full">
-            <PInputField
-              name="bairro"
-              label="Seu Bairro"
-              placeholder="Digite seu bairro"
-            />
-          </div>
-          <div className="w-full">
-            <PInputField
-              name="endereco"
-              label="Seu Endereço"
-              placeholder="Digite seu endereço"
-            />
-          </div>
+          <PInputField
+            name="cpf"
+            type="cpf"
+            label="Seu CPF"
+            placeholder="Digite seu CPF"
+            className="md:w-[32%]"
+          />
+
+          <PInputField
+            name="cep"
+            mask="cep"
+            label="Seu CEP"
+            placeholder="Digite seu CEP"
+            onBlur={handleCepBlur}
+            validate={
+              !isValidCep && touched.cep && !errors.cep ? "CEP inválido" : ""
+            }
+            className="md:w-[32%]"
+          />
         </>
       )}
-      {values.typeDocument === "1" && (
-        <div className="flex flex-col w-full">
-          <div className="w-full">
-            <PInputField
-              name="unidadegestora"
-              label="Unidade Gestora"
-              placeholder="Digite sua unidade gestora"
-            />
-          </div>
+      {values.typeDocument === "2" && (
+        <div className="flex flex-wrap justify-between">
+          <PInputField
+            name="estado"
+            label="Seu Estado"
+            placeholder="Digite seu estado"
+            disabled
+            className="md:w-[49%] lg:w-[32%]"
+          />
+
+          <PInputField
+            name="municipio"
+            label="Seu Município"
+            placeholder="Digite seu município"
+            disabled
+            className="md:w-[49%] lg:w-[32%]"
+          />
+
+          <PInputField
+            name="bairro"
+            label="Seu Bairro"
+            placeholder="Digite seu bairro"
+            className="lg:w-[32%]"
+          />
+
+          <PInputField
+            name="endereco"
+            label="Seu Endereço"
+            placeholder="Digite seu endereço"
+          />
         </div>
       )}
-    </>
+      {values.typeDocument === "1" && (
+        <PInputField
+          name="unidadegestora"
+          label="Unidade Gestora"
+          placeholder="Digite sua unidade gestora"
+          className="xl:w-[50%]"
+        />
+      )}
+    </div>
   );
 };
 

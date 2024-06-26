@@ -152,7 +152,7 @@ const Usuario = () => {
                 htmlFor="email"
                 className="ext-sm font-bold text-gray-600 block"
               >
-                Email
+                E-mail
               </label>
               <input
                 type="email"

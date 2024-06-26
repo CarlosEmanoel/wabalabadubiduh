@@ -16,7 +16,7 @@ import api from "../../services/api";
 import messages from "../../services/messsages";
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email("Email inválido").required("Informe seu email"),
+  email: yup.string().email("E-mail inválido").required("Informe seu e-mail"),
   password: yup
     .string()
     .min(6, "A senha deve conter, pelo menos, 6 caracteres")
@@ -70,6 +70,7 @@ function Login() {
           util.storage.setItem("t", "u");
           // verificando se o usuário tem permissão de acesso
           navigate(res.data.usuario.permissao ? "/user" : "/cadastro-efetuado");
+          messages.mensagem.sucesso("Seja muito bem vindo(a)!");
         }
       } else {
         // erro no login, mostrar mensagem de erro

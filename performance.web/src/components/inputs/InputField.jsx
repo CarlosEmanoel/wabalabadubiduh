@@ -79,20 +79,18 @@ const InputField = ({
     placeholder: placeholder,
     value: getNestedValue(values, name) || "",
     className: `block w-full px-2 py-2 border-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10 appearance-none rounded-md shadow-sm group-data-[show-error=true]:focus:outline-red-500 
-    focus:outline-blue-500 focus:border-blue-500 disabled:bg-gray-200 disabled:text-gray-500 group-data-[show-icon=true]:ps-6 ${
-      type === "password" ? "pe-6" : "group-data-[show-icon=true]:pe-0"
+    focus:outline-blue-500 focus:border-blue-500 disabled:bg-gray-200 disabled:text-gray-500 group-data-[show-icon=true]:ps-7 ${
+      type === "password" ? "pe-7" : "group-data-[show-icon=true]:pe-1"
     }`,
     disabled,
     ...props,
   };
 
-  // SOMENTE RETORNAR O USO DE ICONES NO INPUT QUANDO RETIRAR O BOOTSTRAP DO SISTEMA
-
   return (
     <div
       data-show-icon={showIcon}
       data-show-error={showError}
-      className={`${className} group`}
+      className={`${className} w-full group`}
     >
       <label
         htmlFor={name}
@@ -106,7 +104,7 @@ const InputField = ({
         )}
       </label>
       <div className="relative">
-        {/* <span className="absolute inset-y-0 start-0 left-0 flex items-center pl-3 text-gray-500 group-data-[show-icon=false]:hidden">
+        <span className="absolute inset-y-0 start-0 left-0 flex items-center pl-3 text-gray-500 group-data-[show-icon=false]:hidden">
           <svg
             className="w-4 h-4 rtl:rotate-[270deg]"
             aria-hidden="true"
@@ -116,7 +114,7 @@ const InputField = ({
           >
             <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z" />
           </svg>
-        </span> */}
+        </span>
         {type === "textarea" ? (
           <textarea rows={rows} {...commonProps} />
         ) : (
@@ -125,7 +123,7 @@ const InputField = ({
             {...commonProps}
           />
         )}
-        {/* {type === "password" && (
+        {type === "password" && (
           <button
             type="button"
             onClick={togglePasswordVisibility}
@@ -170,10 +168,10 @@ const InputField = ({
               </svg>
             )}
           </button>
-        )} */}
+        )}
       </div>
       {showError && (
-        <p className="text-red-500 text-xs mt-2">
+        <p className="text-red-500 text-xs mt-2 mb-4">
           {validate ? validate : error}
         </p>
       )}

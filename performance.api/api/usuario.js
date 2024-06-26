@@ -2,8 +2,8 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { Buffer } from "buffer";
 import jwt from "jsonwebtoken";
-import { randomBytes } from 'crypto';
-import { promisify } from 'util';
+import { randomBytes } from "crypto";
+import { promisify } from "util";
 import sendMailMiddleware from "../middlewares/sendMailMiddleware.js";
 
 const randomBytesAsync = promisify(randomBytes);
@@ -52,7 +52,7 @@ export const create = async (ctx) => {
           // Violation de chave única para email
           ctx.body = {
             success: false,
-            message: "Já existe um usuário com este email.",
+            message: "Já existe um usuário com este e-mail.",
           };
         } else if (error.meta?.target?.includes("username")) {
           // Violation de chave única para username
@@ -256,7 +256,7 @@ export const requestRenewToken = async (ctx) => {
     const usuario = await client.usuario.findUnique({ where: { email } });
     if (!usuario) {
       ctx.status = 404;
-      ctx.body = { error: "Usuário não encontrado com o email fornecido!" };
+      ctx.body = { error: "Usuário não encontrado com o e-mail fornecido!" };
       return;
     }
 
@@ -273,23 +273,29 @@ export const requestRenewToken = async (ctx) => {
     });
 
     ctx.request.body = {
-      subject: 'Redefinição de Senha',
+      subject: "Redefinição de Senha",
       body: `Você solicitou uma redefinição de senha. Use este token para redefinir sua senha: ${token}`,
-      from: 'comunicados@performance.goiania.br',
+      from: "comunicados@performance.goiania.br",
       to: email,
     };
 
     try {
-      await sendMailMiddleware(ctx, async () => { });
+      await sendMailMiddleware(ctx, async () => {});
       ctx.status = 200;
-      ctx.body = { message: 'Token de redefinição enviado para o email' };
+      ctx.body = { message: "Token de redefinição enviado para o e-mail" };
     } catch (emailError) {
       ctx.status = 500;
-      ctx.body = { error: 'Erro ao enviar o email. Por favor, tente novamente mais tarde.' };
+      ctx.body = {
+        error:
+          "Erro ao enviar o e-mail. Por favor, tente novamente mais tarde.",
+      };
     }
   } catch (dbError) {
     ctx.status = 500;
-    ctx.body = { error: 'Erro interno ao processar a solicitação. Por favor, tente novamente mais tarde.' };
+    ctx.body = {
+      error:
+        "Erro interno ao processar a solicitação. Por favor, tente novamente mais tarde.",
+    };
   }
 };
 
@@ -308,15 +314,15 @@ export const verifyToken = async (ctx) => {
 
     if (!usuario) {
       ctx.status = 400;
-      ctx.body = { error: 'Token inválido ou expirado' };
+      ctx.body = { error: "Token inválido ou expirado" };
       return;
     }
 
     ctx.status = 200;
-    ctx.body = { message: 'Token verificado com sucesso' };
+    ctx.body = { message: "Token verificado com sucesso" };
   } catch (dbError) {
     ctx.status = 500;
-    ctx.body = { error: 'Token Inválido.' };
+    ctx.body = { error: "Token Inválido." };
   }
 };
 
@@ -334,7 +340,7 @@ export const renewPassword = async (ctx) => {
 
   if (!usuario) {
     ctx.status = 400;
-    ctx.body = { error: 'Token inválido ou expirado' };
+    ctx.body = { error: "Token inválido ou expirado" };
     return;
   }
 

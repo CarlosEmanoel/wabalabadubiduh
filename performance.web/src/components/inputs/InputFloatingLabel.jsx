@@ -76,9 +76,9 @@ const InputFloatingLabel = ({
     onBlur: onBlur ? onBlur : handleBlur,
     placeholder: " ",
     value: getNestedValue(values, name) || "",
-    className: `block py-2.5 w-full text-sm text-gray-900 bg-transparent border-b-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10
+    className: `block py-2.5 px-1 w-full text-sm text-gray-900 bg-transparent border-b-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10
      appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer group-data-[show-icon=true]:ps-6 ${
-       type === "password" ? "pe-6" : "group-data-[show-icon=true]:pe-0"
+       type === "password" ? "pe-6" : "group-data-[show-icon=true]:pe-1"
      }`,
     ...props,
   };
@@ -168,7 +168,7 @@ const InputFloatingLabel = ({
         </label>
       </div>
       {showError && (
-        <p className="text-red-500 text-xs mt-2">
+        <p className="text-red-500 text-xs mt-2 mb-4">
           {validate ? validate : error}
         </p>
       )}

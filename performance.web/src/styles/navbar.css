@@ -12,7 +12,14 @@
   box-shadow: 0px 0px 1px 0px;
   transition: height 0.3s ease;
   justify-content: space-between;
-  background: linear-gradient(135deg, var(--primary-white) 0%, var(--primary-white) 75%, var(--secondary-blue) 75%, var(--secondary-blue) 80%, var(--primary-blue) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-white) 0%,
+    var(--primary-white) 75%,
+    var(--secondary-blue) 75%,
+    var(--secondary-blue) 80%,
+    var(--primary-blue) 100%
+  );
 }
 
 /* NavLink's e componentes */
@@ -65,7 +72,7 @@
 }
 
 .sign-in {
-  padding: .3rem;
+  padding: 0.3rem;
   display: flex;
   background-color: var(--primary-white);
   border-radius: 50%;
@@ -152,12 +159,14 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(32, 31, 31, 0.73);
-  z-index: 0;
+  z-index: 998;
 }
 
 .navbar.shrink + .navbar-mobile {
   top: 5vh; /* Ajuste para que comece abaixo da navbar fixa reduzida */
-  height: calc(100vh - 5vh); /* Ajuste para que ocupe o espaço restante da tela */
+  height: calc(
+    100vh - 5vh
+  ); /* Ajuste para que ocupe o espaço restante da tela */
 }
 
 .navbar-mobile.visible {
@@ -171,7 +180,7 @@
 }
 
 .navbar-navlink-mobile {
-  padding: .3rem;
+  padding: 0.3rem;
   width: 100%;
   color: var(--primary-blue);
 }

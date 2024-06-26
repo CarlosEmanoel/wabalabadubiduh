@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useCallback } from "react";
 import api from "../../../services/api";
 import util from "../../../services/util";
-import { PDefaultModal, PSuccessModal } from "../..";
+import { PDefaultModal, PSubmitButton, PSuccessModal } from "../..";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import SubscribeForm from "./SubscibeFom";
@@ -18,7 +18,7 @@ const conditionalValidation = (type) =>
 
 const validationSchema = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
-  email: yup.string().email("Email inválido").required("Campo obrigatório"),
+  email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
   telefone: yup
     .string()
     .matches(/^\d{10,11}$/, "Telefone inválido")
@@ -141,14 +141,14 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
                 "w-2/3"
               } /* lembrar de mudar isso e deixar o modal mais responsivo */
               footer={
-                <button
-                  type="button"
-                  className="btn btn-success w-full md:w-1/2"
-                  onClick={formik.handleSubmit}
+                <PSubmitButton
                   disabled={!formik.isValid || formik.isSubmitting}
-                >
-                  Enviar
-                </button>
+                  onClick={formik.handleSubmit}
+                  buttonTitle={formik.isSubmitting ? "Carregando..." : "Entrar"}
+                  bgColor="green-600"
+                  bgHoverColor="green-700"
+                  width="md:w-1/2 lg:w-1/4 xl:w-1/6"
+                />
               }
             >
               <SubscribeForm />

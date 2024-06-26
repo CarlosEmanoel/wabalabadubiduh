@@ -25,7 +25,7 @@ const ListaContato = () => {
       selector: (row) => row.nome,
     },
     {
-      name: "EMAIL",
+      name: "E-MAIL",
       selector: (row) => row.email,
     },
     {
