@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Modal = ({ isOpen, children, onClose, title, footer, width }) => {
   useEffect(() => {

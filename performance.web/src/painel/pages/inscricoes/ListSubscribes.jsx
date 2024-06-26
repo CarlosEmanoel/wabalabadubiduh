@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../services/api";
 import util from "../../../services/util";
 import { Content } from "../../../components/views/Content/Content";
-import { PDataTable } from "../../../components";
+import { PContent, PDataTable } from "../../../components";
 import { confirmAlert } from "react-confirm-alert";
 import messages from "../../../services/messsages";
 
@@ -115,14 +115,14 @@ const ListSubscribes = () => {
   };
 
   return (
-    <Content>
+    <PContent>
       <PDataTable
         title="LISTA DE INSCRIÇÃO"
         columns={columns}
         data={subscribes}
         rowKey="id"
       />
-    </Content>
+    </PContent>
   );
 };
 

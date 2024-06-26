@@ -13,6 +13,7 @@ import {
 } from "../../components";
 import "./Login.css";
 import api from "../../services/api";
+import messages from "../../services/messsages";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email("Email inválido").required("Informe seu email"),

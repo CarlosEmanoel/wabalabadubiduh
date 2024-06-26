@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import api from "../../../services/api";
 import util from "../../../services/util";
 import { PDefaultModal, PSuccessModal } from "../..";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import useSendEmail from "../../../hooks/responses/useSendEmail";
-import SubscribeForm from "./SubscribeForm";
+import SubscribeForm from "./SubscibeFom";
 import messages from "../../../services/messsages";
 
 const conditionalValidation = (type) =>

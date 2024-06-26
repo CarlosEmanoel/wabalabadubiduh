@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import api from "../../../services/api";
 import { Content } from "../../../components/views/Content/Content";
 import messages from "../../../services/messsages";
+import { PContent } from "../../../components";
 
 function ShowSubscribe() {
   const { id } = useParams();
@@ -136,7 +137,7 @@ function ShowSubscribe() {
   };
 
   return (
-    <Content>
+    <PContent>
       <div className="my-4">
         <div className="border-collapse border border-slate-400 rounded px-3">
           <h3 className="py-3 border-b border-neutral-400 ">
@@ -305,7 +306,7 @@ function ShowSubscribe() {
           </form>
         </div>
       </div>
-    </Content>
+    </PContent>
   );
 }
 export default ShowSubscribe;
