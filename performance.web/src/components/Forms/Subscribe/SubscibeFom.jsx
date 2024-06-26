@@ -131,7 +131,7 @@ const SubscribeForm = () => {
         lista={typesDocument}
         required
         onChange={handleTypeChange}
-        className="md:w-[32%] xl:w-[20%]"
+        className="md:w-[33%]"
       />
 
       {values.typeDocument === "1" && (
@@ -140,7 +140,7 @@ const SubscribeForm = () => {
           type="cnpj"
           label="CNPJ Para Emissão da Nota Fiscal"
           placeholder="Digite o CNPJ"
-          className="md:w-[66%] xl:w-[28%]"
+          className="md:w-[66%]"
         />
       )}
       {values.typeDocument === "2" && (
@@ -150,7 +150,7 @@ const SubscribeForm = () => {
             type="cpf"
             label="Seu CPF"
             placeholder="Digite seu CPF"
-            className="md:w-[32%]"
+            className="md:w-[32.5%]"
           />
 
           <PInputField
@@ -162,18 +162,18 @@ const SubscribeForm = () => {
             validate={
               !isValidCep && touched.cep && !errors.cep ? "CEP inválido" : ""
             }
-            className="md:w-[32%]"
+            className="md:w-[32.5%]"
           />
         </>
       )}
       {values.typeDocument === "2" && (
-        <div className="flex flex-wrap justify-between">
+        <div className="flex flex-wrap justify-between w-full">
           <PInputField
             name="estado"
             label="Seu Estado"
             placeholder="Digite seu estado"
             disabled
-            className="md:w-[49%] lg:w-[32%]"
+            className="md:w-full lg:w-[49%] xl:w-[32.4%]"
           />
 
           <PInputField
@@ -181,14 +181,14 @@ const SubscribeForm = () => {
             label="Seu Município"
             placeholder="Digite seu município"
             disabled
-            className="md:w-[49%] lg:w-[32%]"
+            className="md:w-full lg:w-[49%] xl:w-[32.4%]"
           />
 
           <PInputField
             name="bairro"
             label="Seu Bairro"
             placeholder="Digite seu bairro"
-            className="lg:w-[32%]"
+            className="md:w-full xl:w-[32.4%]"
           />
 
           <PInputField
@@ -203,7 +203,6 @@ const SubscribeForm = () => {
           name="unidadegestora"
           label="Unidade Gestora"
           placeholder="Digite sua unidade gestora"
-          className="xl:w-[50%]"
         />
       )}
     </div>
