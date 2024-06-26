@@ -157,7 +157,7 @@ function ShowSubscribe() {
 
               <div className="mt-4 px-4">
                 <label className="font-semibold mr-2" htmlFor="email">
-                  Email:
+                  E-mail:
                 </label>
                 <div className="font-normal" htmlFor="email">
                   {subscribe.email}

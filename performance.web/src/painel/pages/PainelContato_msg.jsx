@@ -104,7 +104,7 @@ function PainelContato_msg() {
 
               <div className="mt-4">
                 <label className="font-medium mr-2" htmlFor="email">
-                  Email:
+                  E-mail:
                 </label>
                 <div className="font-normal" htmlFor="email">
                   {listaContato.email}

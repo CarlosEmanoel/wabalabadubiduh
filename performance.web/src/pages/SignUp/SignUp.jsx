@@ -15,7 +15,7 @@ const validationSchema = yup.object().shape({
     .test("validate-cpf", "CPF inválido", (value) => util.validarCpf(value))
     .required("Campo obrigatório"),
   username: yup.string().required("Campo obrigatório"),
-  email: yup.string().email("Email inválido").required("Campo obrigatório"),
+  email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
   password: yup
     .string()
     .min(6, "A senha deve conter, pelo menos, 6 caracteres")
@@ -117,7 +117,7 @@ function SignUp() {
                     <div className="pt-2 md:w-1/2">
                       <PInputFloatingLabel
                         name="email"
-                        label="Seu Email"
+                        label="Seu E-mail"
                         showIcon
                       />
                     </div>

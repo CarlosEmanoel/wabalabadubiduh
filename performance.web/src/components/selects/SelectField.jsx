@@ -43,7 +43,7 @@ const SelectField = ({
   }, [values]);
 
   return (
-    <div data-show-error={showError} className={`${className} group`}>
+    <div data-show-error={showError} className={`${className} w-full group`}>
       <label
         htmlFor={name}
         className="block text-sm font-bold group-data-[show-error=true]:text-red-600 text-gray-600"
@@ -74,7 +74,9 @@ const SelectField = ({
           <option value={opcao.value}>{opcao.label}</option>
         ))}
       </select>
-      {touch && error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+      {touch && error && (
+        <p className="text-red-500 text-xs mt-2 mb-4">{error}</p>
+      )}
     </div>
   );
 };

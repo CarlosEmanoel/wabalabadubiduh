@@ -13,7 +13,7 @@ const validationSchema = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
   cpf: yup.string().required("Campo obrigatório"),
   username: yup.string().required("Campo obrigatório"),
-  email: yup.string().email("Email inválido").required("Campo obrigatório"),
+  email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
   password: yup
     .string()
     .min(6, "A senha deve conter, pelo menos, 6 caracteres")
@@ -47,7 +47,7 @@ const PainelUsuario = () => {
         navigate(util.getEnv() + "/painel/listausuario");
       } else {
         messages.mensagem.erro(res.data.message);
-        console.log(res.data.message)
+        console.log(res.data.message);
         /* setErro(res.data.message); */
       }
     },
@@ -107,14 +107,14 @@ const PainelUsuario = () => {
                   htmlFor="email"
                   className="text-sm font-bold text-gray-600 block"
                 >
-                  Email
+                  E-mail
                 </label>
                 <input
                   type="text"
                   id="email"
                   name="email"
                   className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Digite um email"
+                  placeholder="Digite um e-mail"
                   error={formik.errors.email}
                   value={formik.values.email}
                   onChange={formik.handleChange}

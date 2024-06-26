@@ -18,7 +18,7 @@ const Modal = ({ isOpen, children, onClose, title, footer, width }) => {
   return (
     <div className="fixed inset-0 z-50 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
       <div
-        className={`relative max-w-4xl max-h-full m-4 flex flex-col rounded-lg shadow-lg bg-white overflow-y-auto ${
+        className={`relative max-w-4xl max-h-[85vh] m-4 flex flex-col rounded-lg shadow-lg bg-white overflow-y-auto ${
           width ? width : "w-auto"
         }`}
       >

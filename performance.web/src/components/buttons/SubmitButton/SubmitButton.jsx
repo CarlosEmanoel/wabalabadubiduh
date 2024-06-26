@@ -1,28 +1,26 @@
 export default function SubmitButton({
   condition,
-  color,
+  color = "white",
   onClick,
-  bgColor,
-  bgHoverColor,
+  bgColor = "secondary_blue",
+  bgHoverColor = "secondary_blue_hover",
   buttonCursor,
   buttonTitle,
   _buttonTitle,
   buttonIcon,
   disabled,
   href,
+  width,
 }) {
   return (
     <button
       disabled={disabled}
       href={href}
       onClick={onClick}
-      className={`select-none inline-flex cursor-pointer items-center px-3 py-2 text-sm font-medium text-center ${buttonCursor} ${
-        color ? `text-${color}` : "text-white"
-      } ${
-        bgColor
-          ? `bg-${bgColor} hover:bg-${bgHoverColor}`
-          : "bg-secondary_blue hover:bg-secondary_blue_hover"
-      } rounded-md`}
+      className={`
+        w-full ${width} select-none inline-flex cursor-pointer items-center px-3 py-2 text-sm font-medium justify-center ${buttonCursor} 
+        text-${color} bg-${bgColor} hover:bg-${bgHoverColor} rounded-md disabled:opacity-60 transition-all ease-in-out duration-500
+      `}
     >
       {condition ? _buttonTitle : buttonTitle}
       {buttonIcon && buttonIcon}

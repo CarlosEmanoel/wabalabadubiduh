@@ -30,7 +30,7 @@ function ListaUsuario() {
       filterable: true,
     },
     {
-      name: "EMAIL",
+      name: "E-MAIL",
       dataIndex: "email",
       width: "40%",
       type: "text",
@@ -47,25 +47,31 @@ function ListaUsuario() {
       cell: (row) => (
         <div className="flex justify-center items-center">
           {row.tipo === "user" && (
-              <button className="btn border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center" onClick={() => confirmaPermissao(row)}>
-                {row.permissao === true ? (
-                  <BsFillHandThumbsUpFill color="#589d62" />
-                ) : (
-                  <BsFillHandThumbsDownFill color="red" />
-                )}
-              </button>
-          )}
             <button
-              className="btn border-solid border-2 border-sky-200/[.55] hover:bg-sky-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center"
-              onClick={() =>
-                navigate(`${util.getEnv()}/painel/editar-usuario/${row.id}`)
-              }
+              className="btn border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center"
+              onClick={() => confirmaPermissao(row)}
             >
-              <BsPencil color="blue" />
+              {row.permissao === true ? (
+                <BsFillHandThumbsUpFill color="#589d62" />
+              ) : (
+                <BsFillHandThumbsDownFill color="red" />
+              )}
             </button>
-            <button className="btn border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex justify-center items-center" onClick={() => confirmaExclusao(row.id)}>
-              <BsTrash color="red" />
-            </button>
+          )}
+          <button
+            className="btn border-solid border-2 border-sky-200/[.55] hover:bg-sky-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center"
+            onClick={() =>
+              navigate(`${util.getEnv()}/painel/editar-usuario/${row.id}`)
+            }
+          >
+            <BsPencil color="blue" />
+          </button>
+          <button
+            className="btn border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex justify-center items-center"
+            onClick={() => confirmaExclusao(row.id)}
+          >
+            <BsTrash color="red" />
+          </button>
         </div>
       ),
     },
@@ -102,7 +108,7 @@ function ListaUsuario() {
         },
         {
           label: "Não",
-          onClick: () => { },
+          onClick: () => {},
         },
       ],
     });
@@ -123,7 +129,7 @@ function ListaUsuario() {
         },
         {
           label: "Não",
-          onClick: () => { },
+          onClick: () => {},
         },
       ],
     });
