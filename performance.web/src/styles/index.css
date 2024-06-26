@@ -38,4 +38,18 @@
     -webkit-text-fill-color: #000; /* Altere a cor conforme necessário */
     transition: background-color 5000s ease-in-out 0s;
   }
+
+  /* Remove o ícone de 'mostrar senha' no Edge/IE */
+  input[type="password"]::-ms-reveal {
+    display: none;
+  }
+
+  /* Remove o ícone de 'mostrar senha' no Chrome, caso exista */
+  input[type="password"]::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+  }
 }
