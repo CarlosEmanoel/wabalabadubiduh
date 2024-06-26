@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import api from "../../services/api";
 import util from "../../services/util";
 import { PDefaultContainer, PFileFetcher } from "../../components";
+import { useSendMail } from "../../hooks";
 
 const Contact = () => {
   const initial = {
@@ -41,6 +42,24 @@ const Contact = () => {
     }
   };
 
+  const { sendEmail } = useSendMail();
+
+  async function sendResponse(values) {
+    const emailData = {
+      subject: "Confirmação de Inscrição",
+      body: `
+            Olá ${values.nome},
+            Agradecemos por entrar em contato, em breve responderemos sua solicitação.
+  
+            Atenciosamente,
+            Equipe Performance Goiânia
+        `,
+      from: "contato@performance.goiania.br",
+      to: values.email,
+    };
+    await sendEmail(emailData);
+  }
+
   const sendMensagem = (e) => {
     e.preventDefault();
 
@@ -49,6 +68,7 @@ const Contact = () => {
         .post("/contato", contato)
         .then((response) => {
           if (response.data.success === true) {
+            sendResponse(e)
             setErro("");
             setSucesso(response.data.message);
             setContato(initial);

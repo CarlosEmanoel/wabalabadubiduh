@@ -7,6 +7,7 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import SubscribeForm from "./SubscibeFom";
 import messages from "../../../services/messsages";
+import { useSendMail } from "../../../hooks";
 
 const conditionalValidation = (type) =>
   yup.string().when("typeDocument", {
@@ -59,42 +60,42 @@ const validationSchema = yup.object().shape({
 const Subscribe = ({ isOpen, onClose, initialValues }) => {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
 
-  //   const { sendEmail, success } = useSendEmail();
-  //   const emailData = {
-  //     subject: "Confirmação de Inscrição",
-  //     body: `
-  //         Olá ${inscricao.nome},
+  const { sendEmail } = useSendMail();
 
-  //         Parabéns! Sua inscrição foi realizada com sucesso. Seguem abaixo os detalhes da sua inscrição:
-
-  //         Nome: ${inscricao.nome}
-  //         E-mail: ${inscricao.email}
-  //         Telefone: ${inscricao.telefone}
-  //         CNPJ: ${inscricao.cnpj}
-  //         Unidade Gestora: ${inscricao.unidadegestora}
-  //         Cargo: ${inscricao.cargo}
-  //         Endereço: ${inscricao.endereco}
-  //         Bairro: ${inscricao.bairro}
-  //         Município: ${inscricao.municipio}
-  //         Estado: ${inscricao.estado}
-  //         CEP: ${inscricao.cep}
-
-  //         Estamos entusiasmados por tê-lo(a) em nosso curso e esperamos que esta experiência seja enriquecedora e gratificante.
-
-  //         Em breve, enviaremos mais informações sobre o curso e outras orientações importantes. Caso tenha alguma dúvida, não hesite em nos contatar através deste e-mail.
-
-  //         Agradecemos a sua inscrição!
-
-  //         Atenciosamente,
-  //         Equipe Performance Goiânia
-  //     `,
-  //     from: "inscricao@performance.goiania.br",
-  //     to: inscricao.email,
-  //   };
-  //   async function sendResponse() {
-  //     await sendEmail(emailData);
-  //     console.log(success);
-  //   }
+  async function sendResponse(values) {
+    const emailData = {
+      subject: "Confirmação de Inscrição",
+      body: `
+            Olá ${values.nome},
+  
+            Parabéns! Sua inscrição foi realizada com sucesso. Seguem abaixo os detalhes da sua inscrição:
+  
+            Nome: ${values.nome}
+            E-mail: ${values.email}
+            Telefone: ${values.telefone}
+            CNPJ: ${values.cnpj}
+            Unidade Gestora: ${values.unidadegestora}
+            Cargo: ${values.cargo}
+            Endereço: ${values.endereco}
+            Bairro: ${values.bairro}
+            Município: ${values.municipio}
+            Estado: ${values.estado}
+            CEP: ${values.cep}
+  
+            Estamos entusiasmados por tê-lo(a) em nosso curso e esperamos que esta experiência seja enriquecedora e gratificante.
+  
+            Em breve, enviaremos mais informações sobre o curso e outras orientações importantes. Caso tenha alguma dúvida, não hesite em nos contatar através deste e-mail.
+  
+            Agradecemos a sua inscrição!
+  
+            Atenciosamente,
+            Equipe Performance Goiânia
+        `,
+      from: "inscricao@performance.goiania.br",
+      to: values.email,
+    };
+    await sendEmail(emailData);
+  }
 
   const handleSubmit = useCallback(
     async (values) => {
@@ -107,6 +108,7 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
         const res = await axios.post(`${API_ENDPOINT}/inscricao`, values);
 
         if (res.data.success) {
+          sendResponse(values);
           setIsOpenSuccess(true);
           onClose();
         } else {

@@ -47,6 +47,7 @@ const FirstSection = () => {
 					<p className="text-lg pb-4">Especialize-se em gestão previdenciária com nossos cursos presenciais e online!</p>
 					<PSubmitButton
 						buttonTitle="Saiba mais"
+						width="w-1/12"
 					/>
 				</div>
 			</div>

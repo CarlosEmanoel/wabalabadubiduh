@@ -3,7 +3,6 @@ import { BsTrash, BsCardChecklist } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import api from "../../../services/api";
 import util from "../../../services/util";
-import { Content } from "../../../components/views/Content/Content";
 import { PContent, PDataTable } from "../../../components";
 import { confirmAlert } from "react-confirm-alert";
 import messages from "../../../services/messsages";
@@ -61,7 +60,7 @@ const ListSubscribes = () => {
       filterable: false,
       cell: (row) => (
         <div className="flex">
-          <div className="border-solid border-2 border-green-200/[.55] hover:bg-green-200 rounded-md w-11 h-9 mr-1.5 flex">
+          <div className="border-solid border-2 border-green-200/[.55] hover:bg-green-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center">
             <button
               className="btn"
               onClick={() =>
@@ -71,7 +70,7 @@ const ListSubscribes = () => {
               <BsCardChecklist color="green" />
             </button>
           </div>
-          <div className="border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex">
+          <div className="border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex justify-center items-center">
             <button className="btn" onClick={() => confirmExclusion(row.id)}>
               <BsTrash color="red" />
             </button>

@@ -23,7 +23,7 @@ export default function SecondSection() {
                             para guiar seu caminho na área previdenciária!
                         </p>
                         <div className="mt-10 flex flex-col items-center md:flex-row gap-2">
-                            <PDefaultButton children="Ver Informações" bg="secondary" href="/cursos" />
+                            <PDefaultButton children="Aprenda Conosco" bg="secondary" href="/cursos" />
                         </div>
                     </div>
 
