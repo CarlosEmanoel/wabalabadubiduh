@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { PInputField, PSelect } from "../..";
 import { useFormikContext } from "formik";
-import useSendEmail from "../../../hooks/responses/useSendEmail";
 import useLocationSearch from "../../../hooks/responses/useLocationSearch";
-import { useResponsive } from "../../../hooks";
+import { PInputField, PSelect } from "../..";
 
 const typesDocument = [
   { value: 1, label: "CNPJ" },
@@ -13,50 +11,16 @@ const typesDocument = [
 const SubscribeForm = () => {
   const { values, setValues, touched, setFieldTouched, errors } =
     useFormikContext();
-  const { cepLoading, cepError, fetchCep, fetchUfs } = useLocationSearch();
+  const { fetchCep, fetchUfs } = useLocationSearch();
   const [isValidCep, setIsValidCep] = useState(true);
 
-  const screen = useResponsive();
+  useEffect(() => {
+    if (values.cep && values.cep.length === 10) {
+      fetchAddressByCep(values.cep);
+    }
+  }, [values.cep]);
 
-  //   const { sendEmail, success } = useSendEmail();
-  //   const emailData = {
-  //     subject: "Confirmação de Inscrição",
-  //     body: `
-  //         Olá ${inscricao.nome},
-
-  //         Parabéns! Sua inscrição foi realizada com sucesso. Seguem abaixo os detalhes da sua inscrição:
-
-  //         Nome: ${inscricao.nome}
-  //         E-mail: ${inscricao.email}
-  //         Telefone: ${inscricao.telefone}
-  //         CNPJ: ${inscricao.cnpj}
-  //         Unidade Gestora: ${inscricao.unidadegestora}
-  //         Cargo: ${inscricao.cargo}
-  //         Endereço: ${inscricao.endereco}
-  //         Bairro: ${inscricao.bairro}
-  //         Município: ${inscricao.municipio}
-  //         Estado: ${inscricao.estado}
-  //         CEP: ${inscricao.cep}
-
-  //         Estamos entusiasmados por tê-lo(a) em nosso curso e esperamos que esta experiência seja enriquecedora e gratificante.
-
-  //         Em breve, enviaremos mais informações sobre o curso e outras orientações importantes. Caso tenha alguma dúvida, não hesite em nos contatar através deste e-mail.
-
-  //         Agradecemos a sua inscrição!
-
-  //         Atenciosamente,
-  //         Equipe Performance Goiânia
-  //     `,
-  //     from: "inscricao@performance.goiania.br",
-  //     to: inscricao.email,
-  //   };
-  //   async function sendResponse() {
-  //     await sendEmail(emailData);
-  //     console.log(success);
-  //   }
-
-  const handleCepBlur = async (e) => {
-    const cep = e.target.value;
+  const fetchAddressByCep = async (cep) => {
     try {
       const response = await fetchCep(cep);
       if (response) {
@@ -71,16 +35,16 @@ const SubscribeForm = () => {
         }));
         setIsValidCep(true);
       } else {
-        handleCepError();
+        invalidateCep();
       }
     } catch (error) {
-      handleCepError();
+      invalidateCep();
     } finally {
       setFieldTouched("cep", true, false);
     }
   };
 
-  const handleCepError = () => {
+  const invalidateCep = () => {
     setValues((prevValues) => ({
       ...prevValues,
       endereco: "",
@@ -158,7 +122,6 @@ const SubscribeForm = () => {
             mask="cep"
             label="Seu CEP"
             placeholder="Digite seu CEP"
-            onBlur={handleCepBlur}
             validate={
               !isValidCep && touched.cep && !errors.cep ? "CEP inválido" : ""
             }
