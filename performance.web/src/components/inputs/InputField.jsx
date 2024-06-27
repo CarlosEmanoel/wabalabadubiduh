@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormikContext } from "formik";
+import PropTypes from "prop-types";
 import util from "../../services/util";
 
 const InputField = ({
@@ -7,14 +8,13 @@ const InputField = ({
   label,
   type = "text",
   rows = 4,
-  className,
-  mask,
-  placeholder,
+  className = "",
+  placeholder = "",
   disabled = false,
   optional = false,
   showIcon = false,
-  onBlur,
-  validate,
+  onBlur = null,
+  validate = null,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,26 +44,21 @@ const InputField = ({
   const touch = getNestedValue(touched, name);
   const showError = (!!touch && !!error) || !!validate;
 
-  const handleChange = (e) => {
-    let inputValue = e.target.value;
-    switch (type) {
-      case "cpf":
-        mask = type;
-        break;
-      case "cnpj":
-        mask = type;
-        break;
-      case "telefone":
-        mask = type;
-        break;
-      case "money":
-        mask = type;
-        break;
-      default:
-        break;
-    }
-    if (mask) inputValue = util.mask(mask, inputValue);
+  const maskFunctions = {
+    cep: (value) => util.mask("cep", value),
+    cpf: (value) => util.mask("cpf", value),
+    cnpj: (value) => util.mask("cnpj", value),
+    telefone: (value) => util.mask("telefone", value),
+    money: (value) => util.mask("money", value),
+  };
 
+  const applyMask = (type, value) => {
+    const maskFunction = maskFunctions[type];
+    return maskFunction ? maskFunction(value) : value;
+  };
+
+  const handleChange = (e) => {
+    const inputValue = applyMask(type, e.target.value);
     setFieldValue(name, inputValue);
   };
 
@@ -75,8 +70,8 @@ const InputField = ({
     name,
     id: name,
     onChange: handleChange,
-    onBlur: onBlur ? onBlur : handleBlur,
-    placeholder: placeholder,
+    onBlur: onBlur || handleBlur,
+    placeholder,
     value: getNestedValue(values, name) || "",
     className: `block w-full px-2 py-2 border-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10 appearance-none rounded-md shadow-sm group-data-[show-error=true]:focus:outline-red-500 
     focus:outline-blue-500 focus:border-blue-500 disabled:bg-gray-200 disabled:text-gray-500 group-data-[show-icon=true]:ps-7 ${
@@ -85,6 +80,12 @@ const InputField = ({
     disabled,
     ...props,
   };
+
+  const InputProps = {
+    type: type === "password" && showPassword ? "text" : type,
+    ...commonProps,
+  };
+  const TextAreaProps = { rows, ...commonProps };
 
   return (
     <div
@@ -116,12 +117,9 @@ const InputField = ({
           </svg>
         </span>
         {type === "textarea" ? (
-          <textarea rows={rows} {...commonProps} />
+          <textarea {...TextAreaProps} />
         ) : (
-          <input
-            type={type === "password" && showPassword ? "text" : type}
-            {...commonProps}
-          />
+          <input {...InputProps} />
         )}
         {type === "password" && (
           <button
@@ -171,12 +169,24 @@ const InputField = ({
         )}
       </div>
       {showError && (
-        <p className="text-red-500 text-xs mt-2 mb-4">
-          {validate ? validate : error}
-        </p>
+        <p className="text-red-500 text-xs mt-2 mb-4">{error || validate}</p>
       )}
     </div>
   );
+};
+
+InputField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  rows: PropTypes.number,
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  optional: PropTypes.bool,
+  showIcon: PropTypes.bool,
+  onBlur: PropTypes.func,
+  validate: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 };
 
 export default InputField;

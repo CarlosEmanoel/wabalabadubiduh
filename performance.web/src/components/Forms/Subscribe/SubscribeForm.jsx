@@ -16,42 +16,42 @@ const SubscribeForm = () => {
 
   useEffect(() => {
     if (values.cep && values.cep.length === 10) {
-      fetchAddressByCep(values.cep);
+      fetchAddressByCep(values);
     }
   }, [values.cep]);
 
-  const fetchAddressByCep = async (cep) => {
+  const fetchAddressByCep = async (values) => {
     try {
-      const response = await fetchCep(cep);
+      const response = await fetchCep(values.cep);
       if (response) {
         const listUfs = await fetchUfs();
         const uf = listUfs.find((uf) => uf.sigla === response.uf);
-        setValues((prevValues) => ({
-          ...prevValues,
+        setValues({
+          ...values,
           endereco: response.logradouro,
           bairro: response.bairro,
           municipio: response.cidade,
           estado: uf ? uf.nome : "",
-        }));
+        });
         setIsValidCep(true);
       } else {
-        invalidateCep();
+        invalidateCep(values);
       }
     } catch (error) {
-      invalidateCep();
+      invalidateCep(values);
     } finally {
       setFieldTouched("cep", true, false);
     }
   };
 
-  const invalidateCep = () => {
-    setValues((prevValues) => ({
-      ...prevValues,
+  const invalidateCep = (values) => {
+    setValues({
+      ...values,
       endereco: "",
       bairro: "",
       municipio: "",
       estado: "",
-    }));
+    });
     setIsValidCep(false);
   };
 
@@ -107,6 +107,7 @@ const SubscribeForm = () => {
           className="md:w-[66%]"
         />
       )}
+
       {values.typeDocument === "2" && (
         <>
           <PInputField
@@ -119,7 +120,7 @@ const SubscribeForm = () => {
 
           <PInputField
             name="cep"
-            mask="cep"
+            type="cep"
             label="Seu CEP"
             placeholder="Digite seu CEP"
             validate={
@@ -161,6 +162,7 @@ const SubscribeForm = () => {
           />
         </div>
       )}
+
       {values.typeDocument === "1" && (
         <PInputField
           name="unidadegestora"

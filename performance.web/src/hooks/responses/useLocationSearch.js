@@ -2,18 +2,28 @@ import { useState } from "react";
 import axios from "axios";
 
 const useLocationSearch = () => {
-  const [cepError, setCepError] = useState(null);
-  const [cepLoading, setCepLoading] = useState(false);
+  const [loading, setLoading] = useState({
+    cep: false,
+    ufs: false,
+    cities: false,
+  });
+  const [error, setError] = useState({
+    cep: null,
+    ufs: null,
+    cities: null,
+  });
 
-  const [ufsLoading, setUfsLoading] = useState(false);
-  const [ufsError, setUfsError] = useState(null);
+  const setLoadingState = (type, state) => {
+    setLoading((prev) => ({ ...prev, [type]: state }));
+  };
 
-  const [citiesLoading, setCitiesLoading] = useState(false);
-  const [citiesError, setCitiesError] = useState(null);
+  const setErrorState = (type, message) => {
+    setError((prev) => ({ ...prev, [type]: message }));
+  };
 
   const fetchCep = async (cep) => {
-    setCepLoading(true);
-    setCepError(null);
+    setLoadingState("cep", true);
+    setErrorState("cep", null);
     const cepFormatado = cep.replace(/\D/g, "");
     try {
       const response = await axios.get(
@@ -31,42 +41,42 @@ const useLocationSearch = () => {
           uf,
         };
       } else {
-        setCepError("CEP não encontrado.");
+        setErrorState("cep", "CEP não encontrado.");
         return null;
       }
     } catch (err) {
       console.error("Erro na consulta à API de CEP:", err);
-      setCepError("Erro na consulta à API de CEP.");
+      setErrorState("cep", "Erro na consulta à API de CEP.");
       return null;
     } finally {
-      setCepLoading(false);
+      setLoadingState("cep", false);
     }
   };
 
   const fetchUfs = async () => {
-    setUfsLoading(true);
-    setUfsError(null);
+    setLoadingState("ufs", true);
+    setErrorState("ufs", null);
     try {
       const response = await fetch(
         "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
       );
       const data = await response.json();
-      const ufs = data.map((uf) => ({
+      return data.map((uf) => ({
         sigla: uf.sigla,
         nome: uf.nome,
       }));
-      return ufs;
     } catch (err) {
       console.error("Erro na consulta à API de UFs:", err);
-      setUfsError("Erro na consulta à API de UFs.");
+      setErrorState("ufs", "Erro na consulta à API de UFs.");
+      return [];
     } finally {
-      setUfsLoading(false);
+      setLoadingState("ufs", false);
     }
   };
 
   const fetchCities = async (uf) => {
-    setCitiesLoading(true);
-    setCitiesError(null);
+    setLoadingState("cities", true);
+    setErrorState("cities", null);
     try {
       const response = await fetch(
         `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
@@ -75,21 +85,18 @@ const useLocationSearch = () => {
       return data;
     } catch (err) {
       console.error("Erro na consulta à API de municípios:", err);
-      setCitiesError("Erro na consulta à API de municípios.");
+      setErrorState("cities", "Erro na consulta à API de municípios.");
+      return [];
     } finally {
-      setCitiesLoading(false);
+      setLoadingState("cities", false);
     }
   };
 
   return {
-    cepLoading,
-    cepError,
+    loading,
+    error,
     fetchCep,
-    ufsLoading,
-    ufsError,
     fetchUfs,
-    citiesLoading,
-    citiesError,
     fetchCities,
   };
 };

@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useFormikContext } from "formik";
+import PropTypes from "prop-types";
 
 const SelectField = ({
   name,
   label,
-  className,
+  className = "",
   lista,
-  required,
+  required = false,
   onChange,
   disabled = false,
   optional = false,
@@ -38,10 +39,6 @@ const SelectField = ({
   const touch = getNestedValue(touched, name);
   const showError = !!touch && !!error;
 
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
-
   return (
     <div data-show-error={showError} className={`${className} w-full group`}>
       <label
@@ -58,7 +55,7 @@ const SelectField = ({
       <select
         name={name}
         id={name}
-        onChange={onChange ? onChange : handleChange}
+        onChange={onChange || handleChange}
         onBlur={handleBlur}
         value={getNestedValue(values, name)}
         disabled={disabled}
@@ -67,18 +64,34 @@ const SelectField = ({
                   focus:outline-blue-500 focus:border-blue-500`}
         {...props}
       >
-        <option disabled={required} value={""}>
+        <option disabled={required} value="">
           Selecione uma opção
         </option>
-        {lista.map((opcao) => (
-          <option value={opcao.value}>{opcao.label}</option>
+        {lista.map((opcao, index) => (
+          <option key={index} value={opcao.value}>
+            {opcao.label}
+          </option>
         ))}
       </select>
-      {touch && error && (
-        <p className="text-red-500 text-xs mt-2 mb-4">{error}</p>
-      )}
+      {showError && <p className="text-red-500 text-xs mt-2 mb-4">{error}</p>}
     </div>
   );
+};
+
+SelectField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  lista: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  required: PropTypes.bool,
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool,
+  optional: PropTypes.bool,
 };
 
 export default SelectField;

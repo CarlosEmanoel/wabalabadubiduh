@@ -5,7 +5,7 @@ import { BsFillEnvelopeAtFill, BsTrash } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import util from "../../services/util";
-import messages from "../../services/messsages";
+import messages from "../../services/messages";
 
 import { confirmAlert } from "react-confirm-alert";
 import { PContent } from "../../components";

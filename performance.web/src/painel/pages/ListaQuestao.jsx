@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import util from "../../services/util";
-import messages from "../../services/messsages";
+import messages from "../../services/messages";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { BsPencil, BsTrash } from "react-icons/bs";
@@ -15,28 +15,24 @@ function ListaQuestao() {
   const navigate = useNavigate();
 
   function editar(id) {
-    navigate(
-      util.getEnv() +
-      "/painel/painelquestionario/" +
-      id
-    );
+    navigate(util.getEnv() + "/painel/painelquestionario/" + id);
   }
 
   const carregarLista = () => {
-    api
-      .get('/questoes')
-      .then((response) => {
-        if (response.data.success === true) {
-          const questoes = response.data.data.map(questao => ({
-            ...questao,
-            nivelTexto: nivelTexto(questao.nivel),
-            tipoTexto: tipoTexto(questao.tipo)
-          }));
-          setListaQuestoes(questoes);
-        } else {
-          messages.mensagem.erro("Ocorreu um erro ao buscar os registros de questões.");
-        }
-      })
+    api.get("/questoes").then((response) => {
+      if (response.data.success === true) {
+        const questoes = response.data.data.map((questao) => ({
+          ...questao,
+          nivelTexto: nivelTexto(questao.nivel),
+          tipoTexto: tipoTexto(questao.tipo),
+        }));
+        setListaQuestoes(questoes);
+      } else {
+        messages.mensagem.erro(
+          "Ocorreu um erro ao buscar os registros de questões."
+        );
+      }
+    });
   };
 
   useEffect(() => {
@@ -77,10 +73,16 @@ function ListaQuestao() {
       right: true,
       cell: (row) => (
         <div className="flex justify-center items-center">
-          <button className="btn border-solid border-2 border-sky-200/[.55] hover:bg-sky-200 rounded-md w-11 h-9 mr-1.5 flex items-center justify-center" onClick={() => editar(row.id)}>
+          <button
+            className="btn border-solid border-2 border-sky-200/[.55] hover:bg-sky-200 rounded-md w-11 h-9 mr-1.5 flex items-center justify-center"
+            onClick={() => editar(row.id)}
+          >
             <BsPencil color="blue" />
           </button>
-          <button className="btn border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex items-center justify-center" onClick={() => confirmaExclusao(row.id)}>
+          <button
+            className="btn border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex items-center justify-center"
+            onClick={() => confirmaExclusao(row.id)}
+          >
             <BsTrash color="red" />
           </button>
         </div>
@@ -99,7 +101,7 @@ function ListaQuestao() {
         },
         {
           label: "Não",
-          onClick: () => { },
+          onClick: () => {},
         },
       ],
     });

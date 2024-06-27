@@ -9,7 +9,7 @@ import {
   BsTrash,
 } from "react-icons/bs";
 import api from "../../services/api";
-import messages from "../../services/messsages";
+import messages from "../../services/messages";
 
 import NewButton from "../../components/NewButton/NewButton";
 import { useNavigate } from "react-router-dom";

@@ -104,13 +104,13 @@ const DataTable = ({
             ? aValue === bValue
               ? 0
               : aValue
-                ? -1
-                : 1
+              ? -1
+              : 1
             : aValue === bValue
-              ? 0
-              : aValue
-                ? 1
-                : -1;
+            ? 0
+            : aValue
+            ? 1
+            : -1;
         } else {
           return sortConfig.direction === "ascending"
             ? String(aValue).localeCompare(String(bValue))
@@ -302,7 +302,7 @@ DataTable.propTypes = {
 };
 
 DataTable.defaultProps = {
-  onSelectRow: () => { },
+  onSelectRow: () => {},
   selectedDefault: [],
   selectable: false,
 };

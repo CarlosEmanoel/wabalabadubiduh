@@ -1,11 +1,11 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { PFileFetcher, PInputFloatingLabel } from "../../components";
-import messages from "../../services/messsages";
+import api from "../../services/api";
+import messages from "../../services/messages";
 import util from "../../services/util";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 const validationSchema = yup.object().shape({
@@ -31,39 +31,32 @@ const validationSchema = yup.object().shape({
     .transform((value, originalValue) => originalValue.replace(/[^\d]/g, "")),
 });
 
-function SignUp() {
+const initialValues = {
+  nome: "",
+  cpf: "",
+  username: "",
+  email: "",
+  password: "",
+  confirmpassword: "",
+  tipo: "user",
+  permissao: false,
+  telefone: "",
+};
+
+const SignUp = () => {
   const navigate = useNavigate();
 
-  const initialValues = {
-    nome: "",
-    cpf: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmpassword: "",
-    tipo: "user",
-    permissao: false,
-    telefone: "",
-  };
-
   const onSubmit = async (values) => {
-    let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API;
-
-    if (process.env.NODE_ENV === "production") {
-      API_ENDPOINT = "https://expansaodigital.tec.br/performance.api";
-    }
-
-    const res = await axios({
-      method: "post",
-      baseURL: API_ENDPOINT,
-      url: "/usuario",
-      data: values,
-    });
-
-    if (res.data.success === true) {
+    try {
+      await api.post("/usuario", values);
       navigate("/cadastro-efetuado");
-    } else {
-      messages.mensagem.erro(res.data.message);
+    } catch (error) {
+      console.log(error);
+      messages.mensagem.erro(
+        error.response
+          ? error.response.data.message
+          : "Ocorreu um erro, tente novamente mais tarde!"
+      );
     }
   };
 
@@ -89,7 +82,7 @@ function SignUp() {
               id="background-3"
             />
             <div className="mx-4 w-screen sm:w-2/3  md:w-3/4 lg:w-7/12 xl:max-w-3xl">
-              <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2 bg-opacity-0">
+              <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2">
                 <div>
                   <PFileFetcher
                     width="250"
@@ -177,6 +170,6 @@ function SignUp() {
       )}
     </Formik>
   );
-}
+};
 
 export default SignUp;

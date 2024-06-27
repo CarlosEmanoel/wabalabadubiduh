@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormikContext } from "formik";
+import PropTypes from "prop-types";
 import util from "../../services/util";
 
 const InputFloatingLabel = ({
@@ -7,12 +8,12 @@ const InputFloatingLabel = ({
   label,
   type = "text",
   rows = 4,
-  className,
-  mask,
+  className = "",
+  disabled = false,
   optional = false,
   showIcon = false,
-  onBlur,
-  validate,
+  onBlur = null,
+  validate = null,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,26 +43,21 @@ const InputFloatingLabel = ({
   const touch = getNestedValue(touched, name);
   const showError = (!!touch && !!error) || !!validate;
 
-  const handleChange = (e) => {
-    let inputValue = e.target.value;
-    switch (type) {
-      case "cpf":
-        mask = type;
-        break;
-      case "cnpj":
-        mask = type;
-        break;
-      case "telefone":
-        mask = type;
-        break;
-      case "money":
-        mask = type;
-        break;
-      default:
-        break;
-    }
-    if (mask) inputValue = util.mask(mask, inputValue);
+  const maskFunctions = {
+    cep: (value) => util.mask("cep", value),
+    cpf: (value) => util.mask("cpf", value),
+    cnpj: (value) => util.mask("cnpj", value),
+    telefone: (value) => util.mask("telefone", value),
+    money: (value) => util.mask("money", value),
+  };
 
+  const applyMask = (type, value) => {
+    const maskFunction = maskFunctions[type];
+    return maskFunction ? maskFunction(value) : value;
+  };
+
+  const handleChange = (e) => {
+    const inputValue = applyMask(type, e.target.value);
     setFieldValue(name, inputValue);
   };
 
@@ -73,15 +69,22 @@ const InputFloatingLabel = ({
     name,
     id: name,
     onChange: handleChange,
-    onBlur: onBlur ? onBlur : handleBlur,
+    onBlur: onBlur || handleBlur,
     placeholder: " ",
     value: getNestedValue(values, name) || "",
     className: `block py-2.5 px-1 w-full text-sm text-gray-900 bg-transparent border-b-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10
      appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer group-data-[show-icon=true]:ps-6 ${
        type === "password" ? "pe-6" : "group-data-[show-icon=true]:pe-1"
      }`,
+    disabled,
     ...props,
   };
+
+  const InputProps = {
+    type: type === "password" && showPassword ? "text" : type,
+    ...commonProps,
+  };
+  const TextAreaProps = { rows, ...commonProps };
 
   return (
     <>
@@ -102,12 +105,9 @@ const InputFloatingLabel = ({
           </svg>
         </span>
         {type === "textarea" ? (
-          <textarea rows={rows} {...commonProps} />
+          <textarea {...TextAreaProps} />
         ) : (
-          <input
-            type={type === "password" && showPassword ? "text" : type}
-            {...commonProps}
-          />
+          <input {...InputProps} />
         )}
         {type === "password" && (
           <button
@@ -168,12 +168,23 @@ const InputFloatingLabel = ({
         </label>
       </div>
       {showError && (
-        <p className="text-red-500 text-xs mt-2 mb-4">
-          {validate ? validate : error}
-        </p>
+        <p className="text-red-500 text-xs mt-2 mb-4">{error || validate}</p>
       )}
     </>
   );
+};
+
+InputFloatingLabel.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  rows: PropTypes.number,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  optional: PropTypes.bool,
+  showIcon: PropTypes.bool,
+  onBlur: PropTypes.func,
+  validate: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 };
 
 export default InputFloatingLabel;

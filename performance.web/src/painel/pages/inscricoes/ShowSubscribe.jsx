@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../../services/api";
 import { Content } from "../../../components/views/Content/Content";
-import messages from "../../../services/messsages";
+import messages from "../../../services/messages";
 import { PContent } from "../../../components";
 
 function ShowSubscribe() {

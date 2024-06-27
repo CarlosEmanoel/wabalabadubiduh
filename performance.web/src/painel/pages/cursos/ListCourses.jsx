@@ -4,7 +4,7 @@ import { confirmAlert } from "react-confirm-alert";
 import { BsPencil, BsTrash } from "react-icons/bs";
 import NewButton from "../../../components/NewButton/NewButton";
 import api from "../../../services/api";
-import messages from "../../../services/messsages";
+import messages from "../../../services/messages";
 import util from "../../../services/util";
 import { PContent, PDataTable } from "../../../components";
 
