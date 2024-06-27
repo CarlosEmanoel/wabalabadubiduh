@@ -13,7 +13,7 @@ const ProtectedRoute = ({ isPublic, isAuthorized, acesso }) => {
     }
   } else {
     // A rota não é pública e o usuário não está autorizado a acessá-la
-    return <Navigate to="/login" />;
+    return <Navigate to="/acesso" />;
   }
 };
 

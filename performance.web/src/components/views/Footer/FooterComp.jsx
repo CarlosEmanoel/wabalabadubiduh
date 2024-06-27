@@ -1,10 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { PFileFetcher } from "../..";
 import "./Footer.css";
+import util from "../../../services/util";
 
 const Footer = () => {
   const location = useLocation();
-  const year = new Date().getFullYear();
+
+  const year = util.getCurrentYear()
 
   return (
     <footer className="bg-primary_blue rounded-lg shadow m-4">
@@ -31,7 +33,7 @@ const Footer = () => {
               <a href={location.pathname === '/contato' ? '#' : '/contato'} className="hover:underline me-4 md:me-6">Contato</a>
             </li>
             <li>
-              <a href={location.pathname === '/login' ? '#' : '/login'} className="hover:underline me-4 md:me-6">Sistema</a>
+              <a href={location.pathname === '/acesso' ? '#' : '/acesso'} className="hover:underline me-4 md:me-6">Acessar</a>
             </li>
           </ul>
         </div>

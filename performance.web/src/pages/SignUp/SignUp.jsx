@@ -75,23 +75,34 @@ function SignUp() {
     >
       {(formik) => (
         <Form>
-          <div className="fixed flex items-center justify-center w-screen h-screen overflow-hidden bg-opacity-50">
+          <div className="flex h-screen fixed w-screen justify-center items-center overflow-hidden bg-black bg-opacity-95">
             <div
-              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat"
+              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat blur-sm bg-opacity-50"
               id="background-1"
             />
             <div
-              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat"
+              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat blur-sm bg-opacity-50"
               id="background-2"
             />
             <div
-              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat"
+              className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat blur-sm bg-opacity-50"
               id="background-3"
             />
-            <div className="mx-4 w-screen sm:w-2/3  md:w-3/4 lg:w-7/12 xl:max-w-3xl">
-              <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2 bg-opacity-0">
-                <div>
+
+            <div className="flex flex-col sm:flex-row w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl mx-auto transition-all ease-in-out duration-500 shadow-2xl">
+              <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2">
+                <div className="w-full pt-2 flex items-center">
+                  <a
+                    href="/acesso"
+                    className="pb-4 flex font-semibold self-start md:hidden left-0"
+                  >
+                    <PFileFetcher fileName="ic_arrow_caret_left_filled" />{" "}
+                    <p>Voltar</p>
+                  </a>
+                </div>
+                <div className="py-2 hidden md:flex flex-col">
                   <PFileFetcher
+                    className="hidden"
                     width="250"
                     fileName="public/images/performance-brand.svg"
                     alt="Logo da Performance"
@@ -100,7 +111,7 @@ function SignUp() {
                     Cadastre-se
                   </h2>
                 </div>
-                <div className="overflow-y-auto max-h-[60vh] h-auto px-4 pt-4">
+                <div className="overflow-y-auto max-h-[60vh] h-auto px-4">
                   <div className="flex w-full flex-col md:flex-row md:gap-10">
                     <div className="w-full">
                       <PInputFloatingLabel name="nome" label="Nome Completo" />
@@ -164,7 +175,10 @@ function SignUp() {
                   </button>
                   <span className="pt-2 pb-4 text-center text-sm sm:text-base">
                     Já possui uma conta? Efetue o{" "}
-                    <a href="/login" className="outline-none">
+                    <a
+                      className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
+                      href="/acesso"
+                    >
                       login
                     </a>
                     .

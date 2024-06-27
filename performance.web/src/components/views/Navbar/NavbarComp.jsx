@@ -23,7 +23,7 @@ const NavBar = () => {
           <NavLink className='navbar-navlink' to="/contato" activeclassname='active'>Contato</NavLink>
           {/* <NavLink className='navbar-navlink' to="/eventos" activeclassname='active'>Eventos</NavLink> */}
         </div>
-        <a href="/login" className='sign-in-container hidden lg:flex lg:flex-row xl:flex-col'>
+        <a href="/acesso" className='sign-in-container hidden lg:flex lg:flex-row xl:flex-col'>
           <div className='sign-in'>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <defs>

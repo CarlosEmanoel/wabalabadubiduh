@@ -1,7 +1,7 @@
 import cors from '@koa/cors'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
-/* import 'dotenv/config'; */
+import 'dotenv/config';
 
 import { router } from './router.js'
 

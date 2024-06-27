@@ -49,7 +49,7 @@ function Login() {
       const res = await axios({
         method: "post",
         baseURL: API_ENDPOINT,
-        url: "/login",
+        url: "/acesso",
         auth: {
           username: values.email,
           password: values.password,
@@ -219,7 +219,7 @@ function Login() {
                       ou{" "}
                       <a
                         className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
-                        href="/signup"
+                        href="/cadastro"
                       >
                         fazer cadastro
                       </a>

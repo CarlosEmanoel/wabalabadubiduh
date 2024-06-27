@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import api from "../../services/api";
 import util from "../../services/util";
-import { PDefaultContainer, PFileFetcher } from "../../components";
+import { PDefaultContainer, PSuccessModal } from "../../components";
 import { useSendMail } from "../../hooks";
+import { mailTemplate } from "../../lib/texts/emails/mailTemplate";
 
 const Contact = () => {
   const initial = {
@@ -29,7 +30,11 @@ const Contact = () => {
 
   const [contato, setContato] = useState(initial);
   const [sucesso, setSucesso] = useState("");
+  const [isOpenSuccess, setIsOpenSuccess] = useState("");
   const [erro, setErro] = useState("");
+
+  const year = util.getCurrentYear();
+  const fullDateTime = util.getFullDateTime()
 
   const valorContato = (e) => {
     let { name, value } = e.target;
@@ -44,20 +49,61 @@ const Contact = () => {
 
   const { sendEmail } = useSendMail();
 
+  const clientEmailContent = mailTemplate({
+    title: "Obrigado pelo contato!",
+    saudation: `Prezado, ${contato.nome}`,
+    content: `
+    Agradecemos imensamente pelo seu contato. Sua mensagem foi recebida com sucesso e estamos analisando todas as informações fornecidas.
+
+    Nosso compromisso é atender às suas necessidades com a maior brevidade possível. Em breve, entraremos em contato com as respostas e soluções que você precisa.
+
+    Agradecemos novamente pela confiança e por entrar em contato conosco.
+
+    Já nos segue nas redes sociais?
+    Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!
+    `,
+    signature: "Atenciosamente,<br>Equipe Performance Goiânia",
+    year: year
+  })
+
+  const performanceEmailContent = mailTemplate({
+    title: "Contato do Usuário!",
+    saudation: `Atenção, setor administrativo!`,
+    content: `
+    Prezados Administradores,
+
+    Gostaríamos de informá-los que um usuário deixou uma nova mensagem em nosso site. Abaixo estão os detalhes da mensagem recebida:
+
+    Detalhes da Mensagem:
+
+    Usuário: ${contato.nome}
+    Email: ${contato.email}
+    Data e hora: ${fullDateTime}
+    Conteúdo da Mensagem:
+    ${contato.mensagem}
+
+    Revisem a mensagem e tomem as ações necessárias.
+    `,
+    signature: "Atenciosamente,<br>Desenvolvimento e Suporte,<br>Performance Goiânia",
+    year: year
+  })
+
   async function sendResponse(values) {
-    const emailData = {
-      subject: "Confirmação de Inscrição",
-      body: `
-            Olá ${values.nome},
-            Agradecemos por entrar em contato, em breve responderemos sua solicitação.
-  
-            Atenciosamente,
-            Equipe Performance Goiânia
-        `,
-      from: "contato@performance.goiania.br",
+    const clientConfirm = {
+      subject: "Confirmação de Contato",
+      body: clientEmailContent,
+      from: "teste-template@performance.goiania.br",
       to: values.email,
     };
-    await sendEmail(emailData);
+    const performanceConfirm = {
+      subject: `Solicitação de Contato - ${values.assunto}`,
+      body: performanceEmailContent,
+      from: "teste-sem-template@performance.goiania.br",
+      to: "contact.wolf.agency@gmail.com",
+    };
+
+    await sendEmail(clientConfirm);
+    await sendEmail(performanceConfirm);
   }
 
   const sendMensagem = (e) => {
@@ -68,8 +114,9 @@ const Contact = () => {
         .post("/contato", contato)
         .then((response) => {
           if (response.data.success === true) {
-            sendResponse(e)
+            sendResponse(contato)
             setErro("");
+            setIsOpenSuccess(true)
             setSucesso(response.data.message);
             setContato(initial);
           } else {
@@ -190,8 +237,65 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      <PSuccessModal
+        title="Contato enviado com sucesso!"
+        message="Em breve você receberá um e-mail confirmando o contato."
+        isOpen={isOpenSuccess}
+        setIsOpen={setIsOpenSuccess}
+        autoCloseTime={5000}
+      />
     </PDefaultContainer>
   );
 };
 
 export default Contact;
+
+/* 
+
+<!DOCTYPE html>
+      <html lang="en">
+
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Email Template</title>
+      </head>
+
+      <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+              <tr>
+                  <td align="center" bgcolor="#007BFF" style="padding: 40px 0;">
+                      <h1 style="color: #ffffff; margin: 0;">Bem-vindo!</h1>
+                  </td>
+              </tr>
+              <tr>
+                  <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+                      <h2 style="color: #333333;">Olá,</h2>
+                      <p style="color: #666666; line-height: 1.6;">
+                          Obrigado por se inscrever em nosso serviço. Estamos entusiasmados em tê-lo a bordo! 
+                          Aqui estão alguns detalhes importantes que você precisa saber para começar:
+                      </p>
+                      <ul style="color: #666666; line-height: 1.6;">
+                          <li><strong>Acesso ao painel:</strong> Use seu email e senha para acessar nosso painel.</li>
+                          <li><strong>Suporte:</strong> Nossa equipe de suporte está disponível 24/7 para ajudá-lo.</li>
+                          <li><strong>Recursos:</strong> Explore nossa base de conhecimento para tirar o máximo proveito do nosso serviço.</li>
+                      </ul>
+                      <p style="color: #666666; line-height: 1.6;">
+                          Se você tiver alguma dúvida, não hesite em entrar em contato conosco.
+                      </p>
+                      <p style="color: #666666; line-height: 1.6;">Atenciosamente,<br>Equipe de Suporte</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td bgcolor="#007BFF" style="padding: 20px 30px 20px 30px;">
+                      <p style="color: #ffffff; text-align: center; margin: 0;">&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>
+                  </td>
+              </tr>
+          </table>
+
+      </body>
+
+      </html>
+
+*/

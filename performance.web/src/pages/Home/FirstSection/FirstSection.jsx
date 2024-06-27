@@ -1,5 +1,4 @@
-import { PCarousel, PIconCard, PSectionContainer, PSkeleton, PSubmitButton } from '../../../components';
-import { useResponsive } from '../../../hooks';
+import { PCarousel, PIconCard, PSectionContainer, PSubmitButton } from '../../../components';
 import './FirstSection.css';
 
 const FirstSection = () => {
@@ -24,7 +23,7 @@ const FirstSection = () => {
 			title: "Simulados",
 			subtitle: "",
 			description: "Cada curso inclui simulados e exercícios de fixação, que são ferramentas valiosas para consolidar o conhecimento adquirido.",
-			link: '/signup',
+			link: '/cadastro',
 			buttonTitle: "Cadastre-se"
 		},
 		{
@@ -32,12 +31,10 @@ const FirstSection = () => {
 			title: "Aulas online",
 			subtitle: "",
 			description: "A nossa abordagem flexível permite que você estude através da modalidade online para lhe proporcinar a melhor formação possível.",
-			link: '/login',
+			link: '/acesso',
 			buttonTitle: "Acessar Plataforma"
 		},
 	];
-
-	const r = useResponsive()
 
 	return (
 		<>

@@ -270,6 +270,53 @@ const util = {
   isLoading: isLoading,
   startLoading: startLoading,
   stopLoading: stopLoading,
+
+  /* Função de busca para a data e hora atual */
+  getCurrentDate: function () {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+    const year = today.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  },
+
+  getCurrentTime: function () {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${hours}:${minutes}:${seconds}`;
+  },
+
+  getFullDateTime: function () {
+    return `${this.getCurrentDate()} ${this.getCurrentTime()}`;
+  },
+
+  getCurrentDay: function () {
+    return new Date().getDate();
+  },
+
+  getCurrentMonth: function () {
+    return new Date().getMonth() + 1; // Janeiro é 0!
+  },
+
+  getCurrentYear: function () {
+    return new Date().getFullYear();
+  },
+
+  getCurrentHour: function () {
+    return new Date().getHours();
+  },
+
+  getCurrentMinute: function () {
+    return new Date().getMinutes();
+  },
+
+  getCurrentSecond: function () {
+    return new Date().getSeconds();
+  },
   storage: {
     getItem: (item) => {
       return localStorage.getItem(item);
