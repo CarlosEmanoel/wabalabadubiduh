@@ -1,19 +1,19 @@
 #background-1 {
-  background-image: url("https://expansaodigital.tec.br/performance.api/files/background-1");
+  background-image: url("https://expansaodigital.tec.br/performance.api/files/stock_lecture_from_behind");
   animation: fadeInOut 30s ease-in-out infinite,
-    moveBackground 70s infinite linear;
+    moveBackground 45s infinite linear;
 }
 
 #background-2 {
-  background-image: url("https://expansaodigital.tec.br/performance.api/files/background-2");
+  background-image: url("https://expansaodigital.tec.br/performance.api/files/stock_business_presentation_event");
   animation: fadeInOut2 30s ease-in-out infinite,
-    moveBackground 70s infinite linear;
+    moveBackground 45s infinite linear;
 }
 
 #background-3 {
-  background-image: url("https://expansaodigital.tec.br/performance.api/files/background-3");
+  background-image: url("https://expansaodigital.tec.br/performance.api/files/stock_symposium_audience");
   animation: fadeInOut3 30s ease-in-out infinite,
-    moveBackground 70s infinite linear;
+    moveBackground 45s infinite linear;
 }
 
 .background-image {
