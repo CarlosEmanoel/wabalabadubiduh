@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../services/api";
-import messages from "../../services/messsages";
+import messages from "../../services/messages";
 import { PContent } from "../../components";
 
 function PainelQuestionario() {
@@ -21,7 +21,7 @@ function PainelQuestionario() {
   const [listaAlternativas, setListaAlternativas] = useState([]);
   const [form, setForm] = useState(initialFormState);
   const navigate = useNavigate();
-  
+
   const [nivelSelecionado, setNivelSelecionado] = useState(0);
   const [tipoSelecionado, setTipoSelecionado] = useState(0);
   const [conteudo, setConteudo] = useState("");
@@ -108,7 +108,7 @@ function PainelQuestionario() {
           }
         });
       }
-      setConteudo("")
+      setConteudo("");
     },
     initialValues: {
       pergunta: "",

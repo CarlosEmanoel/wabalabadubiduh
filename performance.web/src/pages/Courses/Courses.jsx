@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import "./Courses.css";
+import api from "../../services/api";
 import {
   PCarouselView,
   PDefaultContainer,
+  PSubscribe,
   PTabBarCard,
 } from "../../components";
-import api from "../../services/api";
 import FirstSection from "./FirstSection/FirstSection";
-import Subscribe from "../../components/Forms/Subscribe/Subscribe";
+import "./Courses.css";
 
 const COURSE_LEVELS = {
   0: "Dados do Curso",
@@ -22,8 +22,6 @@ function Courses() {
   const [courses, setCourses] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [initialValuesSubscribe, setInitialValuesSubscribe] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const fetchCourses = useCallback(async () => {
     try {
@@ -62,10 +60,8 @@ function Courses() {
         ],
       }));
       setCourses(transformedCourses);
-      setLoading(false);
     } catch (error) {
-      setError("Erro ao carregar os cursos");
-      setLoading(false);
+      console.log("Erro ao carregar os cursos: ", error);
     }
   }, []);
 
@@ -100,14 +96,6 @@ function Courses() {
     setInitialValuesSubscribe({});
   }, []);
 
-  // if (loading) {
-  //   return <PDefaultContainer>Carregando...</PDefaultContainer>;
-  // }
-
-  // if (error) {
-  //   return <PDefaultContainer>{error}</PDefaultContainer>;
-  // }
-
   return (
     <PDefaultContainer>
       <FirstSection />
@@ -122,7 +110,7 @@ function Courses() {
         ))}
       </PCarouselView>
 
-      <Subscribe
+      <PSubscribe
         isOpen={openModal}
         onClose={onClose}
         initialValues={initialValuesSubscribe}

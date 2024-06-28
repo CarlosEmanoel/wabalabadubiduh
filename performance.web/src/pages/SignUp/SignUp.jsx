@@ -1,11 +1,11 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { PFileFetcher, PInputFloatingLabel } from "../../components";
-import messages from "../../services/messsages";
+import api from "../../services/api";
+import messages from "../../services/messages";
 import util from "../../services/util";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 const validationSchema = yup.object().shape({
@@ -31,39 +31,32 @@ const validationSchema = yup.object().shape({
     .transform((value, originalValue) => originalValue.replace(/[^\d]/g, "")),
 });
 
-function SignUp() {
+const initialValues = {
+  nome: "",
+  cpf: "",
+  username: "",
+  email: "",
+  password: "",
+  confirmpassword: "",
+  tipo: "user",
+  permissao: false,
+  telefone: "",
+};
+
+const SignUp = () => {
   const navigate = useNavigate();
 
-  const initialValues = {
-    nome: "",
-    cpf: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmpassword: "",
-    tipo: "user",
-    permissao: false,
-    telefone: "",
-  };
-
   const onSubmit = async (values) => {
-    let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API;
-
-    if (process.env.NODE_ENV === "production") {
-      API_ENDPOINT = "https://expansaodigital.tec.br/performance.api";
-    }
-
-    const res = await axios({
-      method: "post",
-      baseURL: API_ENDPOINT,
-      url: "/usuario",
-      data: values,
-    });
-
-    if (res.data.success === true) {
+    try {
+      await api.post("/usuario", values);
       navigate("/cadastro-efetuado");
-    } else {
-      messages.mensagem.erro(res.data.message);
+    } catch (error) {
+      console.log(error);
+      messages.mensagem.erro(
+        error.response
+          ? error.response.data.message
+          : "Ocorreu um erro, tente novamente mais tarde!"
+      );
     }
   };
 
@@ -88,7 +81,6 @@ function SignUp() {
               className="w-[110vw] h-[110vh] absolute -z-10 bg-center bg-cover bg-no-repeat blur-sm bg-opacity-50"
               id="background-3"
             />
-
             <div className="flex flex-col sm:flex-row w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl mx-auto transition-all ease-in-out duration-500 shadow-2xl">
               <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2">
                 <div className="w-full pt-2 flex items-center">
@@ -102,9 +94,8 @@ function SignUp() {
                 </div>
                 <div className="py-2 hidden md:flex flex-col">
                   <PFileFetcher
-                    className="hidden"
-                    width="250"
-                    fileName="public/images/performance-brand.svg"
+                    className="hidden lg:flex w-44"
+                    fileName="performance-brand-maximized"
                     alt="Logo da Performance"
                   />
                   <h2 className="text-xl font-semibold text-gray-700 py-2 text-center border-b-2 border-gray-200 rounded-t-lg">
@@ -113,10 +104,10 @@ function SignUp() {
                 </div>
                 <div className="overflow-y-auto max-h-[60vh] h-auto px-4">
                   <div className="flex w-full flex-col md:flex-row md:gap-10">
-                    <div className="w-full">
+                    <div className="w-full mt-2">
                       <PInputFloatingLabel name="nome" label="Nome Completo" />
                     </div>
-                    <div className="w-full md:w-2/5">
+                    <div className="w-full mt-2 md:w-2/5">
                       <PInputFloatingLabel
                         name="cpf"
                         type="cpf"
@@ -130,6 +121,7 @@ function SignUp() {
                         name="email"
                         label="Seu E-mail"
                         showIcon
+                        icName="ic_app_mail_filled"
                       />
                     </div>
                     <div className="pt-2 md:w-1/2">
@@ -138,6 +130,7 @@ function SignUp() {
                         type="telefone"
                         label="Seu Telefone"
                         showIcon
+                        icName="ic_tecnology_phone_filled"
                       />
                     </div>
                   </div>
@@ -147,6 +140,7 @@ function SignUp() {
                         name="username"
                         label="Seu Usuário"
                         showIcon
+                        icName="ic_people_person_filled"
                       />
                     </div>
                     <div className="pt-2 md:w-1/3">
@@ -191,6 +185,6 @@ function SignUp() {
       )}
     </Formik>
   );
-}
+};
 
 export default SignUp;

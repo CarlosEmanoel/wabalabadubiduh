@@ -1,9 +1,6 @@
-import axios from "axios";
-import { Formik, Form } from "formik";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
-import util from "../../services/util";
 import {
   PSubmitButton,
   PDefaultModal,
@@ -11,9 +8,11 @@ import {
   PInputCodeVerify,
   PInputFloatingLabel,
 } from "../../components";
-import "./Login.css";
 import api from "../../services/api";
-import messages from "../../services/messsages";
+import messages from "../../services/messages";
+import util from "../../services/util";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email("E-mail inválido").required("Informe seu e-mail"),
@@ -22,6 +21,11 @@ const validationSchema = yup.object().shape({
     .min(6, "A senha deve conter, pelo menos, 6 caracteres")
     .required("Digite sua senha"),
 });
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 function Login() {
   const navigate = useNavigate();
@@ -32,49 +36,38 @@ function Login() {
   const [timer, setTimer] = useState(0);
   const [tokenVerified, setTokenVerified] = useState(false);
 
-  const initialValues = {
-    email: "",
-    password: "",
-  };
-
   const onSubmit = async (values) => {
-    let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API;
-
-    if (process.env.NODE_ENV === "production") {
-      API_ENDPOINT = "https://expansaodigital.tec.br/performance.api";
-    }
     setErro("");
 
     try {
-      const res = await axios({
-        method: "post",
-        baseURL: API_ENDPOINT,
-        url: "/acesso",
+      const response = await api.post("/login", null, {
         auth: {
           username: values.email,
           password: values.password,
         },
       });
 
-      if (res.data.success) {
-        util.setAuthToken(res.data.accessToken);
+      if (response.data.success) {
+        util.setAuthToken(response.data.accessToken);
         // login efetuado com sucesso
         // guardar token no storage
-        const tipo = res.data.usuario.tipo;
+        const tipo = response.data.usuario.tipo;
         if (tipo === "painel") {
-          util.storage.setItem("uid", res.data.usuario.id);
+          util.storage.setItem("uid", response.data.usuario.id);
           util.storage.setItem("t", "p");
           navigate("/painel");
         } else {
-          util.storage.setItem("uid", res.data.usuario.id);
+          util.storage.setItem("uid", response.data.usuario.id);
           util.storage.setItem("t", "u");
           // verificando se o usuário tem permissão de acesso
-          navigate(res.data.usuario.permissao ? "/user" : "/cadastro-efetuado");
+          navigate(
+            response.data.usuario.permissao ? "/user" : "/cadastro-efetuado"
+          );
           messages.mensagem.sucesso("Seja muito bem vindo(a)!");
         }
       } else {
         // erro no login, mostrar mensagem de erro
-        messages.mensagem.erro(res.data.message);
+        messages.mensagem.erro(response.data.message);
       }
     } catch (error) {
       messages.mensagem.erro("Erro ao tentar realizar login.");
@@ -190,7 +183,12 @@ function Login() {
                     Entre na sua conta
                   </span>
                   <div className="w-full">
-                    <PInputFloatingLabel name="email" label="E-mail" showIcon />
+                    <PInputFloatingLabel
+                      name="email"
+                      label="E-mail"
+                      showIcon
+                      icName="ic_app_mail_filled"
+                    />
                   </div>
                   <div className="w-full">
                     <PInputFloatingLabel
@@ -198,12 +196,13 @@ function Login() {
                       type="password"
                       label="Senha"
                       showIcon
+                      icName="ic_security_padlock_locked_filled"
                     />
                   </div>
                   <div className="w-full flex flex-col items-center pt-4">
                     <PSubmitButton
                       disabled={!formik.isValid || formik.isSubmitting}
-                      onClick={() => {}}
+                      onClick={() => { }}
                       buttonTitle={
                         formik.isSubmitting ? "Carregando..." : "Entrar"
                       }
@@ -251,9 +250,8 @@ function Login() {
               />
               <PSubmitButton
                 onClick={requestToken}
-                buttonTitle={`Solicitar Token ${
-                  timer > 0 ? `(${timer}s)` : ""
-                }`}
+                buttonTitle={`Solicitar Token ${timer > 0 ? `(${timer}s)` : ""
+                  }`}
                 disabled={!email || timer > 0}
               />
               {erro && <p className="text-red-500">{erro}</p>}
@@ -308,7 +306,7 @@ function Login() {
                   </div>
                   <PSubmitButton
                     disabled={!formik.isValid || formik.isSubmitting}
-                    onClick={() => {}}
+                    onClick={() => { }}
                     buttonTitle={
                       formik.isSubmitting ? "Carregando..." : "Redefinir Senha"
                     }

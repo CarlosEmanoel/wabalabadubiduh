@@ -6,7 +6,7 @@ import * as yup from "yup";
 
 import InputMask from "react-input-mask";
 import util from "../../services/util";
-import messages from "../../services/messsages";
+import messages from "../../services/messages";
 import { PContent } from "../../components";
 
 const validationSchema = yup.object().shape({

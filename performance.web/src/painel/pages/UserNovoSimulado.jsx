@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import util from "../../services/util";
-import messages from "../../services/messsages";
+import messages from "../../services/messages";
 import { PContent } from "../../components";
 
 const UserNovoSimulado = () => {

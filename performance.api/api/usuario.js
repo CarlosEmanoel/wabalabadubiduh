@@ -9,9 +9,27 @@ import sendMailMiddleware from "../middlewares/sendMailMiddleware.js";
 const randomBytesAsync = promisify(randomBytes);
 const client = new PrismaClient();
 
+const handleCreateError = (error, ctx) => {
+  let message = "Ocorreu um erro ao tentar criar o usuário.";
+  if (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === "P2002"
+  ) {
+    const target = error.meta?.target || [];
+    const messages = {
+      cpf: "Já existe um usuário com este CPF.",
+      email: "Já existe um usuário com este e-mail.",
+      username: "Este nome de usuário já está em uso.",
+    };
+    message = target.map((field) => messages[field]).find(Boolean) || message;
+  }
+  ctx.body = { success: false, message };
+  ctx.status = 400;
+};
+
 export const create = async (ctx) => {
-  const password = await bcrypt.hash(ctx.request.body.password, 10);
-  const confirmpassword = await bcrypt.hash(
+  const hashedPassword = await bcrypt.hash(ctx.request.body.password, 10);
+  const hashedConfirmPassword = await bcrypt.hash(
     ctx.request.body.confirmpassword,
     10
   );
@@ -21,8 +39,8 @@ export const create = async (ctx) => {
     cpf: ctx.request.body.cpf,
     username: ctx.request.body.username,
     email: ctx.request.body.email,
-    password: password,
-    confirmpassword: confirmpassword,
+    password: hashedPassword,
+    confirmpassword: hashedConfirmPassword,
     tipo: ctx.request.body.tipo,
     permissao: ctx.request.body.permissao,
     telefone: ctx.request.body.telefone,
@@ -35,47 +53,11 @@ export const create = async (ctx) => {
     ctx.body = {
       success: true,
       message: "Usuário criado com sucesso!",
-      data: usuario,
+      data: result,
     };
     ctx.status = 201;
   } catch (error) {
-    // Verificando se o tipo de erro é do Prisma
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        if (error.meta?.target?.includes("cpf")) {
-          // Violation de chave única para CPF
-          ctx.body = {
-            success: false,
-            message: "Já existe um usuário com este CPF.",
-          };
-        } else if (error.meta?.target?.includes("email")) {
-          // Violation de chave única para email
-          ctx.body = {
-            success: false,
-            message: "Já existe um usuário com este e-mail.",
-          };
-        } else if (error.meta?.target?.includes("username")) {
-          // Violation de chave única para username
-          ctx.body = {
-            success: false,
-            message: "Já existe este nome de usuário.",
-          };
-        }
-      } else {
-        // Outro tipo de erro do Prisma
-        ctx.body = {
-          success: false,
-          message: "Ocorreu um erro ao tentar criar o usuário.",
-        };
-      }
-    } else {
-      // Outro tipo de erro
-      ctx.body = {
-        success: false,
-        message: "Ocorreu um erro desconhecido.",
-      };
-    }
-    ctx.status = 201;
+    handleCreateError(error, ctx);
   }
 };
 

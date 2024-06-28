@@ -4,8 +4,8 @@ import util from "../../../services/util";
 import { PDefaultModal, PSubmitButton, PSuccessModal } from "../..";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import SubscribeForm from "./SubscibeFom";
-import messages from "../../../services/messsages";
+import SubscribeForm from "./SubscribeForm";
+import messages from "../../../services/messages";
 import { useSendMail } from "../../../hooks";
 
 const conditionalValidation = (type) =>

@@ -43,8 +43,8 @@ const FirstSection = () => {
 					<h1 className="text-4xl font-bold pb-4">Aprimore sua gestão previdenciária!!</h1>
 					<p className="text-lg pb-4">Especialize-se em gestão previdenciária com nossos cursos presenciais e online!</p>
 					<PSubmitButton
-						buttonTitle="Saiba mais"
-						width="w-1/12"
+						buttonTitle="Saiba Mais"
+						width="sm:w-3/12  xl:w-1/12"
 					/>
 				</div>
 			</div>

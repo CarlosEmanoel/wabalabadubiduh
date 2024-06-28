@@ -5,7 +5,7 @@ import api from "../../../services/api";
 import util from "../../../services/util";
 import { PContent, PDataTable } from "../../../components";
 import { confirmAlert } from "react-confirm-alert";
-import messages from "../../../services/messsages";
+import messages from "../../../services/messages";
 
 const ListSubscribes = () => {
   const navigate = useNavigate();
