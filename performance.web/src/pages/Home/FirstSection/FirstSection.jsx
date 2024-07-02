@@ -40,11 +40,11 @@ const FirstSection = () => {
 		<>
 			<div className="header-first-section items-center justify-center flex bg-cover bg-primary_blue text-white">
 				<div className="w-full 2xl:px-48 xl:px-48 md:px-48 px-16 mx-auto">
-					<h1 className="text-4xl font-bold pb-4">Aprimore sua gestão previdenciária!!</h1>
-					<p className="text-lg pb-4">Especialize-se em gestão previdenciária com nossos cursos presenciais e online!</p>
+					<p className="text-xl lg:text-3xl font-bold pb-4">Aprimore sua gestão previdenciária!!</p>
+					<p className="text-md lg:text-lg pb-4">Especialize-se em gestão previdenciária com nossos cursos presenciais e online!</p>
 					<PSubmitButton
 						buttonTitle="Saiba Mais"
-						width="sm:w-3/12  xl:w-1/12"
+						width="sm:w-32"
 					/>
 				</div>
 			</div>

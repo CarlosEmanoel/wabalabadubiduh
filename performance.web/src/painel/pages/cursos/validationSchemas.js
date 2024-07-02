@@ -11,13 +11,6 @@ export const nivelValidation = yup.object({
       (value) => value !== "<p><br></p>"
     ),
   descricao: yup.string().required("Campo obrigatório"),
-  valor: yup
-    .string()
-    .required("Campo obrigatório")
-    .test("is-positive-number", "Campo obrigatório", (value) => {
-      const number = Number(value.replace(/\./g, "").replace(",", "."));
-      return number > 0;
-    }),
 });
 
 export const mainValidation = yup.object().shape({

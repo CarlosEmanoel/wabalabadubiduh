@@ -56,15 +56,15 @@ const TabBarCardComp = ({ tabs, buttonTitle, size, onClick }) => {
             )}
           </div>
           <div className="px-6">
-            <h6 className={tabBarCardVariants({ title: finalSize })}>
+            <div className={tabBarCardVariants({ title: finalSize })}>
               {(activeSubTab || activeTab).title}
-            </h6>
-            <h4 className={tabBarCardVariants({ subtitle: finalSize })}>
+            </div>
+            <div className={tabBarCardVariants({ subtitle: finalSize })}>
               {(activeSubTab || activeTab).subtitle}
-            </h4>
-            <p className={tabBarCardVariants({ description: finalSize })}>
+            </div>
+            <div className={tabBarCardVariants({ description: finalSize })}>
               {(activeSubTab || activeTab).description}
-            </p>
+            </div>
           </div>
         </div>
         {activeTab.href && (

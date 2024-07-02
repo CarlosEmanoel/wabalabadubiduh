@@ -27,22 +27,26 @@ function Courses() {
     try {
       const response = await api.get(`/parse-cursos/`);
       const { data } = response.data;
+      console.log(data)
       const transformedCourses = data.map((course) => ({
         id: course.id,
+        isActive: course.is_active,
         tabs: [
           {
             id: course.id,
             tabTitle: "Dados Gerais",
             title: course.titulo,
             subtitle: course.subtitulo,
-            description: `${course.endereco}, ${course.municipio}/${course.uf}`,
+            description: course.niveis[0].descricao,
+            local: `${course.endereco}, ${course.municipio}/${course.uf}`,
             image: `curso-${course.id}`,
           },
           ...course.niveis.map((nivel) => ({
             id: nivel.id,
             title: getNivelTitle(nivel.nivel),
             subtitle: nivel.publico_alvo,
-            description: nivel.descricao,
+            description: nivel.conteudo,
+            conteudo: nivel.conteudo,
             image: `curso-${course.id}`,
             href: `${course.id}/${nivel.id}`,
           })),
@@ -64,6 +68,8 @@ function Courses() {
       console.log("Erro ao carregar os cursos: ", error);
     }
   }, []);
+
+  console.log("transformed ", courses)
 
   useEffect(() => {
     fetchCourses();
