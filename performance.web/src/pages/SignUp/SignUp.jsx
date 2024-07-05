@@ -92,15 +92,17 @@ const SignUp = () => {
                     <p>Voltar</p>
                   </Link>
                 </div>
-                <div className="py-2 hidden md:flex flex-col">
-                  <PFileFetcher
-                    className="hidden lg:flex w-44"
-                    fileName="performance-brand-maximized"
-                    alt="Logo da Performance"
-                  />
-                  <h2 className="text-xl font-semibold text-gray-700 py-2 text-center border-b-2 border-gray-200 rounded-t-lg">
+                <div className="py-2 flex flex-col">
+                  <a href="/">
+                    <PFileFetcher
+                      className="flex w-44"
+                      fileName="performance-brand-maximized"
+                      alt="Logo da Performance"
+                    />
+                  </a>
+                  <span className="text-lg md:text-xl lg:text-2xl font-bold py-2 text-center border-b-2 border-gray-200 rounded-t-lg">
                     Cadastre-se
-                  </h2>
+                  </span>
                 </div>
                 <div className="overflow-y-auto max-h-[60vh] h-auto px-4">
                   <div className="flex w-full flex-col md:flex-row md:gap-10">
@@ -148,6 +150,8 @@ const SignUp = () => {
                         name="password"
                         type="password"
                         label="Sua Senha"
+                        showIcon
+                        icName="ic_security_padlock_locked_filled"
                       />
                     </div>
                     <div className="pt-2 md:w-1/3">
@@ -155,6 +159,8 @@ const SignUp = () => {
                         name="confirmpassword"
                         type="password"
                         label="Confirme Sua Senha"
+                        showIcon
+                        icName="ic_security_padlock_locked_filled"
                       />
                     </div>
                   </div>

@@ -1,10 +1,10 @@
-import axios from "axios";
 import React, { useState, useCallback } from "react";
 import util from "../../../services/util";
 import { PDefaultModal, PSubmitButton, PSuccessModal } from "../..";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import SubscribeForm from "./SubscribeForm";
+import api from "../../../services/api";
 import messages from "../../../services/messages";
 import { useSendMail } from "../../../hooks";
 
@@ -100,13 +100,8 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
 
   const handleSubmit = useCallback(
     async (values) => {
-      let API_ENDPOINT = process.env.REACT_APP_ENDPOINT_API;
-
-      if (process.env.NODE_ENV === "production") {
-        API_ENDPOINT = "https://expansaodigital.tec.br/performance.api";
-      }
       try {
-        const res = await axios.post(`${API_ENDPOINT}/inscricao`, values);
+        const res = await api.post("/inscricao", values);
         if (res.data.success) {
           sendResponse(values);
           setIsOpenSuccess(true);
@@ -146,7 +141,7 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
                 <PSubmitButton
                   disabled={!formik.isValid || formik.isSubmitting}
                   onClick={formik.handleSubmit}
-                  buttonTitle={formik.isSubmitting ? "Carregando..." : "Entrar"}
+                  buttonTitle={formik.isSubmitting ? "Carregando..." : "Enviar"}
                   bgColor="green-600"
                   bgHoverColor="green-700"
                   width="md:w-1/2 lg:w-1/4 xl:w-1/6"
@@ -157,10 +152,10 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
             </PDefaultModal>
             <PSuccessModal
               title="Inscrição realizada com sucesso!"
-              message="Em breve você receberá um e-mail com as informações da sua inscrição."
+              message="Obrigado por se inscrever. Você receberá um e-mail com os detalhes da sua inscrição em breve. Nossa equipe está à disposição para qualquer dúvida."
               isOpen={isOpenSuccess}
               setIsOpen={setIsOpenSuccess}
-              autoCloseTime={5000}
+              autoCloseTime={8000}
             />
           </Form>
         </>

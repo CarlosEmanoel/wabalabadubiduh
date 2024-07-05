@@ -13,6 +13,7 @@ export { default as PFileThumbnail } from "./files/FileThumbnail";
 
 /* forms */
 export { default as PSubscribe } from "./Forms/Subscribe/Subscribe";
+export { default as PResetPassword } from "./Forms/resetpassword/ResetPassword";
 
 /* Componentes em 'inputs' */
 export { default as PInpuCheckboxToggle } from "./inputs/InputCheckboxToggle";

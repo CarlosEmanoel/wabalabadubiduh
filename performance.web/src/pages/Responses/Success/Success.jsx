@@ -1,35 +1,39 @@
 import React from "react";
+import { PFileFetcher, PSectionContainer } from "../../../components";
 import { useNavigate } from "react-router-dom";
 
 const Success = () => {
   const navigate = useNavigate();
-
-  const access = () => {
-    navigate("/");
-  };
-
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6 mt-5 flex flex-col justify-center items-center">
-          <h2>Cadastro efetuado com sucesso!</h2>
-          <p>Em breve você poderá acessar o painel do aluno.</p>
-          <button
-            className="bg-gray-400 w-28 h-10 rounded text-white font-bold text-xl"
-            type="button"
-            onClick={access}
-          >
-            Concluir
-          </button>
+    <PSectionContainer>
+      <div className="flex mt-24 p-10 bg-white rounded-lg shadow-lg gap-10 flex-col md:flex-row">
+        <div className="content-center">
+          <div className="text-center">
+            <span className="text-lg md:text-xl lg:text-2xl font-bold ">
+              Cadastro Efetuado com Sucesso!
+            </span>
+            <p className="mt-6">
+              Obrigado por se cadastrar. Em breve, você poderá acessar o painel
+              do aluno.
+            </p>
+          </div>
+          <div className="flex justify-center w-full mt-6">
+            <button
+              className="bg-gray-400 w-28 h-10 rounded text-white font-bold text-xl"
+              type="button"
+              onClick={() => navigate("/")}
+            >
+              Voltar
+            </button>
+          </div>
         </div>
-        <div className="col-md-6">
-          <img
-            src={`${process.env.REACT_APP_NODE_URL}/image/accesspainel.png`}
-            alt=""
-          />
-        </div>
+        <PFileFetcher
+          className="w-full md:w-96"
+          fileName="accesspainel"
+          alt="Cadastro Efetuado"
+        />
       </div>
-    </div>
+    </PSectionContainer>
   );
 };
 

@@ -46,7 +46,7 @@ const Modal = ({
         }`}
       >
         {title && (
-          <h2 className="text-xl font-semibold text-gray-700 py-2 text-center border-b-2 border-gray-200 rounded-t-lg">
+          <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-gray-700 py-2 text-center border-b-2 border-gray-200 rounded-t-lg">
             {title}
           </h2>
         )}

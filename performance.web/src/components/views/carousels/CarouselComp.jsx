@@ -63,7 +63,7 @@ export default function CarouselComp({
     >
       <div
         onClick={handlePrevClick}
-        className='rounded-full lg:rounded-l-xl lg:rounded-r-none bg-black opacity-40 lg:opacity-100 hover:opacity-75 shadow-md shadow-black_transparent flex justify-center items-center w-20 h-20 absolute left-0 xl:w-40 xl:h-auto 2xl:w-56 2xl:h-auto lg:relative cursor-pointer group duration-300 ease-in-out transition-transform transform hover:scale-105 z-10'
+        className="rounded-full lg:rounded-l-xl lg:rounded-r-none bg-black opacity-40 lg:opacity-100 hover:opacity-75 shadow-md shadow-black_transparent flex justify-center items-center w-20 h-20 absolute left-0 xl:w-40 xl:h-auto 2xl:w-56 2xl:h-auto lg:relative cursor-pointer group duration-300 ease-in-out transition-transform transform hover:scale-105 z-10"
       >
         <PFileFetcher
           className="w-full h-full lg:hidden rounded-l-xl opacity-75 group-hover:opacity-45 hidden xl:flex"
@@ -84,7 +84,7 @@ export default function CarouselComp({
           ></path>
         </svg>
       </div>
-      <div className='w-[100vw] h-[50vh] rounded-xl xl:w-[43vw] lg:w-[63vw] flex justify-center items-center overflow-hidden'>
+      <div className="w-[100vw] h-[50vh] rounded-xl xl:w-[43vw] lg:w-[63vw] flex justify-center items-center overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
