@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const FirstGalery = () => {
     return (
@@ -16,13 +17,13 @@ const FirstGalery = () => {
             <div className="mt-16">
                 <h4 className="mt-16 text-zinc-600">WORKSHOP GESTÃO PREVIDENCIÁRIA</h4>
                 <p className="text-2xl text-zinc-600"> Participação social e atualizações sobre aposentadoria especial e pensão por morte</p>
-                    <a className="grid grid-cols-3 py-4 gap-4 md:gap-4">
+                    <Link className="grid grid-cols-3 py-4 gap-4 md:gap-4">
                         <img className="w-full h-full object-cover col-span-2 " src="/performance/gesprev/foto5.jpeg" alt="" />
                         <img className="w-full h-full object-cover" src="/performance/gesprev/foto2.jpeg" alt="" />
                         <img className="w-full h-full object-cover" src="/performance/gesprev/foto3.jpeg" alt="" />
                         <img className="w-full h-full object-cover" src="/performance/gesprev/foto4.jpeg" alt="" />
                         <img className="w-full h-full object-cover" src="/performance/gesprev/foto1.jpeg" alt="" />
-                    </a>
+                    </Link>
             </div>
 
             <div className="mt-16">

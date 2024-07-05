@@ -11,7 +11,7 @@ import {
 import api from "../../services/api";
 import messages from "../../services/messages";
 import util from "../../services/util";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const validationSchema = yup.object().shape({
@@ -158,13 +158,13 @@ function Login() {
 
               <div className="flex flex-col sm:flex-row w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl mx-auto transition-all ease-in-out duration-500 shadow-2xl">
                 <div className="md:flex flex-1 flex-col items-center justify-center shadow-lg background-image p-4 min-w-screen transition-all ease-in-out duration-500 sm:rounded-tl-lg sm:rounded-bl-lg hidden">
-                  <a href="/">
+                  <Link to="/">
                     <PFileFetcher
                       fileName="performance-brand-maximized"
                       alt="Logo da Performance"
                       className="w-64"
                     />
-                  </a>
+                  </Link>
                   <PFileFetcher
                     fileName="secure-login"
                     alt="Logo da Performance"
@@ -172,13 +172,13 @@ function Login() {
                   />
                 </div>
                 <div className="flex sm:flex flex-1 flex-col items-center justify-center shadow-lg bg-white p-4 min-w-screen transition-all ease-in-out duration-500 rounded-lg md:rounded-br-lg md:rounded-tr-lg md:rounded-none py-12">
-                  <a
+                  <Link 
                     href="/"
                     className="pb-4 flex font-semibold self-start md:hidden"
                   >
                     <PFileFetcher fileName="ic_arrow_caret_left_filled" />{" "}
                     <p>Voltar</p>
-                  </a>
+                  </Link>
                   <span className="mb-8 text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-center transition-all ease-in-out duration-500">
                     Entre na sua conta
                   </span>
@@ -209,19 +209,19 @@ function Login() {
                     />
                     <span className="pt-2 pb-4 text-center text-sm sm:text-base">
                       Você pode também{" "}
-                      <a
+                      <Link 
                         onClick={() => setPasswordModal(true)}
                         className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
                       >
                         redefinir sua senha
-                      </a>{" "}
+                      </Link>{" "}
                       ou{" "}
-                      <a
+                      <Link 
                         className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
                         href="/cadastro"
                       >
                         fazer cadastro
-                      </a>
+                      </Link>
                       .
                     </span>
                   </div>

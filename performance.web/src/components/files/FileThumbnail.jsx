@@ -40,7 +40,6 @@ const FileThumbnail = ({ fileName = "", onClick, className }) => {
           console.error("Erro ao verificar o arquivo:", error);
         }
       }
-      console.log("Não encontramos arquivo válido.");
     };
 
     if (fileName) {

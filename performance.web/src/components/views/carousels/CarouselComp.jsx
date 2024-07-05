@@ -63,11 +63,7 @@ export default function CarouselComp({
     >
       <div
         onClick={handlePrevClick}
-<<<<<<< HEAD
         className='rounded-full lg:rounded-l-xl lg:rounded-r-none bg-black opacity-40 lg:opacity-100 hover:opacity-75 shadow-md shadow-black_transparent flex justify-center items-center w-20 h-20 absolute left-0 xl:w-40 xl:h-auto 2xl:w-56 2xl:h-auto lg:relative cursor-pointer group duration-300 ease-in-out transition-transform transform hover:scale-105 z-10'
-=======
-        className="bg-black shadow-md shadow-black_transparent flex justify-center items-center w-24 h-24 absolute left-0 rounded-l-xl sm:w-32 sm:h-32 xl:w-56 xl:h-32 lg:relative cursor-pointer group duration-300 ease-in-out transition-transform transform hover:scale-105 z-10"
->>>>>>> 05cd847a36ff958a5e70f1670dd3496baf23fa8a
       >
         <PFileFetcher
           className="w-full h-full lg:hidden rounded-l-xl opacity-75 group-hover:opacity-45 hidden xl:flex"
@@ -88,11 +84,7 @@ export default function CarouselComp({
           ></path>
         </svg>
       </div>
-<<<<<<< HEAD
       <div className='w-[100vw] h-[50vh] rounded-xl xl:w-[43vw] lg:w-[63vw] flex justify-center items-center overflow-hidden'>
-=======
-      <div className="bg-black shadow-md shadow-black_transparent w-[100vw] h-[50vh] rounded-xl xl:w-[43vw] lg:w-[63vw] flex justify-center items-center overflow-hidden">
->>>>>>> 05cd847a36ff958a5e70f1670dd3496baf23fa8a
         <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -109,11 +101,7 @@ export default function CarouselComp({
       </div>
       <div
         onClick={handleNextClick}
-<<<<<<< HEAD
         className='rounded-full lg:rounded-r-xl lg:rounded-l-none bg-black opacity-40 lg:opacity-100 shadow-md hover:opacity-75 shadow-black_transparent flex justify-center items-center w-20 h-20 absolute right-0 xl:w-40 xl:h-auto 2xl:w-56 2xl:h-auto lg:relative cursor-pointer group duration-300 ease-in-out transition-transform transform hover:scale-105 z-10'
-=======
-        className="bg-black shadow-md shadow-black_transparent flex justify-center items-center w-24 h-24 absolute right-0 rounded-r-xl sm:w-32 sm:h-32 xl:w-56 xl:h-32 lg:relative cursor-pointer group duration-300 ease-in-out transition-transform transform hover:scale-105 z-10"
->>>>>>> 05cd847a36ff958a5e70f1670dd3496baf23fa8a
       >
         <PFileFetcher
           className="w-full h-full lg:hidden rounded-r-xl opacity-75 group-hover:opacity-45 hidden xl:flex"

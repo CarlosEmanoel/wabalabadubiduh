@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PSubmitButton } from '..';
+import { Link } from 'react-router-dom';
 
 export default function InputCodeVerify({ blocks = 6, errorMessage, onComplete, onResend, resetTimer }) {
     const [code, setCode] = useState(Array(blocks).fill(''));
@@ -103,13 +104,13 @@ export default function InputCodeVerify({ blocks = 6, errorMessage, onComplete, 
                 onClick={handleSubmit}
                 buttonTitle={'Verificar Código'}
             />
-            <a
+            <Link 
                 onClick={handleResend}
                 className={`decoration-inherit cursor-pointer ${timer > 0 ? 'text-gray-600 cursor-progress' : 'text-sky-500'}`}
                 disabled={timer > 0}
             >
                 {timer > 0 ? `Reenviar código em (${timer}s)` : 'Reenviar Código'}
-            </a>
+            </Link>
         </div>
     );
 }

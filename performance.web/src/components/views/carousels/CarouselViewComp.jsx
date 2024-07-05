@@ -54,13 +54,13 @@ export default function CarouselView({
           <>
             <button
               onClick={handlePrevClick}
-              className="w-12 h-12 absolute top-1/2 left-4 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
+              className="w-16 h-16 opacity-70 sm:opacity-100 absolute top-1/2 left-4 md:left-10 lg:left-32 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
             >
               <PFileFetcher fileName="ic_arrow_caret_left_white_filled" />
             </button>
             <button
               onClick={handleNextClick}
-              className="w-12 h-12 absolute top-1/2 right-4 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
+              className="w-16 h-16 opacity-70 sm:opacity-100 absolute top-1/2 right-4 md:right-10 lg:right-32 transform -translate-y-1/2 bg-primary_blue hover:bg-primary_blue_hover font-bold py-2 px-4 rounded-full focus:outline-none shadow-xl"
             >
               <PFileFetcher fileName="ic_arrow_caret_right_white_filled" />
             </button>

@@ -5,7 +5,7 @@ import { PFileFetcher, PInputFloatingLabel } from "../../components";
 import api from "../../services/api";
 import messages from "../../services/messages";
 import util from "../../services/util";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 const validationSchema = yup.object().shape({
@@ -84,13 +84,13 @@ const SignUp = () => {
             <div className="flex flex-col sm:flex-row w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl mx-auto transition-all ease-in-out duration-500 shadow-2xl">
               <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2">
                 <div className="w-full pt-2 flex items-center">
-                  <a
+                  <Link 
                     href="/acesso"
                     className="pb-4 flex font-semibold self-start md:hidden left-0"
                   >
                     <PFileFetcher fileName="ic_arrow_caret_left_filled" />{" "}
                     <p>Voltar</p>
-                  </a>
+                  </Link>
                 </div>
                 <div className="py-2 hidden md:flex flex-col">
                   <PFileFetcher
@@ -169,12 +169,12 @@ const SignUp = () => {
                   </button>
                   <span className="pt-2 pb-4 text-center text-sm sm:text-base">
                     Já possui uma conta? Efetue o{" "}
-                    <a
+                    <Link 
                       className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
                       href="/acesso"
                     >
                       login
-                    </a>
+                    </Link>
                     .
                   </span>
                 </div>

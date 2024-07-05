@@ -13,10 +13,10 @@ const TabBarComp = ({ tabs, onTabClick, className, tabBlink }) => {
       {tabs.map((tab, index) => (
         <button
           key={index}
-          className={`${tabBlink && 'blinking'} text-xs sm:text-sm lg:text-lg xl:text-xl px-4 py-2 focus:outline-none hover:bg-primary_blue_transparent_hover ${activeTab === tab.id ? 'border-b-[3px] border-primary_blue' : ''}`}
+          className={`${tabBlink && 'blinking'} text-primary_blue font-semibold text-xs sm:text-sm lg:text-lg xl:text-xl px-4 py-2 focus:outline-none hover:bg-primary_blue_transparent_hover ${activeTab === tab.id ? 'border-b-[3px] border-primary_blue' : ''}`}
           onClick={() => handleTabClick(tab)}
         >
-          {tab.title}
+          {tab.tabTitle}
         </button>
       ))}
     </div>

@@ -17,6 +17,7 @@ const conditionalValidation = (type) =>
   });
 
 const validationSchema = yup.object().shape({
+  nivelId: yup.string().required("Campo obrigatório"),
   nome: yup.string().required("Campo obrigatório"),
   email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
   telefone: yup
@@ -54,6 +55,7 @@ const validationSchema = yup.object().shape({
   municipio: conditionalValidation("2"),
   endereco: conditionalValidation("2"),
   bairro: conditionalValidation("2"),
+
 });
 
 const Subscribe = ({ isOpen, onClose, initialValues }) => {
@@ -105,7 +107,6 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
       }
       try {
         const res = await axios.post(`${API_ENDPOINT}/inscricao`, values);
-
         if (res.data.success) {
           sendResponse(values);
           setIsOpenSuccess(true);

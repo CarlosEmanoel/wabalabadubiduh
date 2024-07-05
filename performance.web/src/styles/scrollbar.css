@@ -3,8 +3,8 @@
     width: 0.3vw;
     /* Largura da barra de rolagem */
     border-radius: 1vw;
-    min-width: 0.3vw;
-    max-width: 0.3vw;
+    min-width: 0.5vw;
+    max-width: 0.5vw;
     max-height: 0.72vh;
     min-height: 0.72vh;
 }

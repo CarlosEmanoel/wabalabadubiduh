@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Basic() {
   const Publico = () => {
@@ -92,14 +93,14 @@ function Basic() {
           </p>
           <h3>Valor do investimento</h3>
           <h3>R$597,00</h3>
-          <a href="https://pay.kiwify.com.br/EdpJxk7">
+          <Link to="https://pay.kiwify.com.br/EdpJxk7">
             <button
               type="submit"
               className="w-5/12 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               COMPRAR
             </button>
-          </a>
+          </Link>
         </div>
         <div className="flex col-md-5 order-md-1">
           <img

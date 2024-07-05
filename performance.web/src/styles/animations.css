@@ -87,3 +87,35 @@
         stroke-dashoffset: 0;
     }
 }
+
+@keyframes scaleIn {
+    from {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+
+    to {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+
+    to {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}
+
+.scale-in {
+    animation: scaleIn 0.3s forwards;
+}
+
+.scale-out {
+    animation: scaleOut 0.3s forwards;
+}

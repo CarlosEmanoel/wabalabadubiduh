@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import api from "../../services/api";
-import {
-  PCarouselView,
-  PDefaultContainer,
-  PSubscribe,
-  PTabBarCard,
-} from "../../components";
+import { PCarouselView, PCourseCard, PDefaultContainer, PSectionContainer, PSubscribe } from "../../components";
 import FirstSection from "./FirstSection/FirstSection";
 import "./Courses.css";
 
@@ -22,62 +17,78 @@ function Courses() {
   const [courses, setCourses] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [initialValuesSubscribe, setInitialValuesSubscribe] = useState({});
+  const [a, setLevels] = useState([])
 
   const fetchCourses = useCallback(async () => {
     try {
       const response = await api.get(`/parse-cursos/`);
       const { data } = response.data;
-      console.log(data)
-      const transformedCourses = data.map((course) => ({
-        id: course.id,
-        isActive: course.is_active,
-        tabs: [
-          {
-            id: course.id,
-            tabTitle: "Dados Gerais",
-            title: course.titulo,
-            subtitle: course.subtitulo,
-            description: course.niveis[0].descricao,
-            local: `${course.endereco}, ${course.municipio}/${course.uf}`,
-            image: `curso-${course.id}`,
+      const transformedCourses = data.map((course) => {
+        const niveis = course.niveis.map((nivel) => ({
+          id: nivel.id,
+          level: nivel.nivel,
+          tabTitle: getNivelTitle(nivel.nivel),
+          targetAudience: {
+            accordionTitle: "Público Alvo",
+            targetAudience: nivel.publico_alvo,
           },
-          ...course.niveis.map((nivel) => ({
-            id: nivel.id,
-            title: getNivelTitle(nivel.nivel),
-            subtitle: nivel.publico_alvo,
-            description: nivel.conteudo,
-            conteudo: nivel.conteudo,
-            image: `curso-${course.id}`,
-            href: `${course.id}/${nivel.id}`,
-          })),
-          {
-            tabTitle: "Professores",
-            title: "Professores",
-            subTabs: course.professores.map((professor) => ({
-              id: professor.professor_id,
-              title: professor.professor.nome.split(" ")[0],
-              subtitle: professor.professor.nome,
-              description: professor.professor.curriculo,
-              image: `professor-${professor.professor_id}`,
-            })),
+          content: {
+            accordionTitle: `Conteúdo - Nível ${getNivelTitle(nivel.nivel)}`,
+            content: nivel.conteudo,
           },
-        ],
-      }));
+          description: {
+            accordionTitle: `Descrição - Nível ${getNivelTitle(nivel.nivel)}`,
+            description: nivel.descricao,
+          },
+          value: nivel.valor,
+          oldValue: nivel.oldValue,
+        }));
+
+        const professores = course.professores.map((professorAssoc) => ({
+          id: professorAssoc.professor.id,
+          accordionTitle: "Currículo do Professor",
+          tabTitle: professorAssoc.professor.nome.split(' ')[0],
+          teacherName: professorAssoc.professor.nome,
+          teacherCurriculum: professorAssoc.professor.curriculo,
+        }));
+
+        return {
+          id: course.id,
+          isActive: course.is_active,
+          courseTitle: course.titulo,
+          couseSubtitle: course.subtitulo,
+          courseDescription: course.niveis[0].descricao,
+          courseUf: course.uf,
+          courseCity: course.municipio,
+          courseAddress: course.endereco,
+          courseStart: course.data_inicio,
+          courseEnd: course.data_fim,
+          courseLevels: niveis,
+          courseTeachers: professores,
+          dropdownMenu: [
+            {
+              value: 1,
+              label: "Conteúdo do Curso"
+            },
+            {
+              value: 2,
+              label: "Professores"
+            }
+          ],
+        };
+      });
       setCourses(transformedCourses);
     } catch (error) {
       console.log("Erro ao carregar os cursos: ", error);
     }
   }, []);
 
-  console.log("transformed ", courses)
-
   useEffect(() => {
     fetchCourses();
   }, [fetchCourses]);
 
-  const onClick = useCallback((subscribe) => {
+  const onClick = useCallback((courseId, levels) => {
     setOpenModal(true);
-    const [cursoId, nivelId] = subscribe.split("/");
     setInitialValuesSubscribe({
       nome: "",
       email: "",
@@ -92,8 +103,9 @@ function Courses() {
       estado: "",
       cep: "",
       typeDocument: "",
-      cursoId: cursoId,
-      nivelId: nivelId,
+      cursoId: courseId,
+      nivelId: "",
+      levels
     });
   }, []);
 
@@ -105,14 +117,16 @@ function Courses() {
   return (
     <PDefaultContainer>
       <FirstSection />
-      <PCarouselView autoPlay indicator>
+      <PCarouselView className="w-full mx-auto"  autoPlayInterval={5000}>
         {courses.map((course) => (
-          <PTabBarCard
-            key={course.id}
-            buttonTitle="Inscreva-se"
-            tabs={course.tabs}
-            onClick={onClick}
-          />
+          <div className="py-4 flex w-full justify-center items-center">
+            <PCourseCard
+              key={course.id}
+              buttonTitle="Inscreva-se"
+              data={course}
+              onClick={() => onClick(course.id, course.courseLevels)}
+            />
+          </div>
         ))}
       </PCarouselView>
 

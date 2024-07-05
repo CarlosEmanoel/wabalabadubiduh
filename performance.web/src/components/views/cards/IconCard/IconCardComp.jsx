@@ -1,5 +1,6 @@
 import React from "react";
 import { PFileFetcher } from "../../..";
+import { Link } from "react-router-dom";
 
 export default function IconCardComp({
   image,
@@ -33,9 +34,9 @@ export default function IconCardComp({
         </div>
         <div className="pt-5 text-base font-bold leading-7">
           <p>
-            <a href={link} className="flex text-secondary_blue transition-all duration-300 group-hover:text-white">{buttonTitle}
-              <a className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-2">&rarr;</a>
-            </a>
+            <Link to={link} className="flex text-secondary_blue transition-all duration-300 group-hover:text-white">{buttonTitle}
+              <p className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-2">&rarr;</p>
+            </Link>
           </p>
         </div>
       </div>

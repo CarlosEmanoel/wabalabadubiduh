@@ -9,10 +9,24 @@ const typesDocument = [
 ];
 
 const SubscribeForm = () => {
-  const { values, setValues, touched, setFieldTouched, errors } =
+  const { values, setValues, touched, setFieldTouched, errors, setFieldValue } =
     useFormikContext();
   const { fetchCep, fetchUfs } = useLocationSearch();
   const [isValidCep, setIsValidCep] = useState(true);
+  const [listaLevels, setListaLevels] = useState([])
+  useEffect(() => {
+    if (values.levels) {
+      if (values.levels.length > 1) {
+        const listaTemporaria = values.levels.map((level) => (
+          { value: level.id, label: level.tabTitle }
+        ))
+        setListaLevels(listaTemporaria)
+        console.log('lista, ', listaTemporaria)
+      } else {
+        setFieldValue("nivelId", values.levels[0].id)
+      }
+    }
+  }, [values.levels])
 
   useEffect(() => {
     if (values.cep && values.cep.length === 10) {
@@ -61,11 +75,20 @@ const SubscribeForm = () => {
 
   return (
     <div className="flex flex-wrap justify-between">
+      {listaLevels.length > 1 && (
+        <PSelect
+          name="nivelId"
+          label="Selecione um Nível"
+          lista={listaLevels}
+          required
+          className="lg:w-[41%] xl:w-[30%]"
+        />
+      )}
       <PInputField
         name="nome"
         label="Nome Completo"
         placeholder="Digite seu nome completo"
-        className="lg:w-[57%] xl:w-full"
+        className={`${listaLevels.length > 1 ? "lg:w-[57%] xl:w-[69%]" : "lg:w-[49%] xl:w-full"}`}
       />
       <PInputField
         name="cargo"
@@ -79,14 +102,14 @@ const SubscribeForm = () => {
         type="telefone"
         label="Seu Telefone"
         placeholder="Digite seu telefone"
-        className="md:w-[49%] xl:w-[24.5%]"
+        className="md:w-[49%] lg:w-[21%] xl:w-[24.5%]"
       />
 
       <PInputField
         name="email"
         label="Seu E-mail"
         placeholder="Digite seu e-mail"
-        className="md:w-[49%] xl:w-[24.5%]"
+        className="md:w-[49%] lg:w-[34%] xl:w-[24.5%]"
       />
 
       <PSelect

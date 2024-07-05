@@ -22,6 +22,7 @@ export { default as PInputCodeVerify } from "./inputs/InputCodeVerify";
 
 /* Selects */
 export { default as PSelect } from "./selects/SelectField";
+export { default as PDropdown } from "./selects/Dropdown";
 
 /* Componentes em 'loads' */
 export { default as PSkeleton } from "./loads/skeleton/DefaultSkeleton";
@@ -36,12 +37,16 @@ export { default as PSuccessModal } from "./modals/animated/success/SuccessModal
 
 /* Componentes em 'utilities' */
 export { default as PTooltip } from "./utilities/Tooltip/TooltipComp";
+export { default as PAccordion } from './utilities/accordions/Accordion'
+export { default as PPriceBadge } from './utilities/badges/PriceBadge'
 
 /* Componentes em 'views/cards' */
 export { default as PCard } from "./views/cards/DefaultCard/CardListComp";
 export { default as PIconCard } from "./views/cards/IconCard/IconCardListComp";
 export { default as PTestimonialCard } from "./views/cards/TestimonialCard/TestimonialCardListComp";
 export { default as PTabBarCard } from "./views/cards/tabBarCard/TabBarCardComp";
+export { default as PCourseCard } from './views/cards/coursecard/CourseCard'
+
 /* Componentes em 'views/carousels' */
 export { default as PCarousel } from "./views/carousels/CarouselComp";
 export { default as PCarouselView } from "./views/carousels/CarouselViewComp";

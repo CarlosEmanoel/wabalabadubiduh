@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function CardItems(props) {
   return (
     <div className="col-4 md-4 flex justify-center  flex-col">
@@ -6,9 +8,9 @@ function CardItems(props) {
         <div className="card-body">
           <h5 className="card-title font-bold">{props.title}</h5>
           <p className="card-text">{props.text}</p>
-          <a href={props.href} className="btn btn-primary">
+          <Link to={props.href} className="btn btn-primary">
             Ver mais
-          </a>
+          </Link>
         </div>
       </div>
     </div>

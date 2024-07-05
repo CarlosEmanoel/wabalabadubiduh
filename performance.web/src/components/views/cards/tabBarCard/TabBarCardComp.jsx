@@ -3,7 +3,7 @@ import { PFileFetcher, PTabBarComp } from "../../..";
 import { useResponsive } from "../../../../hooks";
 import { tabBarCardVariants } from "../../../../styles/variants";
 
-const TabBarCardComp = ({ tabs, buttonTitle, size, onClick }) => {
+const TabBarCardComp = ({ tabs = [], buttonTitle, size, onClick }) => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [activeSubTab, setActiveSubTab] = useState(
     activeTab.subTabs ? activeTab.subTabs[0] : null
@@ -62,9 +62,12 @@ const TabBarCardComp = ({ tabs, buttonTitle, size, onClick }) => {
             <div className={tabBarCardVariants({ subtitle: finalSize })}>
               {(activeSubTab || activeTab).subtitle}
             </div>
-            <div className={tabBarCardVariants({ description: finalSize })}>
-              {(activeSubTab || activeTab).description}
-            </div>
+            <div
+              className={tabBarCardVariants({ description: finalSize }) + ' line-clamp-5'}
+              dangerouslySetInnerHTML={{
+                __html: (activeSubTab || activeTab).description,
+              }}
+            />
           </div>
         </div>
         {activeTab.href && (
