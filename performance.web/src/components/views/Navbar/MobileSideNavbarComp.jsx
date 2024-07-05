@@ -9,7 +9,7 @@ const MobileSidebar = ({ isOpen, toggleNavbar }) => {
                         <NavLink className='navbar-navlink-mobile' exact='true' to="/" activeclassname='active'>Início</NavLink>
                         <NavLink className='navbar-navlink-mobile' to="/cursos" activeclassname='active'>Cursos</NavLink>
                         <NavLink className='navbar-navlink-mobile' to="/contato" activeclassname='active'>Contato</NavLink>
-                        <NavLink className='navbar-navlink-mobile' to="/acesso" activeclassname='active'>Sistema</NavLink>
+                        <NavLink className='navbar-navlink-mobile' to="/acesso" activeclassname='active'>Acessar</NavLink>
                     </div>
                 </div>
             </div>
