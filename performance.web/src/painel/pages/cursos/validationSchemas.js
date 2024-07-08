@@ -15,6 +15,7 @@ export const nivelValidation = yup.object({
 
 export const mainValidation = yup.object().shape({
   titulo: yup.string().required("Campo obrigatório"),
+  descricao: yup.string().required("Campo obrigatório"),
   uf: yup.string().required("Campo obrigatório"),
   municipio: yup.string().required("Campo obrigatório"),
   endereco: yup.string().required("Campo obrigatório"),

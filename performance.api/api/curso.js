@@ -6,6 +6,7 @@ export const criar = async (ctx) => {
   const {
     titulo,
     subtitulo,
+    descricao,
     uf,
     municipio,
     endereco,
@@ -33,6 +34,7 @@ export const criar = async (ctx) => {
       data: {
         titulo,
         subtitulo,
+        descricao,
         uf,
         municipio,
         endereco,
@@ -121,6 +123,7 @@ export const editar = async (ctx) => {
   const {
     titulo,
     subtitulo,
+    descricao,
     uf,
     municipio,
     endereco,
@@ -166,6 +169,7 @@ export const editar = async (ctx) => {
       data: {
         titulo,
         subtitulo,
+        descricao,
         uf,
         municipio,
         endereco,

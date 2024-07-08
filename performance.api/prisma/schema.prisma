@@ -58,6 +58,7 @@ model cursos {
     id          String   @id @default(cuid())
     titulo      String
     subtitulo   String
+    descricao   String?
     uf          String
     municipio   String
     endereco    String

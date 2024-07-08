@@ -141,6 +141,13 @@ const CourseContent = () => {
         ))}
       </div>
 
+      <PInputField
+        name={`descricao`}
+        label="Descrição"
+        type="textarea"
+        className="mb-4"
+      />
+
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
         <PSelect
           name="uf"
