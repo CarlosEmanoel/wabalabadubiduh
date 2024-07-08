@@ -14,6 +14,7 @@ const SubscribeForm = () => {
   const { fetchCep, fetchUfs } = useLocationSearch();
   const [isValidCep, setIsValidCep] = useState(true);
   const [listaLevels, setListaLevels] = useState([])
+
   useEffect(() => {
     if (values.levels) {
       if (values.levels.length > 1) {

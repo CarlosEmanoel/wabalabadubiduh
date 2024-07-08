@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import util from "../../../services/util";
 import { PDefaultModal, PSubmitButton, PSuccessModal } from "../..";
 import { Formik, Form } from "formik";
@@ -7,6 +7,7 @@ import SubscribeForm from "./SubscribeForm";
 import api from "../../../services/api";
 import messages from "../../../services/messages";
 import { useSendMail } from "../../../hooks";
+import { mailTemplate } from "../../../lib/texts/emails/mailTemplate";
 
 const conditionalValidation = (type) =>
   yup.string().when("typeDocument", {
@@ -60,51 +61,80 @@ const validationSchema = yup.object().shape({
 
 const Subscribe = ({ isOpen, onClose, initialValues }) => {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
+  const [subscribe, setSubscribe] = useState({})
 
   const { sendEmail } = useSendMail();
 
-  async function sendResponse(values) {
-    const emailData = {
-      subject: "Confirmação de Inscrição",
-      body: `
-            Olá ${values.nome},
-  
-            Parabéns! Sua inscrição foi realizada com sucesso. Seguem abaixo os detalhes da sua inscrição:
-  
-            Nome: ${values.nome}
-            E-mail: ${values.email}
-            Telefone: ${values.telefone}
-            CNPJ: ${values.cnpj}
-            Unidade Gestora: ${values.unidadegestora}
-            Cargo: ${values.cargo}
-            Endereço: ${values.endereco}
-            Bairro: ${values.bairro}
-            Município: ${values.municipio}
-            Estado: ${values.estado}
-            CEP: ${values.cep}
-  
-            Estamos entusiasmados por tê-lo(a) em nosso curso e esperamos que esta experiência seja enriquecedora e gratificante.
-  
-            Em breve, enviaremos mais informações sobre o curso e outras orientações importantes. Caso tenha alguma dúvida, não hesite em nos contatar através deste e-mail.
-  
-            Agradecemos a sua inscrição!
-  
-            Atenciosamente,
-            Equipe Performance Goiânia
-        `,
-      from: "inscricao@performance.goiania.br",
-      to: values.email,
+  const clientEmailContent = mailTemplate({
+    title: "Obrigado pelo contato!",
+    saudation: `Prezado(a) senhor(a), ${subscribe.nome}`,
+    content: `
+    Espero que este e-mail o(a) encontre bem.
+    Gostaríamos de confirmar que recebemos a sua inscrição para o curso: "${subscribe?.curso?.courseTitle}", oferecido pela Performance.
+    Estamos muito satisfeitos com o seu interesse em aprimorar suas habilidades e conhecimentos através da nossa empresa.
+
+    Abaixo estão alguns detalhes importantes sobre o curso:
+    Data Inicial: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseStart?.toString()) : ''}
+    Data Final: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseEnd?.toString()) : ''}
+    Endereço: ${subscribe?.curso?.courseAddress}
+    Cidade: ${subscribe?.curso?.courseCity}/${subscribe?.curso?.courseUf}
+
+    Estamos à disposição para responder a quaisquer perguntas ou fornecer informações adicionais que você possa precisar. Aguardamos ansiosamente a sua participação e esperamos que este curso seja uma experiência enriquecedora para o seu desenvolvimento profissional.
+
+    Já nos segue nas redes sociais?
+    Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!
+    `,
+    signature: "Atenciosamente,<br>Equipe Performance",
+  })
+
+  const performanceEmailContent = mailTemplate({
+    title: "Contato do Usuário!",
+    saudation: `Atenção, setor administrativo!`,
+    content: `
+    Prezados Administradores,
+
+    Gostaríamos de informá-los que um usuário se inscreveu no curso: ${subscribe?.curso?.courseTitle}.
+    Abaixo estão os detalhes da inscrição efetuada:
+
+    Data de Início e Fim: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseStart?.toString()) : ''} - ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseEnd?.toString()) : ''}
+    Endereço: ${subscribe?.curso?.courseAddress}
+    Cidade: ${subscribe?.curso?.courseCity}/${subscribe?.curso?.courseUf}
+
+    Revisem os dados e tomem as ações necessárias.
+    `,
+    signature: "Obrigado!!",
+  })
+
+  async function sendResponse() {
+    const clientConfirm = {
+      subject: "Confirmação de Inscrição no Curso de Certificação",
+      body: clientEmailContent,
+      from: "atendimento@performance.goiania.br",
+      to: subscribe.email,
     };
-    await sendEmail(emailData);
+
+    const performanceConfirm = {
+      subject: `Nova Inscrição - ${subscribe.curso.courseTitle}`,
+      body: performanceEmailContent,
+      from: "noreply-cursos@performance.goiania.br",
+      to: "contact.wolf.agency@gmail.com",
+    };
+
+    await sendEmail(clientConfirm);
+    await sendEmail(performanceConfirm);
   }
+
+  useEffect(() => {
+    if (subscribe.email) sendResponse()
+  }, [subscribe])
 
   const handleSubmit = useCallback(
     async (values) => {
       try {
         const res = await api.post("/inscricao", values);
         if (res.data.success) {
-          sendResponse(values);
           setIsOpenSuccess(true);
+          setSubscribe(values);
           onClose();
         } else {
           messages.mensagem.erro(

@@ -24,6 +24,7 @@ export default function SuccessModal({
           className="fixed inset-0 w-full bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 select-none"
           role="dialog"
           aria-modal="true"
+          onClick={() => setIsOpen(false)}
         >
           <div className="relative max-w-xl max-h-[85vh] bg-white p-6 rounded-lg shadow-lg overflow-y-auto">
             <div className="flex flex-col items-center">

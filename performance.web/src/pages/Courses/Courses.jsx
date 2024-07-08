@@ -17,7 +17,6 @@ function Courses() {
   const [courses, setCourses] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [initialValuesSubscribe, setInitialValuesSubscribe] = useState({});
-  const [a, setLevels] = useState([])
 
   const fetchCourses = useCallback(async () => {
     try {
@@ -87,7 +86,7 @@ function Courses() {
     fetchCourses();
   }, [fetchCourses]);
 
-  const onClick = useCallback((courseId, levels) => {
+  const onClick = useCallback((course, levels) => {
     setOpenModal(true);
     setInitialValuesSubscribe({
       nome: "",
@@ -103,7 +102,8 @@ function Courses() {
       estado: "",
       cep: "",
       typeDocument: "",
-      cursoId: courseId,
+      curso: course,
+      cursoId: course.id,
       nivelId: "",
       levels
     });
@@ -124,7 +124,7 @@ function Courses() {
               key={course.id}
               buttonTitle="Inscreva-se"
               data={course}
-              onClick={() => onClick(course.id, course.courseLevels)}
+              onClick={() => onClick(course, course.courseLevels)}
             />
           </div>
         ))}

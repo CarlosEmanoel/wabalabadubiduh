@@ -1,4 +1,8 @@
-export const mailTemplate = ({ title, saudation, content, signature, year, href }) => `<html lang="pt-BR">
+import util from "../../../services/util";
+
+const year = util.getCurrentYear();
+
+export const mailTemplate = ({ title, saudation, content, signature, href }) => `<html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,17 +28,17 @@ export const mailTemplate = ({ title, saudation, content, signature, year, href 
             <tr>
                 <td bgcolor="#007FC5" style="padding: 20px 30px 20px 30px;">
                     <div style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px;">
-                        <Link to="https://www.facebook.com/performancegoiania" target="_blank" style="color: #ffffff;">
+                        <a href="https://www.facebook.com/performancegoiania" target="_blank" style="color: #ffffff;">
                             Facebook
-                        </Link>
-                        <Link to="https://www.instagram.com/performancegoiania" target="_blank" style="color: #ffffff; margin-left: 20px; margin-right: 20px;">
+                        </a>
+                        <a href="https://www.instagram.com/performancegoiania" target="_blank" style="color: #ffffff; margin-left: 20px; margin-right: 20px;">
                             Instagram
-                        </Link>
-                        <Link to="https://api.whatsapp.com/send/?phone=5562999428364&text&type=phone_number&app_absent=0" target="_blank" style="color: #ffffff;">
+                        </a>
+                        <a href="https://api.whatsapp.com/send/?phone=5562999428364&text&type=phone_number&app_absent=0" target="_blank" style="color: #ffffff;">
                             Whatsapp
-                        </Link>
+                        </a>
                     </div>
-                    <p style="color: #ffffff; text-align: center; margin: 10px;">&copy; ${year}, <Link to="https://performance.goiania.br/" style="color: #ffffff;">Performance Goiânia™</Link>. Todos
+                    <p style="color: #ffffff; text-align: center; margin: 10px;">&copy; ${year}, <a href="https://performance.goiania.br/" style="color: #ffffff;">Performance Goiânia™</a>. Todos
                         os direitos reservados.</p>
                 </td>
             </tr>

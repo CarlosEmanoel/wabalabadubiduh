@@ -70,7 +70,6 @@ const socialLinks = [
   },
 ];
 
-const year = util.getCurrentYear();
 const fullDateTime = util.getFullDateTime()
 
 function SecondSection() {
@@ -93,7 +92,6 @@ function SecondSection() {
     Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!
     `,
     signature: "Atenciosamente,<br>Equipe Performance Goiânia",
-    year: year
   })
 
   const performanceEmailContent = mailTemplate({
@@ -115,7 +113,6 @@ function SecondSection() {
     Revisem a mensagem e tomem as ações necessárias.
     `,
     signature: "Atenciosamente,<br>Desenvolvimento e Suporte,<br>Performance Goiânia",
-    year: year
   })
 
   async function sendResponse(values) {
@@ -136,12 +133,13 @@ function SecondSection() {
     await sendEmail(performanceConfirm);
   }
 
-
   const onSubmit = async (values, { resetForm }) => {
     try {
       await api.post("/contato", values);
       setContact(values);
+      setTimeout(() => {
       sendResponse(values);
+      }, 150)
       setIsOpenSuccess(true);
       resetForm();
     } catch (error) {
@@ -271,7 +269,7 @@ function SecondSection() {
         message="Agradecemos por entrar em contato conosco. Nossa equipe enviará um e-mail de confirmação em breve e retornará com uma resposta o mais rápido possível."
         isOpen={isOpenSuccess}
         setIsOpen={setIsOpenSuccess}
-        autoCloseTime={8000}
+        autoCloseTime={5000}
       />
     </>
   );
