@@ -10,7 +10,10 @@ import {
 } from "../../components";
 import api from "../../services/api";
 import messages from "../../services/messages";
+import util from "../../services/util";
 import { Link } from "react-router-dom";
+import { useSendMail } from "../../hooks";
+import { mailTemplate } from "../../lib/texts/emails/mailTemplate";
 
 const validationSchema = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
@@ -67,12 +70,78 @@ const socialLinks = [
   },
 ];
 
+const year = util.getCurrentYear();
+const fullDateTime = util.getFullDateTime()
+
 function SecondSection() {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
+  const [contact, setContact] = useState({});
+
+  const { sendEmail } = useSendMail();
+
+  const clientEmailContent = mailTemplate({
+    title: "Obrigado pelo contato!",
+    saudation: `Prezado, ${contact.nome}`,
+    content: `
+    Agradecemos imensamente pelo seu contato. Sua mensagem foi recebida com sucesso e estamos analisando todas as informações fornecidas.
+
+    Nosso compromisso é atender às suas necessidades com a maior brevidade possível. Em breve, entraremos em contato com as respostas e soluções que você precisa.
+
+    Agradecemos novamente pela confiança e por entrar em contato conosco.
+
+    Já nos segue nas redes sociais?
+    Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!
+    `,
+    signature: "Atenciosamente,<br>Equipe Performance Goiânia",
+    year: year
+  })
+
+  const performanceEmailContent = mailTemplate({
+    title: "Contato do Usuário!",
+    saudation: `Atenção, setor administrativo!`,
+    content: `
+    Prezados Administradores,
+
+    Gostaríamos de informá-los que um usuário deixou uma nova mensagem em nosso site. Abaixo estão os detalhes da mensagem recebida:
+
+    Detalhes da Mensagem:
+
+    Usuário: ${contact.nome}
+    Email: ${contact.email}
+    Data e hora: ${fullDateTime}
+    Conteúdo da Mensagem:
+    ${contact.mensagem}
+
+    Revisem a mensagem e tomem as ações necessárias.
+    `,
+    signature: "Atenciosamente,<br>Desenvolvimento e Suporte,<br>Performance Goiânia",
+    year: year
+  })
+
+  async function sendResponse(values) {
+    const clientConfirm = {
+      subject: "Confirmação de Contato",
+      body: clientEmailContent,
+      from: "teste-template@performance.goiania.br",
+      to: values.email,
+    };
+    const performanceConfirm = {
+      subject: `Solicitação de Contato - ${values.assunto}`,
+      body: performanceEmailContent,
+      from: "teste-sem-template@performance.goiania.br",
+      to: "contact.wolf.agency@gmail.com",
+    };
+
+    await sendEmail(clientConfirm);
+    await sendEmail(performanceConfirm);
+  }
+
 
   const onSubmit = async (values, { resetForm }) => {
     try {
       await api.post("/contato", values);
+      setContact(values);
+      sendResponse(values);
       setIsOpenSuccess(true);
       resetForm();
     } catch (error) {
@@ -94,58 +163,61 @@ function SecondSection() {
       >
         {(formik) => (
           <Form>
-            <PSectionContainer>
-              <div className="flex max-h-2xl max-w-4xl justify-center items-center overflow-hidden -mt-40">
-                <div className="flex flex-col sm:flex-row w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl mx-auto transition-all ease-in-out duration-500 shadow-2xl">
-                  <div className="md:flex flex-1 flex-col shadow-lg bg-sky-300 text-blue-900 p-10 min-w-screen transition-all ease-in-out duration-500 sm:rounded-tl-lg sm:rounded-bl-lg hidden">
-                    <div className="p-4">
+            <PSectionContainer full>
+              <div className="flex max-w-full justify-center items-center -mt-40 md:-mt-60">
+                <div className="flex flex-col sm:flex-row w-[75%] mx-auto transition-all ease-in-out duration-500 shadow-2xl z-10">
+                  <div className="w-full justify-center lg:flex flex-1 flex-col shadow-lg bg-secondary_blue text-white p-10 min-w-screen transition-all ease-in-out duration-500 sm:rounded-tl-lg sm:rounded-bl-lg hidden">
+                    <div className="pb-6">
                       <span className="text-lg md:text-xl lg:text-2xl font-bold">
                         Contatos
                       </span>
-                      <p className="text-blue-900 mt-4">
+                      <p className="mt-1 font-semibold">
                         Utilize qualquer um dos meios abaixo para nos contatar:
                       </p>
                     </div>
                     <div>
                       {contacts.map((contact) => (
-                        <>
-                          <div className="flex flex-row gap-4">
-                            <span className="grid h-12 w-12 place-items-center rounded-full bg-blue-900">
+                        <div className="flex flex-row gap-4 mb-6">
+                          <div className="w-[9%] flex justify-center items-center">
+                            <span className="flex justify-center items-center h-14 w-14 place-items-center rounded-full bg-primary_blue">
                               <PFileFetcher
                                 width={40}
                                 height={40}
                                 fileName={contact.icon}
                                 alt={contact.title}
+                                className={"brightness-200 saturate-0 mix-blend-plus-lighter"}
                               />
                             </span>
-                            <div>
-                              <span className="font-bold">{contact.title}</span>
-                              <p>{contact.text}</p>
-                            </div>
                           </div>
-                        </>
+                          <div className="w-[89%]">
+                            <span className="font-bold">{contact.title}</span>
+                            <p className="font-thin">{contact.text}</p>
+                          </div>
+                        </div>
                       ))}
                     </div>
-                    <div className="border-t-2 border-blue-400 mt-6">
+                    <div className="border-t-2 border-white mt-6">
                       <div className="font-bold my-4">Nossas Redes Sociais</div>
                       <div className="flex flex-row gap-4">
                         {socialLinks.map((social) => (
                           <Link
-                            className="grid h-12 w-12 place-items-center rounded-full bg-blue-900"
+                            className="grid h-12 w-12 place-items-center rounded-full bg-primary_blue"
                             to={social.link}
+                            target="_blank"
                           >
                             <PFileFetcher
                               width={40}
                               height={40}
                               fileName={social.icon}
                               alt={social.title}
+                              className={"brightness-200 saturate-0 mix-blend-plus-lighter"}
                             />
                           </Link>
                         ))}
                       </div>
                     </div>
                   </div>
-                  <div className="flex sm:flex flex-1 flex-col items-center justify-center shadow-lg bg-white p-4 min-w-screen transition-all ease-in-out duration-500 rounded-lg md:rounded-br-lg md:rounded-tr-lg md:rounded-none md:py-12">
+                  <div className="flex px-5 w-[75vw] sm:flex rounded-lg lg:rounded-l-none flex-1 flex-col items-center justify-center shadow-lg bg-white p-4 min-w-screen transition-all ease-in-out duration-500 md:py-12">
                     <div className="py-2 flex flex-col gap-4">
                       <span className="mb-8 text-lg md:text-xl lg:text-2xl font-bold text-center transition-all ease-in-out duration-500">
                         Envie sua mensagem
@@ -182,7 +254,7 @@ function SecondSection() {
                     />
                     <PSubmitButton
                       disabled={!formik.isValid || formik.isSubmitting}
-                      onClick={() => {}}
+                      onClick={() => { }}
                       buttonTitle={
                         formik.isSubmitting ? "Carregando..." : "Enviar"
                       }

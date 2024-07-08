@@ -3,7 +3,7 @@ import { PSectionContainer } from "../../components";
 
 export default function FirstSection() {
   return (
-    <PSectionContainer className="min-h-[70vh] bg-[url('https://expansaodigital.tec.br/performance.api/files/stock_lecture_from_behind')] bg-cover bg-center">
+    <PSectionContainer className="min-h-[70vh] bg-primary_blue bg-cover bg-center">
       <div className="justify-center text-white">
         <div className="w-full lg:w-1/2">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center lg:text-left">
