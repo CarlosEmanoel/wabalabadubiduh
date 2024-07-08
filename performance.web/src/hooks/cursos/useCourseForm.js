@@ -71,6 +71,7 @@ const useCourseFormHook = () => {
   const [formValues, setFormValues] = useState({
     titulo: "",
     subtitulo: "",
+    descricao: "",
     uf: "",
     municipio: "",
     endereco: "",

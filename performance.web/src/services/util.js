@@ -215,7 +215,7 @@ const stopLoading = () => {
 let sidebarVisible = false;
 
 const toggleSidebar = (value) => {
-  sidebarVisible = typeof value !== 'undefined' ? value : !sidebarVisible;
+  sidebarVisible = typeof value !== "undefined" ? value : !sidebarVisible;
   return sidebarVisible;
 };
 
@@ -271,11 +271,26 @@ const util = {
   startLoading: startLoading,
   stopLoading: stopLoading,
 
+  calculateDaysBetweenDates: (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    const diff = Math.abs(end.getTime() - start.getTime());
+    const days = Math.round(diff / oneDay);
+
+    return days;
+  },
+
   /* Função de busca para a data e hora atual */
   getCurrentDate: function () {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Janeiro é 0!
     const year = today.getFullYear();
 
     return `${day}/${month}/${year}`;
@@ -283,9 +298,9 @@ const util = {
 
   getCurrentTime: function () {
     const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
 
     return `${hours}:${minutes}:${seconds}`;
   },
