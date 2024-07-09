@@ -16,6 +16,7 @@ export const subClientText = (subscribe) => mailTemplate({
     Duração: ${subscribe.curso ? util.calculateDaysBetweenDates(subscribe?.curso?.courseStart, subscribe?.curso?.courseEnd) : ''}
     Endereço: ${subscribe?.curso?.courseAddress}
     Cidade: ${subscribe?.curso?.courseCity}/${subscribe?.curso?.courseUf}
+    Data e hora: ${fullDateTime}
 
     Estamos à disposição para responder a quaisquer perguntas ou fornecer informações adicionais que você possa precisar. Aguardamos ansiosamente a sua participação e esperamos que este curso seja uma experiência enriquecedora para o seu desenvolvimento profissional.
 
@@ -60,6 +61,7 @@ export const contClientText = (contato) => mailTemplate({
         * (62) 99942-8364
         * (62) 99832-6112
     Ou por nosso e-mail: atendimento@performance.goiania.br 
+    Data e hora: ${fullDateTime}
 
     Estamos comprometidos em oferecer a melhor experiência de aprendizado e estamos à disposição para ajudá-lo(a) a alcançar seus objetivos.
 
@@ -89,16 +91,15 @@ export const contPerfText = (contato) => mailTemplate({
 
 /* REDEFINIÇÃO DE SENHA - TOKEN */
 export const passTokenText = (token) => mailTemplate({
-    title: "Contato do Usuário!",
+    title: "Redefinição de Senha - Performance!",
     saudation: `Olá!`,
-    content: `Assunto: Redefinição de Senha - Performance
-
-    Prezado(a),
+    content: `Prezado(a),
 
     Recebemos uma solicitação para redefinir a senha associada à sua conta na Performance.
     Para garantir a segurança de sua conta, por favor, utilize o token abaixo para definir uma nova senha.
 
     TOKEN: ${token}
+    Data e hora: ${fullDateTime}
 
     Este link é válido por 24 horas a partir do momento do envio desta mensagem. Caso o link expire, será necessário solicitar um novo.
 

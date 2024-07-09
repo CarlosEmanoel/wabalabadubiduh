@@ -72,14 +72,14 @@ const socialLinks = [
 function SecondSection() {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
   const [contact, setContact] = useState({});
-  console.log(contact)
+
   const { sendEmail } = useSendMail();
 
   async function sendResponse(values) {
     const clientConfirm = {
       subject: "Confirmação de Contato",
       body: contClientText(contact),
-      from: "atendimento@performance.goiania.br",
+      from: "contato.performance@performance.goiania.br",
       to: values.email,
     };
 
@@ -99,7 +99,6 @@ function SecondSection() {
       await api.post("/contato", values);
       setContact(values);
       setTimeout(() => {
-        console.log("ssssss", values)
         sendResponse(values);
       }, 150)
       setIsOpenSuccess(true);
