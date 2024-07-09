@@ -7,7 +7,7 @@ import SubscribeForm from "./SubscribeForm";
 import api from "../../../services/api";
 import messages from "../../../services/messages";
 import { useSendMail } from "../../../hooks";
-import { mailTemplate } from "../../../lib/texts/emails/mailTemplate";
+import { subClientText, subPerfText } from "../../../lib/texts/emails/mailTexts";
 
 const conditionalValidation = (type) =>
   yup.string().when("typeDocument", {
@@ -65,57 +65,17 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
 
   const { sendEmail } = useSendMail();
 
-  const clientEmailContent = mailTemplate({
-    title: "Obrigado pelo contato!",
-    saudation: `Prezado(a) senhor(a), ${subscribe.nome}`,
-    content: `
-    Espero que este e-mail o(a) encontre bem.
-    Gostaríamos de confirmar que recebemos a sua inscrição para o curso: "${subscribe?.curso?.courseTitle}", oferecido pela Performance.
-    Estamos muito satisfeitos com o seu interesse em aprimorar suas habilidades e conhecimentos através da nossa empresa.
-
-    Abaixo estão alguns detalhes importantes sobre o curso:
-    Data Inicial: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseStart?.toString()) : ''}
-    Data Final: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseEnd?.toString()) : ''}
-    Endereço: ${subscribe?.curso?.courseAddress}
-    Cidade: ${subscribe?.curso?.courseCity}/${subscribe?.curso?.courseUf}
-
-    Estamos à disposição para responder a quaisquer perguntas ou fornecer informações adicionais que você possa precisar. Aguardamos ansiosamente a sua participação e esperamos que este curso seja uma experiência enriquecedora para o seu desenvolvimento profissional.
-
-    Já nos segue nas redes sociais?
-    Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!
-    `,
-    signature: "Atenciosamente,<br>Equipe Performance",
-  })
-
-  const performanceEmailContent = mailTemplate({
-    title: "Contato do Usuário!",
-    saudation: `Atenção, setor administrativo!`,
-    content: `
-    Prezados Administradores,
-
-    Gostaríamos de informá-los que um usuário se inscreveu no curso: ${subscribe?.curso?.courseTitle}.
-    Abaixo estão os detalhes da inscrição efetuada:
-
-    Data de Início e Fim: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseStart?.toString()) : ''} - ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseEnd?.toString()) : ''}
-    Endereço: ${subscribe?.curso?.courseAddress}
-    Cidade: ${subscribe?.curso?.courseCity}/${subscribe?.curso?.courseUf}
-
-    Revisem os dados e tomem as ações necessárias.
-    `,
-    signature: "Obrigado!!",
-  })
-
   async function sendResponse() {
     const clientConfirm = {
       subject: "Confirmação de Inscrição no Curso de Certificação",
-      body: clientEmailContent,
+      body: subClientText(subscribe),
       from: "atendimento@performance.goiania.br",
       to: subscribe.email,
     };
 
     const performanceConfirm = {
       subject: `Nova Inscrição - ${subscribe.curso.courseTitle}`,
-      body: performanceEmailContent,
+      body: subPerfText(subscribe),
       from: "noreply-cursos@performance.goiania.br",
       to: "contact.wolf.agency@gmail.com",
     };
@@ -164,9 +124,7 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
               isOpen={isOpen}
               onClose={onClose}
               title={"Inscrição"}
-              width={
-                "w-2/3"
-              } /* lembrar de mudar isso e deixar o modal mais responsivo */
+              width={"w-2/3"} /* lembrar de mudar isso e deixar o modal mais responsivo */
               footer={
                 <PSubmitButton
                   disabled={!formik.isValid || formik.isSubmitting}
@@ -195,3 +153,45 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
 };
 
 export default Subscribe;
+
+/* const clientEmailContent = mailTemplate({
+  title: "Obrigado pelo contato!",
+  saudation: `Prezado(a) senhor(a), ${subscribe.nome}`,
+  content: `
+  Espero que este e-mail o(a) encontre bem.
+  Gostaríamos de confirmar que recebemos a sua inscrição para o curso: "${subscribe?.curso?.courseTitle}", oferecido pela Performance.
+  Estamos muito satisfeitos com o seu interesse em aprimorar suas habilidades e conhecimentos através da nossa empresa.
+
+  Abaixo estão alguns detalhes importantes sobre o curso:
+  Data Inicial: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseStart?.toString()) : ''}
+  Data Final: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseEnd?.toString()) : ''}
+  Endereço: ${subscribe?.curso?.courseAddress}
+  Cidade: ${subscribe?.curso?.courseCity}/${subscribe?.curso?.courseUf}
+
+  Estamos à disposição para responder a quaisquer perguntas ou fornecer informações adicionais que você possa precisar. Aguardamos ansiosamente a sua participação e esperamos que este curso seja uma experiência enriquecedora para o seu desenvolvimento profissional.
+
+  Já nos segue nas redes sociais?
+  Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!
+  `,
+  signature: "Atenciosamente,<br>Equipe Performance",
+})
+
+const performanceEmailContent = mailTemplate({
+  title: "Contato do Usuário!",
+  saudation: `Atenção, setor administrativo!`,
+  content: `
+  Prezados Administradores,
+
+  Gostaríamos de informá-los que um usuário se inscreveu no curso: "${subscribe?.curso?.courseTitle}".
+  Abaixo estão os detalhes da inscrição efetuada:
+
+  Nome: ${subscribe.nome}
+  Documento: ${subscribe.cpf || subscribe.cnpj}
+  Data de Início e Fim: ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseStart?.toString()) : ''} - ${subscribe.curso ? util.getDateView(subscribe?.curso?.courseEnd?.toString()) : ''}
+  Endereço: ${subscribe?.curso?.courseAddress}
+  Cidade: ${subscribe?.curso?.courseCity}/${subscribe?.curso?.courseUf}
+
+  Revisem os dados e tomem as ações necessárias.
+  `,
+  signature: "Obrigado!!",
+}) */

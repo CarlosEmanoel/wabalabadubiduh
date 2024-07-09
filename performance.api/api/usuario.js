@@ -256,8 +256,21 @@ export const requestRenewToken = async (ctx) => {
 
     ctx.request.body = {
       subject: "Redefinição de Senha",
-      body: `Você solicitou uma redefinição de senha. Use este token para redefinir sua senha: ${token}`,
-      from: "comunicados@performance.goiania.br",
+      body: `Prezado(a),
+
+      Recebemos uma solicitação para redefinir a senha associada à sua conta na Performance.
+      Para garantir a segurança de sua conta, por favor, utilize o token abaixo para definir uma nova senha.
+
+      TOKEN: ${token}
+
+      Este token é válido por uma hora à partir do momento do envio desta mensagem.
+      Caso o token expire, será necessário solicitar um novo.
+
+      Se você não solicitou a redefinição de senha, por favor, ignore este e-mail.
+      Sua senha atual permanecerá inalterada e sua conta continuará segura.
+
+      Para sua segurança, recomendamos que escolha uma senha forte, que combine letras maiúsculas, minúsculas, números e caracteres especiais.`,
+      from: "noreply-autenticacao@performance.goiania.br",
       to: email,
     };
 

@@ -10,10 +10,9 @@ import {
 } from "../../components";
 import api from "../../services/api";
 import messages from "../../services/messages";
-import util from "../../services/util";
 import { Link } from "react-router-dom";
 import { useSendMail } from "../../hooks";
-import { mailTemplate } from "../../lib/texts/emails/mailTemplate";
+import { contClientText, contPerfText } from "../../lib/texts/emails/mailTexts";
 
 const validationSchema = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
@@ -70,62 +69,24 @@ const socialLinks = [
   },
 ];
 
-const fullDateTime = util.getFullDateTime()
-
 function SecondSection() {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
   const [contact, setContact] = useState({});
-
+  console.log(contact)
   const { sendEmail } = useSendMail();
-
-  const clientEmailContent = mailTemplate({
-    title: "Obrigado pelo contato!",
-    saudation: `Prezado, ${contact.nome}`,
-    content: `
-    Agradecemos imensamente pelo seu contato. Sua mensagem foi recebida com sucesso e estamos analisando todas as informações fornecidas.
-
-    Nosso compromisso é atender às suas necessidades com a maior brevidade possível. Em breve, entraremos em contato com as respostas e soluções que você precisa.
-
-    Agradecemos novamente pela confiança e por entrar em contato conosco.
-
-    Já nos segue nas redes sociais?
-    Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!
-    `,
-    signature: "Atenciosamente,<br>Equipe Performance Goiânia",
-  })
-
-  const performanceEmailContent = mailTemplate({
-    title: "Contato do Usuário!",
-    saudation: `Atenção, setor administrativo!`,
-    content: `
-    Prezados Administradores,
-
-    Gostaríamos de informá-los que um usuário deixou uma nova mensagem em nosso site. Abaixo estão os detalhes da mensagem recebida:
-
-    Detalhes da Mensagem:
-
-    Usuário: ${contact.nome}
-    Email: ${contact.email}
-    Data e hora: ${fullDateTime}
-    Conteúdo da Mensagem:
-    ${contact.mensagem}
-
-    Revisem a mensagem e tomem as ações necessárias.
-    `,
-    signature: "Atenciosamente,<br>Desenvolvimento e Suporte,<br>Performance Goiânia",
-  })
 
   async function sendResponse(values) {
     const clientConfirm = {
       subject: "Confirmação de Contato",
-      body: clientEmailContent,
-      from: "teste-template@performance.goiania.br",
+      body: contClientText(contact),
+      from: "atendimento@performance.goiania.br",
       to: values.email,
     };
+
     const performanceConfirm = {
       subject: `Solicitação de Contato - ${values.assunto}`,
-      body: performanceEmailContent,
-      from: "teste-sem-template@performance.goiania.br",
+      body: contPerfText(contact),
+      from: "noreply-contato@performance.goiania.br",
       to: "contact.wolf.agency@gmail.com",
     };
 
@@ -138,7 +99,8 @@ function SecondSection() {
       await api.post("/contato", values);
       setContact(values);
       setTimeout(() => {
-      sendResponse(values);
+        console.log("ssssss", values)
+        sendResponse(values);
       }, 150)
       setIsOpenSuccess(true);
       resetForm();

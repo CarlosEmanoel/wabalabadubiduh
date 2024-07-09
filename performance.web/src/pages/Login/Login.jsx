@@ -29,11 +29,9 @@ const initialValues = {
 
 function Login() {
   const navigate = useNavigate();
-  const [erro, setErro] = useState("");
   const [passwordModal, setPasswordModal] = useState(false);
 
   const onSubmit = async (values) => {
-    setErro("");
 
     try {
       const response = await api.post("/login", null, {

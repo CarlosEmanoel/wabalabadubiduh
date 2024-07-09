@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 
 const PriceBadge = ({ price, currency, oldPrice, color }) => {
     function formatCurrency(value) {
-        if (typeof value !== 'number') {
-            throw new Error('O valor deve ser um número');
-        }
-        return value.toFixed(2).replace('.', ',');
+        const stringValue = value;
+        const numericValue = parseFloat(stringValue);
+        return numericValue.toFixed(2).replace('.', ',');
     }
 
     return (

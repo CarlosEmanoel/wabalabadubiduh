@@ -9,7 +9,6 @@ import { PSuccessModal } from "../..";
 const ResetPassword = ({ onSuccess }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
-  const [erro, setErro] = useState("");
   const [timer, setTimer] = useState(0);
   const [successModal, setSuccessModal] = useState(false);
 
@@ -43,7 +42,6 @@ const ResetPassword = ({ onSuccess }) => {
   };
 
   const verifyToken = async (token) => {
-    setErro("");
     try {
       await api.post(`/verify-token`, { email, token });
       setStep(3);
