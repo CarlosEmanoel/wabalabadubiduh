@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import { PInputField, PInputFloatingLabel, PSubmitButton } from "../..";
+import { PInputField, PSubmitButton } from "../..";
 
 const validationSchema = yup.object().shape({
   password: yup

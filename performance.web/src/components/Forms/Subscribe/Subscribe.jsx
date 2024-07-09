@@ -69,9 +69,9 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
 
   async function sendResponse() {
     const clientConfirm = {
-      subject: "Confirmação de Inscrição no Curso de Certificação",
+      subject: `Confirmação de Inscrição - ${subscribe.curso.courseTitle}`,
       body: subClientText(subscribe),
-      from: "atendimento@performance.goiania.br",
+      from: "cursos.performance@performance.goiania.br",
       to: subscribe.email,
     };
 
@@ -87,16 +87,16 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
   }
 
   useEffect(() => {
-    if (subscribe.email) sendResponse();
-  }, [subscribe]);
+    if (isOpenSuccess) sendResponse();
+  }, [isOpenSuccess]);
 
   const handleSubmit = useCallback(
     async (values) => {
       try {
         const res = await api.post("/inscricao", values);
         if (res.data.success) {
-          setIsOpenSuccess(true);
           setSubscribe(values);
+          setIsOpenSuccess(true);
           onClose();
         } else {
           messages.mensagem.erro(
@@ -144,7 +144,7 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
               message="Obrigado por se inscrever. Você receberá um e-mail com os detalhes da sua inscrição em breve. Nossa equipe está à disposição para qualquer dúvida."
               isOpen={isOpenSuccess}
               setIsOpen={setIsOpenSuccess}
-              autoCloseTime={8000}
+              autoCloseTime={3000}
             />
           </Form>
         </>

@@ -5,6 +5,8 @@ import StepThree from "./StepThree";
 import api from "../../../services/api";
 import messages from "../../../services/messages";
 import { PSuccessModal } from "../..";
+import { useSendMail } from "../../../hooks";
+import { passTokenText } from "../../../lib/texts/emails/mailTexts";
 
 const ResetPassword = ({ onSuccess }) => {
   const [step, setStep] = useState(1);
@@ -12,12 +14,30 @@ const ResetPassword = ({ onSuccess }) => {
   const [timer, setTimer] = useState(0);
   const [successModal, setSuccessModal] = useState(false);
 
+  const { sendEmail } = useSendMail();
+
+  async function sendResponse(email, token) {
+    const clientConfirm = {
+      subject: "Redefinição de Senha",
+      body: passTokenText(token),
+      from: "auth.performance@performance.goiania.br",
+      to: email,
+    };
+
+    await sendEmail(clientConfirm);
+  }
+
   const requestToken = async (values) => {
     if (!email) setEmail(values.email);
     try {
-      await api.post(`/forgot-password`, { email: values.email });
-      setStep(2);
+      const response = await api.post(`/forgot-password`, { email: values.email });
+
+      const { token } = response.data;
       setTimer(180);
+      setStep(2);
+
+      sendResponse(values.email, token)
+
       const interval = setInterval(() => {
         setTimer((prev) => {
           if (prev <= 1) {
@@ -94,19 +114,17 @@ const ResetPassword = ({ onSuccess }) => {
           </svg>
         ) : (
           <div
-            className={`w-6 h-6 flex items-center justify-center rounded-full border ${
-              currentStep === stepNumber
-                ? "border-blue-600 text-blue-600"
-                : "border-gray-400 text-gray-400"
-            }`}
+            className={`w-6 h-6 flex items-center justify-center rounded-full border ${currentStep === stepNumber
+              ? "border-blue-600 text-blue-600"
+              : "border-gray-400 text-gray-400"
+              }`}
           >
             {stepNumber}
           </div>
         )}
         <span
-          className={`ml-2 ${
-            currentStep >= stepNumber ? "text-blue-600" : "text-gray-400"
-          }`}
+          className={`ml-2 ${currentStep >= stepNumber ? "text-blue-600" : "text-gray-400"
+            }`}
         >
           <span className="hidden sm:block md:hidden">{shortLabel}</span>
           <span className="hidden md:block">{label}</span>
@@ -140,7 +158,7 @@ const ResetPassword = ({ onSuccess }) => {
 
       {step === 1 && <StepOne onSubmit={requestToken} initialEmail={email} />}
       {step === 2 && (
-        <StepTwo verifyToken={verifyToken} requestToken={handleRequestToken} />
+        <StepTwo timer={timer} verifyToken={verifyToken} requestToken={handleRequestToken} />
       )}
       {step === 3 && <StepThree onSubmit={handleSubmitPassword} />}
       <PSuccessModal

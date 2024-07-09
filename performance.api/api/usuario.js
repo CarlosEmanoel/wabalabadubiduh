@@ -254,37 +254,11 @@ export const requestRenewToken = async (ctx) => {
       },
     });
 
-    ctx.request.body = {
-      subject: "Redefinição de Senha",
-      body: `Prezado(a),
-
-      Recebemos uma solicitação para redefinir a senha associada à sua conta na Performance.
-      Para garantir a segurança de sua conta, por favor, utilize o token abaixo para definir uma nova senha.
-
-      TOKEN: ${token}
-
-      Este token é válido por uma hora à partir do momento do envio desta mensagem.
-      Caso o token expire, será necessário solicitar um novo.
-
-      Se você não solicitou a redefinição de senha, por favor, ignore este e-mail.
-      Sua senha atual permanecerá inalterada e sua conta continuará segura.
-
-      Para sua segurança, recomendamos que escolha uma senha forte, que combine letras maiúsculas, minúsculas, números e caracteres especiais.`,
-      from: "noreply-autenticacao@performance.goiania.br",
-      to: email,
+    ctx.status = 200;
+    ctx.body = {
+      message: "Token de redefinição gerado com sucesso",
+      token,
     };
-
-    try {
-      await sendMailMiddleware(ctx, async () => {});
-      ctx.status = 200;
-      ctx.body = { message: "Token de redefinição enviado para o e-mail" };
-    } catch (emailError) {
-      ctx.status = 500;
-      ctx.body = {
-        error:
-          "Erro ao enviar o e-mail. Por favor, tente novamente mais tarde.",
-      };
-    }
   } catch (dbError) {
     ctx.status = 500;
     ctx.body = {

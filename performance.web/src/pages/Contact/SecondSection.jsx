@@ -77,14 +77,14 @@ function SecondSection() {
   async function sendResponse(values) {
     const clientConfirm = {
       subject: "Confirmação de Contato",
-      body: contClientText(contact),
-      from: "atendimento@performance.goiania.br",
+      body: contClientText(values),
+      from: "contato.performance@performance.goiania.br",
       to: values.email,
     };
 
     const performanceConfirm = {
       subject: `Solicitação de Contato - ${values.assunto}`,
-      body: contPerfText(contact),
+      body: contPerfText(values),
       from: "noreply-contato@performance.goiania.br",
       to: "contact.wolf.agency@gmail.com",
     };
