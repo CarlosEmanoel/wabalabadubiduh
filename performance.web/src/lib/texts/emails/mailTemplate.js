@@ -35,7 +35,6 @@ export const mailTemplate = ({ title, saudation, content, signature, href }) => 
                             Instagram
                         </a>
                         <a href="https://api.whatsapp.com/send/?phone=5562999428364&text&type=phone_number&app_absent=0" target="_blank" style="color: #ffffff;">
-                        <img src="https://performance.goiania.br/files/public/images/ic_app_mail_filled.svg"/>
                             Whatsapp
                         </a>
                     </div>

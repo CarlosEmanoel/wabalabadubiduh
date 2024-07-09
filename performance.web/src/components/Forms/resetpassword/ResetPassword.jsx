@@ -20,7 +20,7 @@ const ResetPassword = ({ onSuccess }) => {
     const clientConfirm = {
       subject: "Redefinição de Senha",
       body: passTokenText(token),
-      from: "autenticacao.performance@performance.goiania.br",
+      from: "auth.performance@performance.goiania.br",
       to: email,
     };
 
@@ -33,8 +33,8 @@ const ResetPassword = ({ onSuccess }) => {
       const response = await api.post(`/forgot-password`, { email: values.email });
 
       const { token } = response.data;
-      setStep(2);
       setTimer(180);
+      setStep(2);
 
       sendResponse(values.email, token)
 
@@ -158,7 +158,7 @@ const ResetPassword = ({ onSuccess }) => {
 
       {step === 1 && <StepOne onSubmit={requestToken} initialEmail={email} />}
       {step === 2 && (
-        <StepTwo verifyToken={verifyToken} requestToken={handleRequestToken} />
+        <StepTwo timer={timer} verifyToken={verifyToken} requestToken={handleRequestToken} />
       )}
       {step === 3 && <StepThree onSubmit={handleSubmitPassword} />}
       <PSuccessModal

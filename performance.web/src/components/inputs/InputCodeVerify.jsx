@@ -9,11 +9,12 @@ export default function InputCodeVerify({
   onResend,
   resetTimer,
   label,
+  timer,
+  setTimer = () => {}
 }) {
   const [code, setCode] = useState(Array(blocks).fill(""));
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [timer, setTimer] = useState(0);
 
   useEffect(() => {
     if (timer > 0) {

@@ -49,7 +49,7 @@ export default function CourseCard({ data = {}, buttonTitle = "", onClick = () =
         >
             <div
                 onClick={() => dropdownClick(0)}
-                className="relative min-w-full overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40 group-data-[dropdown-value='1']:blur-sm group-data-[dropdown-value='2']:blur-sm"
+                className="relative min-w-full min-h-[50vh] overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40 group-data-[dropdown-value='1']:blur-sm group-data-[dropdown-value='2']:blur-sm"
             >
                 <PFileFetcher fileName={`curso-${data.id}`} className="max-h-[50vh]" />
                 <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60" />

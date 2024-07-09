@@ -4,6 +4,7 @@ import {
   PSectionContainer,
   PSubmitButton,
 } from "../../../components";
+import { useResponsive } from "../../../hooks";
 import "./FirstSection.css";
 
 const FirstSection = () => {
@@ -42,11 +43,10 @@ const FirstSection = () => {
       buttonTitle: "Acessar Plataforma",
     },
   ];
-
   return (
     <>
-      <div className="header-first-section items-center justify-center flex bg-cover bg-primary_blue text-white">
-        <div className="w-full 2xl:w-1/2 text-left 2xl:px-48 xl:px-48 md:px-48 px-16 mx-auto mb-6">
+      <div className="header-first-section items-center justify-start flex bg-cover bg-primary_blue text-white w-full">
+        <div className="xl:w-2/3 2xl:w-2/4 text-left px-16 mb-6">
           <p className="text-xl lg:text-3xl font-bold pb-4">
             Bem-vindo à Performance
           </p>
