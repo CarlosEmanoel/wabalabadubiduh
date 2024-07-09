@@ -7,7 +7,7 @@ const Modal = ({
   onClose,
   title = null,
   footer = null,
-  width = null,
+  className = "",
 }) => {
   const handleKeyDown = useCallback(
     (event) => {
@@ -41,9 +41,7 @@ const Modal = ({
       aria-modal="true"
     >
       <div
-        className={`relative max-w-4xl max-h-[85vh] m-4 flex flex-col rounded-lg shadow-lg bg-white overflow-y-auto ${
-          width ? width : "w-auto"
-        }`}
+        className={`${className} relative max-w-4xl max-h-[85vh] m-4 flex flex-col rounded-lg shadow-lg bg-white overflow-y-auto w-auto`}
       >
         {title && (
           <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-gray-700 py-2 text-center border-b-2 border-gray-200 rounded-t-lg">

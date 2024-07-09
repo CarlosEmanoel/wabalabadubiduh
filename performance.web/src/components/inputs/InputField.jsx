@@ -76,7 +76,7 @@ const InputField = ({
     placeholder,
     value: getNestedValue(values, name) || "",
     className: `block w-full px-2 py-2 border-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10 appearance-none rounded-md shadow-sm group-data-[show-error=true]:focus:outline-red-500 
-    focus:outline-blue-500 focus:border-blue-500 disabled:bg-gray-200 disabled:text-gray-500 group-data-[show-icon=true]:ps-6 ${
+    focus:outline-blue-500 focus:border-blue-500 disabled:border-dashed disabled:bg-gray-200 disabled:text-gray-400 group-data-[show-icon=true]:ps-6 ${
       type === "password" ? "pe-7" : "group-data-[show-icon=true]:pe-1"
     }`,
     disabled,
@@ -97,7 +97,9 @@ const InputField = ({
     >
       <label
         htmlFor={name}
-        className="text-sm font-bold group-data-[show-error=true]:text-red-600 text-gray-600  flex items-center"
+        className={`text-sm font-bold group-data-[show-error=true]:text-red-600 ${
+          disabled ? "text-gray-400" : "text-gray-600"
+        }  flex items-center`}
       >
         {label}
         {optional && (

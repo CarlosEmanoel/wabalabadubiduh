@@ -7,7 +7,10 @@ import SubscribeForm from "./SubscribeForm";
 import api from "../../../services/api";
 import messages from "../../../services/messages";
 import { useSendMail } from "../../../hooks";
-import { subClientText, subPerfText } from "../../../lib/texts/emails/mailTexts";
+import {
+  subClientText,
+  subPerfText,
+} from "../../../lib/texts/emails/mailTexts";
 
 const conditionalValidation = (type) =>
   yup.string().when("typeDocument", {
@@ -56,12 +59,11 @@ const validationSchema = yup.object().shape({
   municipio: conditionalValidation("2"),
   endereco: conditionalValidation("2"),
   bairro: conditionalValidation("2"),
-
 });
 
 const Subscribe = ({ isOpen, onClose, initialValues }) => {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
-  const [subscribe, setSubscribe] = useState({})
+  const [subscribe, setSubscribe] = useState({});
 
   const { sendEmail } = useSendMail();
 
@@ -85,8 +87,8 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
   }
 
   useEffect(() => {
-    if (subscribe.email) sendResponse()
-  }, [subscribe])
+    if (subscribe.email) sendResponse();
+  }, [subscribe]);
 
   const handleSubmit = useCallback(
     async (values) => {
@@ -124,7 +126,6 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
               isOpen={isOpen}
               onClose={onClose}
               title={"Inscrição"}
-              width={"w-2/3"} /* lembrar de mudar isso e deixar o modal mais responsivo */
               footer={
                 <PSubmitButton
                   disabled={!formik.isValid || formik.isSubmitting}

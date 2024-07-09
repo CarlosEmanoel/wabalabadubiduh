@@ -13,21 +13,22 @@ const SubscribeForm = () => {
     useFormikContext();
   const { fetchCep, fetchUfs } = useLocationSearch();
   const [isValidCep, setIsValidCep] = useState(true);
-  const [listaLevels, setListaLevels] = useState([])
+  const [listaLevels, setListaLevels] = useState([]);
 
   useEffect(() => {
     if (values.levels) {
       if (values.levels.length > 1) {
-        const listaTemporaria = values.levels.map((level) => (
-          { value: level.id, label: level.tabTitle }
-        ))
-        setListaLevels(listaTemporaria)
-        console.log('lista, ', listaTemporaria)
+        const listaTemporaria = values.levels.map((level) => ({
+          value: level.id,
+          label: level.tabTitle,
+        }));
+        setListaLevels(listaTemporaria);
+        console.log("lista, ", listaTemporaria);
       } else {
-        setFieldValue("nivelId", values.levels[0].id)
+        setFieldValue("nivelId", values.levels[0].id);
       }
     }
-  }, [values.levels])
+  }, [values.levels]);
 
   useEffect(() => {
     if (values.cep && values.cep.length === 10) {
@@ -89,7 +90,7 @@ const SubscribeForm = () => {
         name="nome"
         label="Nome Completo"
         placeholder="Digite seu nome completo"
-        className={`${listaLevels.length > 1 ? "lg:w-[57%] xl:w-[69%]" : "lg:w-[49%] xl:w-full"}`}
+        className={`${listaLevels.length > 1 ? "lg:w-[57%] xl:w-[69%]" : ""}`}
       />
       <PInputField
         name="cargo"
@@ -115,20 +116,24 @@ const SubscribeForm = () => {
 
       <PSelect
         name="typeDocument"
-        label="Tipo do Documento"
+        label="Documento Para Emissão da Nota Fiscal"
         lista={typesDocument}
         required
         onChange={handleTypeChange}
-        className="md:w-[33%]"
+        className={`${
+          values.typeDocument === "1"
+            ? "md:w-[49%] xl:w-[49.5%]"
+            : "md:w-[40%] lg:w-[33%] xl:w-[32.4%]"
+        }`}
       />
 
       {values.typeDocument === "1" && (
         <PInputField
           name="cnpj"
           type="cnpj"
-          label="CNPJ Para Emissão da Nota Fiscal"
+          label="CNPJ"
           placeholder="Digite o CNPJ"
-          className="md:w-[66%]"
+          className="md:w-[49%] xl:w-[49.5%]"
         />
       )}
 
@@ -139,7 +144,7 @@ const SubscribeForm = () => {
             type="cpf"
             label="Seu CPF"
             placeholder="Digite seu CPF"
-            className="md:w-[32.5%]"
+            className="md:w-[28%] lg:w-[31.5%] xl:w-[32.4%]"
           />
 
           <PInputField
@@ -150,7 +155,7 @@ const SubscribeForm = () => {
             validate={
               !isValidCep && touched.cep && !errors.cep ? "CEP inválido" : ""
             }
-            className="md:w-[32.5%]"
+            className="md:w-[28%] lg:w-[31.5%] xl:w-[32.4%]"
           />
         </>
       )}
@@ -161,7 +166,7 @@ const SubscribeForm = () => {
             label="Seu Estado"
             placeholder="Digite seu estado"
             disabled
-            className="md:w-full lg:w-[49%] xl:w-[32.4%]"
+            className="lg:w-[49%] xl:w-[32.4%]"
           />
 
           <PInputField
@@ -169,20 +174,21 @@ const SubscribeForm = () => {
             label="Seu Município"
             placeholder="Digite seu município"
             disabled
-            className="md:w-full lg:w-[49%] xl:w-[32.4%]"
+            className="lg:w-[49%] xl:w-[32.4%]"
           />
 
           <PInputField
             name="bairro"
             label="Seu Bairro"
             placeholder="Digite seu bairro"
-            className="md:w-full xl:w-[32.4%]"
+            className="lg:w-[32.5%]"
           />
 
           <PInputField
             name="endereco"
             label="Seu Endereço"
             placeholder="Digite seu endereço"
+            className="lg:w-[65.5%] xl:w-full"
           />
         </div>
       )}

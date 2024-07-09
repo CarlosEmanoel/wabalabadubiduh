@@ -43,7 +43,9 @@ const SelectField = ({
     <div data-show-error={showError} className={`${className} w-full group`}>
       <label
         htmlFor={name}
-        className="block text-sm font-bold group-data-[show-error=true]:text-red-600 text-gray-600"
+        className={`block text-sm font-bold group-data-[show-error=true]:text-red-600 ${
+          disabled ? "text-gray-400" : "text-gray-600"
+        }`}
       >
         {label}
         {optional && (
@@ -60,7 +62,7 @@ const SelectField = ({
         value={getNestedValue(values, name)}
         disabled={disabled}
         className={`block w-full px-2 py-2 border-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10 appearance-none 
-                    rounded-md shadow-sm group-data-[show-error=true]:focus:outline-red-500 disabled:bg-gray-200 disabled:text-gray-500
+                    rounded-md shadow-sm group-data-[show-error=true]:focus:outline-red-500 disabled:border-dashed disabled:bg-gray-200 disabled:text-gray-400
                   focus:outline-blue-500 focus:border-blue-500`}
         {...props}
       >

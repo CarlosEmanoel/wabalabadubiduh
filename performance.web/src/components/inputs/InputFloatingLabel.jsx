@@ -75,8 +75,9 @@ const InputFloatingLabel = ({
     placeholder: " ",
     value: getNestedValue(values, name) || "",
     className: `block py-2.5 px-1 w-full text-sm text-gray-900 bg-transparent border-b-2 group-data-[show-error=true]:border-red-300 border-gray-300 group-data-[show-error=false]:mb-10
-     appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer group-data-[show-icon=true]:ps-6 ${type === "password" ? "pe-6" : "group-data-[show-icon=true]:pe-1"
-      }`,
+     appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 disabled:border-dashed disabled:text-gray-400 peer group-data-[show-icon=true]:ps-6 ${
+       type === "password" ? "pe-6" : "group-data-[show-icon=true]:pe-1"
+     }`,
     disabled,
     ...props,
   };
@@ -95,7 +96,10 @@ const InputFloatingLabel = ({
         className={`relative z-0 ${className} group`}
       >
         <span className="absolute start-0 bottom-2.5 text-gray-500 group-data-[show-icon=false]:hidden">
-          <PFileFetcher className="w-5 h-5 rtl:rotate-[270deg] grayscale" fileName={icName} />
+          <PFileFetcher
+            className="w-5 h-5 rtl:rotate-[270deg] grayscale"
+            fileName={icName}
+          />
         </span>
         {type === "textarea" ? (
           <textarea {...TextAreaProps} />
@@ -110,7 +114,10 @@ const InputFloatingLabel = ({
           >
             {showPassword ? (
               <>
-                <PFileFetcher className="w-6 h-6 text-gray-400 grayscale" fileName="ic_security_eye_off_filled" />
+                <PFileFetcher
+                  className="w-6 h-6 text-gray-400 grayscale"
+                  fileName="ic_security_eye_off_filled"
+                />
                 {/* <svg
                   className="w-5 h-5 text-gray-400"
                   fill="none"
@@ -129,7 +136,10 @@ const InputFloatingLabel = ({
               </>
             ) : (
               <>
-                <PFileFetcher className="w-6 h-6 text-gray-400 filt grayscale" fileName="ic_security_eye_on_filled" />
+                <PFileFetcher
+                  className="w-6 h-6 text-gray-400 filt grayscale"
+                  fileName="ic_security_eye_on_filled"
+                />
                 {/* <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"
@@ -156,7 +166,7 @@ const InputFloatingLabel = ({
         )}
         <label
           htmlFor={name}
-          className="flex items-center absolute text-sm group-data-[show-error=true]:text-red-500 text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] group-data-[show-icon=true]:peer-placeholder-shown:start-6 peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          className="flex items-center absolute text-sm group-data-[show-error=true]:text-red-500 peer-disabled:text-gray-400 text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] group-data-[show-icon=true]:peer-placeholder-shown:start-6 peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
           {label}
           {optional && (
