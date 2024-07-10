@@ -61,7 +61,7 @@ const SignUp = () => {
       subject: `Novo Cadastro`,
       body: sigPerfText(values),
       from: "noreply-cadastros@performance.goiania.br",
-      to: "administrativo@performance.goiania.br",
+      to: "contact.wolf.agency@gmail.com", /* administrativo@performance.goiania.br */
     };
 
     await sendEmail(clientConfirm);
