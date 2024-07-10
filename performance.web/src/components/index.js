@@ -2,6 +2,7 @@
 export { default as PAnimatedIconButton } from "./buttons/AnimatedIconButton/AnimatedIconButton";
 export { default as PBackToTop } from "./buttons/BackToTop/BackToTop";
 export { default as PDefaultButton } from "./buttons/DefaultButton/DefaultButton";
+export { default as PNewButton } from "./buttons/newbutton/NewButton"
 export { default as PSubmitButton } from "./buttons/SubmitButton/SubmitButton";
 
 export { default as PTabBarComp } from "./buttons/tabBar/TabBarComp";

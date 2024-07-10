@@ -11,10 +11,9 @@ import {
 import api from "../../services/api";
 import messages from "../../services/messages";
 
-import NewButton from "../../components/NewButton/NewButton";
 import { useNavigate } from "react-router-dom";
 import util from "../../services/util";
-import { PContent, PDataTable } from "../../components";
+import { PContent, PDataTable, PNewButton } from "../../components";
 
 function ListaUsuario() {
   const [listausuario, setListaUsuario] = useState([]);
@@ -98,9 +97,8 @@ function ListaUsuario() {
   const confirmaExclusao = (id) => {
     confirmAlert({
       title: "Confirmação",
-
       message: "Tem certeza que deseja excluir?",
-
+      overlayClassName: "bg-gray-800 bg-opacity-75",
       buttons: [
         {
           label: "Sim",
@@ -108,7 +106,7 @@ function ListaUsuario() {
         },
         {
           label: "Não",
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });
@@ -117,10 +115,10 @@ function ListaUsuario() {
   const confirmaPermissao = (row) => {
     confirmAlert({
       title: "Confirmação",
-
       message: row.permissao
         ? "Tem certeza que deseja retirar o acesso desse usuário?"
         : "Tem certeza que deseja permitir o acesso desse usuário?",
+      overlayClassName: "bg-gray-800 bg-opacity-75",
 
       buttons: [
         {
@@ -129,7 +127,7 @@ function ListaUsuario() {
         },
         {
           label: "Não",
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });
@@ -172,7 +170,7 @@ function ListaUsuario() {
   return (
     <>
       <PContent>
-        <NewButton path={"/painel/painelusuario"} />
+        <PNewButton path={"/painel/painelusuario"} />
         <PDataTable
           title="Lista de Usuários"
           columns={columns}

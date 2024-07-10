@@ -107,7 +107,7 @@ function Login() {
                   />
                 </div>
                 <div className="flex sm:flex flex-1 flex-col items-center justify-center shadow-lg bg-white p-4 min-w-screen transition-all ease-in-out duration-500 rounded-lg md:rounded-br-lg md:rounded-tr-lg md:rounded-none md:py-12">
-                  <Link 
+                  <Link
                     href="/"
                     className="pb-4 flex font-semibold self-start md:hidden"
                   >
@@ -136,22 +136,22 @@ function Login() {
                   </div>
                   <div className="w-full flex flex-col items-center pt-4">
                     <PSubmitButton
+                      type="submit"
                       disabled={!formik.isValid || formik.isSubmitting}
-                      onClick={() => {}}
                       buttonTitle={
                         formik.isSubmitting ? "Carregando..." : "Entrar"
                       }
                     />
                     <span className="pt-2 pb-4 text-center text-sm sm:text-base">
                       Você pode também{" "}
-                      <Link 
+                      <Link
                         onClick={() => setPasswordModal(true)}
                         className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
                       >
                         redefinir sua senha
                       </Link>{" "}
                       ou{" "}
-                      <Link 
+                      <Link
                         className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
                         to="/cadastro"
                       >
@@ -165,7 +165,7 @@ function Login() {
             </div>
           </Form>
         )}
-      </Formik>
+      </Formik >
       <PDefaultModal
         isOpen={passwordModal}
         onClose={() => setPasswordModal(false)}

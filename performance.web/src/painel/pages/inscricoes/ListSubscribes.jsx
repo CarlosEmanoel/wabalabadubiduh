@@ -60,21 +60,17 @@ const ListSubscribes = () => {
       filterable: false,
       cell: (row) => (
         <div className="flex">
-          <div className="border-solid border-2 border-green-200/[.55] hover:bg-green-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center">
-            <button
-              className="btn"
-              onClick={() =>
-                navigate(util.getEnv() + `/painel/inscricao/${row.id}`)
-              }
-            >
-              <BsCardChecklist color="green" />
-            </button>
-          </div>
-          <div className="border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex justify-center items-center">
-            <button className="btn" onClick={() => confirmExclusion(row.id)}>
-              <BsTrash color="red" />
-            </button>
-          </div>
+          <button
+            className="border-solid border-2 border-green-200/[.55] hover:bg-green-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center"
+            onClick={() =>
+              navigate(util.getEnv() + `/painel/inscricao/${row.id}`)
+            }
+          >
+            <BsCardChecklist color="green" />
+          </button>
+          <button className="border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex justify-center items-center" onClick={() => confirmExclusion(row.id)}>
+            <BsTrash color="red" />
+          </button>
         </div>
       ),
     },
@@ -84,6 +80,7 @@ const ListSubscribes = () => {
     confirmAlert({
       title: "Confirmação",
       message: "Tem certeza que deseja excluir?",
+      overlayClassName: "bg-gray-800 bg-opacity-75",
       buttons: [
         {
           label: "Sim",
@@ -91,7 +88,7 @@ const ListSubscribes = () => {
         },
         {
           label: "Não",
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });
@@ -116,7 +113,7 @@ const ListSubscribes = () => {
   return (
     <PContent>
       <PDataTable
-        title="LISTA DE INSCRIÇÃO"
+        title="Lista de Inscrições"
         columns={columns}
         data={subscribes}
         rowKey="id"

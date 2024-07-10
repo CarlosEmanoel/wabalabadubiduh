@@ -7,8 +7,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { BsPencil, BsTrash } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-import NewButton from "../../components/NewButton/NewButton";
-import { PContent, PDataTable } from "../../components";
+import { PContent, PDataTable, PNewButton } from "../../components";
 
 function ListaQuestao() {
   const [listaQuestoes, setListaQuestoes] = useState([]);
@@ -45,6 +44,7 @@ function ListaQuestao() {
       dataIndex: "pergunta",
       width: "60%",
       type: "text",
+      lineClamp: true,
       sortable: true,
       filterable: true,
     },
@@ -94,6 +94,7 @@ function ListaQuestao() {
     confirmAlert({
       title: "Confirmação",
       message: "Tem certeza que deseja excluir?",
+      overlayClassName: "bg-gray-800 bg-opacity-75",
       buttons: [
         {
           label: "Sim",
@@ -146,9 +147,9 @@ function ListaQuestao() {
 
   return (
     <PContent>
-      <NewButton path={"/painel/painelquestionario"} />
+      <PNewButton path={"/painel/painelquestionario"} />
       <PDataTable
-        title="Listagem e Cadastro de Questões"
+        title="Lista de Questões"
         columns={columns}
         data={listaQuestoes}
         rowKey="id"

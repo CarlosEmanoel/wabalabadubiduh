@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 import { BsPencil, BsTrash } from "react-icons/bs";
-import NewButton from "../../../components/NewButton/NewButton";
 import api from "../../../services/api";
 import messages from "../../../services/messages";
 import util from "../../../services/util";
-import { PContent, PDataTable } from "../../../components";
+import { PContent, PDataTable, PNewButton } from "../../../components";
 
 const ListCourses = () => {
   const navigate = useNavigate();
@@ -69,21 +68,20 @@ const ListCourses = () => {
       filterable: false,
       cell: (row) => (
         <div className="flex justify-center items-center">
-          <div className="cursor-pointer border-solid border-2 border-sky-200/[.55] hover:bg-sky-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center">
-            <button
-              className="btn"
-              onClick={() =>
-                navigate(util.getEnv() + `/painel/cursoform/${row.id}`)
-              }
-            >
-              <BsPencil color="blue" />
-            </button>
-          </div>
-          <div className="cursor-pointer border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex justify-center items-center">
-            <button className="btn" onClick={() => confirmExclusion(row.id)}>
-              <BsTrash color="red" />
-            </button>
-          </div>
+          <button
+            className="cursor-pointer border-solid border-2 border-sky-200/[.55] hover:bg-sky-200 rounded-md w-11 h-9 mr-1.5 flex justify-center items-center"
+            onClick={() =>
+              navigate(util.getEnv() + `/painel/cursoform/${row.id}`)
+            }
+          >
+            <BsPencil color="blue" />
+          </button>
+          <button
+            className="cursor-pointer border-solid border-2 border-red-200/[.55] hover:bg-red-200 rounded-md w-11 h-9 flex justify-center items-center"
+            onClick={() => confirmExclusion(row.id)}
+          >
+            <BsTrash color="red" />
+          </button>
         </div>
       ),
     },
@@ -100,7 +98,7 @@ const ListCourses = () => {
         },
         {
           label: "Não",
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });
@@ -124,7 +122,7 @@ const ListCourses = () => {
 
   return (
     <PContent>
-      <NewButton path={"/painel/cursoform"} />
+      <PNewButton path={"/painel/cursoform"} />
       <PDataTable
         title="Lista de Cursos"
         columns={columns}

@@ -43,6 +43,7 @@ const StepThree = ({ onSubmit }) => {
             className="sm:w-64"
           />
           <PSubmitButton
+            type="submit"
             disabled={!formik.isValid || formik.isSubmitting}
             buttonTitle={
               formik.isSubmitting ? "Carregando..." : "Redefinir Senha"

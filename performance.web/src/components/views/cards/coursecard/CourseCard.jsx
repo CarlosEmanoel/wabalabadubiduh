@@ -80,7 +80,7 @@ export default function CourseCard({
   return (
     <div
       data-dropdown-value={dropdownValue}
-      className="select-none relative justify-between grid w-[90vw] md:w-[80vw] lg:w-[57vw] flex-col rounded-xl bg-slate-200 bg-clip-border text-gray-700 shadow-lg group"
+      className="select-none relative justify-between grid w-[90vw] md:w-[80vw] lg:w-[75vw] flex-col rounded-xl bg-slate-200 bg-clip-border text-gray-700 shadow-lg group"
     >
       <div
         onClick={() => dropdownClick(0)}
@@ -89,7 +89,7 @@ export default function CourseCard({
         <PFileFetcher fileName={`curso-${data.id}`} className="max-h-[50vh]" />
         <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60" />
       </div>
-      <div className="px-6 pt-6 relative flex flex-col justify-between w-[90vw] md:w-[80vw] lg:w-[57vw]">
+      <div className="px-6 pt-6 relative flex flex-col justify-between w-[90vw] md:w-[80vw] lg:w-[75vw]">
         <p className="block font-sans text-xl antialiased font-bold leading-snug tracking-normal text-blue-gray-900">
           {data.courseTitle}
         </p>
@@ -208,18 +208,19 @@ export default function CourseCard({
             </svg>
           </button>
         </div>
-        <div className="max-h-[43vh] p-4 rounded-2xl shadow-lg overflow-auto">
+        <div className="max-h-[43vh] p-4 rounded-2xl overflow-auto h-full">
           {getProfessorItems().map((teacher) => (
             <div
               key={teacher.teacherId}
-              className="flex items-stretch space-y-4 lg:space-x-4 flex-col lg:flex-row"
+              className="flex gap-3 flex-col lg:flex-row h-full"
             >
+
               <PFileFetcher
                 fileName={`professor-${teacher.teacherId}`}
                 skeleton
-                className="rounded-full lg:rounded-3xl object-cover w-64 h-64 lg:h-80 shadow-lg"
+                className="rounded-full lg:rounded-3xl object-cover w-64 h-64 xl:h-80 shadow-lg"
               />
-              <div className="bg-white rounded-2xl p-6 shadow-xl overflow-auto flex-1 h-80">
+              <div className="bg-white rounded-2xl p-6 overflow-auto flex-1 h-full min-h-80">
                 <span className="font-bold text-2xl text-gray-800">
                   {teacher.teacherName}
                 </span>

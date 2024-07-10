@@ -200,7 +200,7 @@ const SignUp = () => {
                     Já possui uma conta? Efetue o{" "}
                     <Link
                       className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
-                      href="/acesso"
+                      to="/acesso"
                     >
                       login
                     </Link>

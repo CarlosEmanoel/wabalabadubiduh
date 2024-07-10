@@ -213,6 +213,7 @@ function SecondSection() {
                       placeholder="Digite sua mensagem"
                     />
                     <PSubmitButton
+                      type="submit"
                       disabled={!formik.isValid || formik.isSubmitting}
                       onClick={() => { }}
                       buttonTitle={

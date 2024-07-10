@@ -23,6 +23,7 @@ const StepOne = ({ onSubmit, initialEmail }) => {
             className="sm:w-64"
           />
           <PSubmitButton
+            type="submit"
             disabled={!formik.isValid || formik.isSubmitting}
             buttonTitle={
               formik.isSubmitting ? "Solicitando..." : "Solicitar Token"

@@ -128,6 +128,7 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
               title={"Inscrição"}
               footer={
                 <PSubmitButton
+                  type="submit"
                   disabled={!formik.isValid || formik.isSubmitting}
                   onClick={formik.handleSubmit}
                   buttonTitle={formik.isSubmitting ? "Carregando..." : "Enviar"}

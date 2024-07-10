@@ -94,8 +94,8 @@ const ListaContato = () => {
   const confirmaExclusao = (id) => {
     confirmAlert({
       title: "Confirmação",
-
       message: "Tem certeza que deseja excluir?",
+      overlayClassName: "bg-gray-800 bg-opacity-75",
 
       buttons: [
         {

@@ -104,13 +104,13 @@ const DataTable = ({
             ? aValue === bValue
               ? 0
               : aValue
-              ? -1
-              : 1
+                ? -1
+                : 1
             : aValue === bValue
-            ? 0
-            : aValue
-            ? 1
-            : -1;
+              ? 0
+              : aValue
+                ? 1
+                : -1;
         } else {
           return sortConfig.direction === "ascending"
             ? String(aValue).localeCompare(String(bValue))
@@ -137,6 +137,21 @@ const DataTable = ({
     currentPage * pageSize
   );
 
+  /**
+* Trunca o texto ao número especificado de palavras e adiciona reticências.
+* @param {string} text - O texto a ser truncado.
+* @param {number} wordLimit - O número máximo de palavras permitidas.
+* @returns {string} - O texto truncado com reticências.
+*/
+  function truncateText(text, wordLimit) {
+    if (!text) return '';
+    const words = text.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return text;
+  }
+
   const renderCellContent = (column, row) => {
     if (column.type === "date") {
       return row[column.dataIndex]
@@ -153,6 +168,9 @@ const DataTable = ({
     }
     if (column.cell) {
       return column.cell(row);
+    }
+    if (column.lineClamp) {
+      return truncateText(row[column.dataIndex], 35)
     }
     return row[column.dataIndex];
   };
@@ -233,6 +251,8 @@ const DataTable = ({
                   className="px-4 py-2 border border-gray-300"
                   style={{ width: column.width || "auto" }}
                 >
+                  {/* {renderCellContent(column, row)} */}
+
                   {renderCellContent(column, row)}
                 </td>
               ))}
@@ -302,7 +322,7 @@ DataTable.propTypes = {
 };
 
 DataTable.defaultProps = {
-  onSelectRow: () => {},
+  onSelectRow: () => { },
   selectedDefault: [],
   selectable: false,
 };

@@ -10,7 +10,7 @@ export default function InputCodeVerify({
   resetTimer,
   label,
   timer,
-  setTimer = () => {}
+  setTimer = () => { }
 }) {
   const [code, setCode] = useState(Array(blocks).fill(""));
   const [error, setError] = useState(false);
@@ -115,6 +115,7 @@ export default function InputCodeVerify({
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       {!errorMessage && success && <p className="text-green-500">Código verificado com sucesso!</p>}
       <PSubmitButton
+        type='submit'
         onClick={handleSubmit}
         buttonTitle={'Verificar Código'}
       />
