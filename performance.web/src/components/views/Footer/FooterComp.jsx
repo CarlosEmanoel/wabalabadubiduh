@@ -13,10 +13,10 @@ const Footer = () => {
       <div className="w-full p-4 md:py-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse flex-col w-1/3">
-            <Link to="#">
+            <a href="#">
               <PFileFetcher className={'w-16 pb-4'} fileName={`performance-brand-minimized`} alt="Logo da Performance" />
-            </Link>
-            <Link className="text-white rounded-lg text-center hidden sm:flex" target="_blank" href="https://www.google.com/maps/dir//Performance,+Torre+01+-+Avenida+Olinda,+n%C2%B0+960,+Quadra+H4,+Lote+01%2F03+-+Edif%C3%ADcio+Lozandes+Corporate+Design,+Sala+608B+-+Park+Lozandes,+Goi%C3%A2nia+-+GO,+74884-120/@-16.6981092,-49.226399,17z/data=!4m9!4m8!1m0!1m5!1m1!1s0x935ef1b62f8100d3:0x4769baf8de8a6d19!2m2!1d-49.2238241!2d-16.6981144!3e0?entry=ttu">
+            </a>
+            <Link className="text-white rounded-lg text-center hidden sm:flex" target="_blank" to="https://www.google.com/maps/dir//Performance,+Torre+01+-+Avenida+Olinda,+n%C2%B0+960,+Quadra+H4,+Lote+01%2F03+-+Edif%C3%ADcio+Lozandes+Corporate+Design,+Sala+608B+-+Park+Lozandes,+Goi%C3%A2nia+-+GO,+74884-120/@-16.6981092,-49.226399,17z/data=!4m9!4m8!1m0!1m5!1m1!1s0x935ef1b62f8100d3:0x4769baf8de8a6d19!2m2!1d-49.2238241!2d-16.6981144!3e0?entry=ttu">
               Avenida Olinda, n° 960, Park Lozandes
               Edifício Lozandes, Torre 01, Sala 608 B
               Goiânia/GO - Cep: 74884-120

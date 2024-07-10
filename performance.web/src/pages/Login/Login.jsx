@@ -153,7 +153,7 @@ function Login() {
                       ou{" "}
                       <Link 
                         className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
-                        href="/cadastro"
+                        to="/cadastro"
                       >
                         fazer cadastro
                       </Link>

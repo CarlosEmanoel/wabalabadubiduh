@@ -7,6 +7,8 @@ import messages from "../../services/messages";
 import util from "../../services/util";
 import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
+import { sigClientText, sigPerfText } from "../../lib/texts/emails/mailTexts";
+import { useSendMail } from "../../hooks";
 
 const validationSchema = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
@@ -45,10 +47,31 @@ const initialValues = {
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { sendEmail } = useSendMail();
+
+  async function sendResponse(values) {
+    const clientConfirm = {
+      subject: `Confirmação de Cadastro`,
+      body: sigClientText(values),
+      from: "cadastro.performance@performance.goiania.br",
+      to: values.email,
+    };
+
+    const performanceConfirm = {
+      subject: `Novo Cadastro`,
+      body: sigPerfText(values),
+      from: "noreply-cadastros@performance.goiania.br",
+      to: "administrativo@performance.goiania.br",
+    };
+
+    await sendEmail(clientConfirm);
+    await sendEmail(performanceConfirm);
+  }
 
   const onSubmit = async (values) => {
     try {
       await api.post("/usuario", values);
+      sendResponse(values);
       navigate("/cadastro-efetuado");
     } catch (error) {
       console.log(error);
@@ -84,7 +107,7 @@ const SignUp = () => {
             <div className="flex flex-col sm:flex-row w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl mx-auto transition-all ease-in-out duration-500 shadow-2xl">
               <div className="w-full px-2 border border-slate-400 rounded-lg bg-white h-1/2">
                 <div className="w-full pt-2 flex items-center">
-                  <Link 
+                  <Link
                     href="/acesso"
                     className="pb-4 flex font-semibold self-start md:hidden left-0"
                   >
@@ -175,7 +198,7 @@ const SignUp = () => {
                   </button>
                   <span className="pt-2 pb-4 text-center text-sm sm:text-base">
                     Já possui uma conta? Efetue o{" "}
-                    <Link 
+                    <Link
                       className="outline-none no-underline cursor-pointer text-cyan-800 hover:text-cyan-500"
                       href="/acesso"
                     >

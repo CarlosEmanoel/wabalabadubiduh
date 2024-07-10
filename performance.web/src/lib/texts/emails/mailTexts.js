@@ -88,6 +88,49 @@ export const contPerfText = (contato) => mailTemplate({
     signature: "Obrigado!!",
 })
 
+/* aaa */
+/* CADASTRO - PERFORMANCE */
+export const sigClientText = (cadastro) => mailTemplate({
+    title: "Obrigado pelo Cadastro!",
+    saudation: `Bem Vindo!`,
+    content: `Prezado(a) senhor(a), ${cadastro.nome}
+
+    Gostaríamos de informar que recebemos com sucesso seu cadastro na plataforma da Performance.
+    Agradecemos por escolher nossos serviços e confiamos que sua experiência conosco será extremamente positiva.
+    Em breve, você terá acesso a uma variedade de cursos e recursos especialmente desenvolvidos para atender às suas necessidades de aprendizado.
+
+    Assim que possível, nossa equipe entrará em contato retornando o status do seu cadastro.
+
+    Enquanto isso, convidamos você a explorar nosso site para conhecer mais sobre nossos cursos e serviços.
+    Se preferir, pode nos contatar diretamente pelo telefones:
+        * <strong>(62) 99942-8364</strong>
+        * <strong>(62) 99832-6112</strong>
+    Ou por nosso e-mail: <strong>atendimento@performance.goiania.br</strong>
+
+    Estamos comprometidos em oferecer a melhor experiência de aprendizado e estamos à disposição para ajudá-lo(a) a alcançar seus objetivos.
+
+    Já nos segue nas redes sociais?
+    Se não, clique em alguns dos links abaixo e acompanhe nossas novidades!!`,
+    signature: "Atenciosamente,<br>Equipe Performance",
+})
+/* CADASTRO - PERFORMANCE */
+export const sigPerfText = (cadastro) => mailTemplate({
+    title: "Cadastro do Usuário!",
+    saudation: `Atenção, setor administrativo!`,
+    content: `Prezados Administradores,
+
+    Gostaríamos de informá-los que um usuário se cadastrou em nossa plataforma!
+    Abaixo estão os detalhes da solicitação efetuada:
+
+    Usuário: <strong>${cadastro.nome}</strong>
+    Email: <strong>${cadastro.email}</strong>
+    Email: <strong>${cadastro.username}</strong>
+    Data e Hora do Cadastro: <strong>${fullDateTime}</strong>
+
+    Revisem os dados e tomem as ações necessárias.`,
+    signature: "Obrigado!!",
+})
+
 /* REDEFINIÇÃO DE SENHA - TOKEN */
 export const passTokenText = (token) => mailTemplate({
     title: "Redefinição de Senha - Performance!",

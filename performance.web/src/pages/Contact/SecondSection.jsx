@@ -71,7 +71,6 @@ const socialLinks = [
 
 function SecondSection() {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
-  const [contact, setContact] = useState({});
   const { sendEmail } = useSendMail();
 
   async function sendResponse(values) {
@@ -96,7 +95,6 @@ function SecondSection() {
   const onSubmit = async (values, { resetForm }) => {
     try {
       await api.post("/contato", values);
-      setContact(values);
       setTimeout(() => {
         sendResponse(values);
       }, 150);
@@ -216,7 +214,7 @@ function SecondSection() {
                     />
                     <PSubmitButton
                       disabled={!formik.isValid || formik.isSubmitting}
-                      onClick={() => {}}
+                      onClick={() => { }}
                       buttonTitle={
                         formik.isSubmitting ? "Carregando..." : "Enviar"
                       }
