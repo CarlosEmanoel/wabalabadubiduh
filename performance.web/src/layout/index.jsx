@@ -1,3 +1,3 @@
-export { default as Blank } from "./Blank/Blank";
-export { default as Painel } from "./Painel/Painel";
-export { default as Site } from "./Site/Site";
+export { default as Blank } from "./blank/Blank";
+export { default as Painel } from "./painel/Painel";
+export { default as Site } from "./site/Site";

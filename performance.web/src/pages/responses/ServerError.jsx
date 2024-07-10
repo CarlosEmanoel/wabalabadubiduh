@@ -1,19 +1,20 @@
 import React from "react";
-import { PFileFetcher, PSectionContainer } from "../../../components";
+import { PFileFetcher, PSectionContainer } from "../../components";
 import { useNavigate } from "react-router-dom";
 
-const NotFound = () => {
+const ServerError = () => {
   const navigate = useNavigate();
   return (
     <PSectionContainer>
       <div className="flex mt-24 p-10 bg-white rounded-lg shadow-lg gap-10 flex-col md:flex-row">
-        <div className="content-center">
+        <div className="content-center md:max-w-96">
           <div className="text-center">
             <span className="text-lg md:text-xl lg:text-2xl font-bold ">
-              Página Não Encontrada!
+              Erro no Servidor!
             </span>
             <p className="mt-6">
-              A página que você está tentando acessar não existe.
+              Desculpe, estamos enfrentando problemas técnicos no momento. Por
+              favor, tente novamente mais tarde.
             </p>
           </div>
           <div className="flex justify-center w-full mt-6">
@@ -29,11 +30,11 @@ const NotFound = () => {
         <PFileFetcher
           className="w-full md:w-96"
           fileName="blockpainel"
-          alt="Página Não Encontrada"
+          alt="Erro Servidor"
         />
       </div>
     </PSectionContainer>
   );
 };
 
-export default NotFound;
+export default ServerError;

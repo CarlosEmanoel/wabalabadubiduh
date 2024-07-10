@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import api from "../../services/api";
-import { PCarouselView, PCourseCard, PDefaultContainer, PSectionContainer, PSubscribe } from "../../components";
-import FirstSection from "./FirstSection/FirstSection";
+import {
+  PCarouselView,
+  PCourseCard,
+  PDefaultContainer,
+  PSubscribe,
+} from "../../components";
+import FirstSection from "./FirstSection";
 import "./Courses.css";
 
 const COURSE_LEVELS = {
@@ -46,7 +51,7 @@ function Courses() {
         const professores = course.professores.map((professorAssoc) => ({
           id: professorAssoc.professor.id,
           accordionTitle: "Currículo do Professor",
-          tabTitle: professorAssoc.professor.nome.split(' ')[0],
+          tabTitle: professorAssoc.professor.nome.split(" ")[0],
           teacherName: professorAssoc.professor.nome,
           teacherCurriculum: professorAssoc.professor.curriculo,
         }));
@@ -67,12 +72,12 @@ function Courses() {
           dropdownMenu: [
             {
               value: 1,
-              label: "Conteúdo do Curso"
+              label: "Conteúdo do Curso",
             },
             {
               value: 2,
-              label: "Professores"
-            }
+              label: "Professores",
+            },
           ],
         };
       });
@@ -105,7 +110,7 @@ function Courses() {
       curso: course,
       cursoId: course.id,
       nivelId: "",
-      levels
+      levels,
     });
   }, []);
 
@@ -117,7 +122,7 @@ function Courses() {
   return (
     <PDefaultContainer>
       <FirstSection />
-      <PCarouselView className="w-full mx-auto"  autoPlayInterval={5000}>
+      <PCarouselView className="w-full mx-auto" autoPlayInterval={5000}>
         {courses.map((course) => (
           <div className="py-4 flex w-full justify-center items-center">
             <PCourseCard

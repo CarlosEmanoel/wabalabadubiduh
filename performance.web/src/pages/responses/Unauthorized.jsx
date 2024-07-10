@@ -1,5 +1,5 @@
 import React from "react";
-import { PFileFetcher, PSectionContainer } from "../../../components";
+import { PFileFetcher, PSectionContainer } from "../../components";
 import { useNavigate } from "react-router-dom";
 
 const Unauthorized = () => {

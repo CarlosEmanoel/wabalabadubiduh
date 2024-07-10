@@ -1,5 +1,5 @@
 import React from "react";
-import { PFileFetcher, PSectionContainer } from "../../../components";
+import { PFileFetcher, PSectionContainer } from "../../components";
 
 export default function FirstSection() {
   return (

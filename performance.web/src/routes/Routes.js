@@ -3,21 +3,11 @@ import { Blank, Painel, Site } from "../layout";
 
 // Pages
 import {
-  Advanced,
-  Basic,
-  Comprev,
   Contact,
   Courses,
-  FirstGalery,
   Home,
   Events,
-  InPerson,
-  Intermediary,
   NotFound,
-  Practice,
-  Preparatory,
-  Question,
-  SecondGalery,
   ServerError,
   Success,
   Unauthorized,
@@ -31,14 +21,14 @@ import PainelDashboard from "../painel/pages/Dashboard";
 import Deploy from "../painel/pages/Deploy";
 import ListaContato from "../painel/pages/ListaContato";
 
-import ListCourses from "../painel/pages/cursos/ListCourses";
-import CourseForm from "../painel/pages/cursos/CourseForm";
+import ListCourses from "../painel/pages/courses/ListCourses";
+import CourseForm from "../painel/pages/courses/CourseForm";
 
-import ListSubscribes from "../painel/pages/inscricoes/ListSubscribes";
+import ListSubscribes from "../painel/pages/subscribe/ListSubscribes";
 import ListaQuestao from "../painel/pages/ListaQuestao";
 import ListaUsuario from "../painel/pages/ListaUsuario";
 import PainelContato_msg from "../painel/pages/PainelContato_msg";
-import ShowSubscribe from "../painel/pages/inscricoes/ShowSubscribe";
+import ShowSubscribe from "../painel/pages/subscribe/ShowSubscribe";
 import PainelQuestionario from "../painel/pages/PainelQuestionario";
 import PainelSimulado from "../painel/pages/PainelSimulado";
 import PainelUsuario from "../painel/pages/PainelUsuario";
@@ -50,7 +40,7 @@ import { renderRoutes } from "./generate-routes";
 import UserDashboard from "../painel/pages/UserDashboard";
 import UserListaSimulado from "../painel/pages/UserListaSimulado";
 
-import Subscribe from "../components/Forms/Subscribe/Subscribe";
+import Subscribe from "../components/forms/subscribe/Subscribe";
 import NewCursos from "../painel/pages/NewCursos";
 import UserNovoSimulado from "../painel/pages/UserNovoSimulado";
 import util from "../services/util";
@@ -60,7 +50,7 @@ import SimuladoInvestimentos from "../painel/pages/SimuladoInvestimentos";
 //uploads:
 import FileManagementScreen from "../painel/pages/uploads/FileManagementScreen";
 //professores:
-import TeacherManagementScreen from "../painel/pages/professores/TeacherManagementScreen";
+import TeacherManagementScreen from "../painel/pages/teachers/TeacherManagementScreen";
 
 export const routes = [
   {
@@ -107,48 +97,6 @@ export const routes = [
         isPublic: true,
       },
       {
-        name: "inperson",
-        title: "Presencial",
-        component: InPerson,
-        path: util.getEnv() + "/cursos/presencial",
-        isPublic: true,
-      },
-      {
-        name: "basic",
-        title: "Básico",
-        component: Basic,
-        path: util.getEnv() + "/cursos/basico",
-        isPublic: true,
-      },
-      {
-        name: "intermediary",
-        title: "Intermediário",
-        component: Intermediary,
-        path: util.getEnv() + "/cursos/intermediario",
-        isPublic: true,
-      },
-      {
-        name: "advanced",
-        title: "Avançado",
-        component: Advanced,
-        path: util.getEnv() + "/cursos/avancado",
-        isPublic: true,
-      },
-      {
-        name: "comprev",
-        title: "Comprev",
-        component: Comprev,
-        path: util.getEnv() + "/cursos/comprev",
-        isPublic: true,
-      },
-      {
-        name: "preparatory",
-        title: "Preparatório",
-        component: Preparatory,
-        path: util.getEnv() + "/cursos/preparatorio",
-        isPublic: true,
-      },
-      {
         name: "contact",
         title: "Contato",
         component: Contact,
@@ -156,38 +104,10 @@ export const routes = [
         isPublic: true,
       },
       {
-        name: "firstgalery",
-        title: "Primeira Galeria",
-        component: FirstGalery,
-        path: util.getEnv() + "/galeria",
-        isPublic: true,
-      },
-      {
-        name: "secondgalery",
-        title: "Segunda Galeria",
-        component: SecondGalery,
-        path: util.getEnv() + "/galeria2",
-        isPublic: true,
-      },
-      {
         name: "subscribe",
         title: "Inscrição",
         component: Subscribe,
         path: util.getEnv() + "/inscricao",
-        isPublic: true,
-      },
-      {
-        name: "question",
-        title: "Questão",
-        component: Question,
-        path: util.getEnv() + "/questao",
-        isPublic: true,
-      },
-      {
-        name: "practice",
-        title: "Simulado",
-        component: Practice,
-        path: util.getEnv() + "/simulado",
         isPublic: true,
       },
       {
