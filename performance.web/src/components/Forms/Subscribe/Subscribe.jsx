@@ -79,7 +79,7 @@ const Subscribe = ({ isOpen, onClose, initialValues }) => {
       subject: `Nova Inscrição - ${subscribe.curso.courseTitle}`,
       body: subPerfText(subscribe),
       from: "noreply-cursos@performance.goiania.br",
-      to: "contact.wolf.agency@gmail.com",
+      to: "administrativo@performance.goiania.br",
     };
 
     await sendEmail(clientConfirm);

@@ -86,7 +86,7 @@ function SecondSection() {
       subject: `Solicitação de Contato - ${values.assunto}`,
       body: contPerfText(values),
       from: "noreply-contato@performance.goiania.br",
-      to: "contact.wolf.agency@gmail.com",
+      to: "atendimento@performance.goiania.br",
     };
 
     await sendEmail(clientConfirm);
