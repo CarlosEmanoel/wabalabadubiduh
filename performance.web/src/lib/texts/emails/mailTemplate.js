@@ -21,7 +21,7 @@ export const mailTemplate = ({ title, saudation, content, signature, href }) => 
                     <p style="color: #666666; line-height: 1.6;">
                         ${content}
                     </p>
-                    <p style="color: #666666; line-height: 1.6;">${signature}</p>
+                    <p style="color: #666666; line-height: 1.6;">${signature}</p> 
                 </td>
             </tr>
 
@@ -38,7 +38,7 @@ export const mailTemplate = ({ title, saudation, content, signature, href }) => 
                             Whatsapp
                         </a>
                     </div>
-                    <p style="color: #ffffff; text-align: center; margin: 10px;">&copy; ${year}, <a href="https://performance.goiania.br/" style="color: #ffffff;">Performance Goiânia™</a>. Todos
+                    <p style="color: #ffffff; text-align: center; margin: 10px;">&copy; ${year}, <a href="https://performance.goiania.br/" style="color: #ffffff;">Performance Goiânia™</a>.<br>Todos
                         os direitos reservados.</p>
                 </td>
             </tr>

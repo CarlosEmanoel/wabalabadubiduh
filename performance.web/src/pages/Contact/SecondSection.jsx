@@ -71,7 +71,6 @@ const socialLinks = [
 
 function SecondSection() {
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
-  const [contact, setContact] = useState({});
   const { sendEmail } = useSendMail();
 
   async function sendResponse(values) {
@@ -86,7 +85,7 @@ function SecondSection() {
       subject: `Solicitação de Contato - ${values.assunto}`,
       body: contPerfText(values),
       from: "noreply-contato@performance.goiania.br",
-      to: "contact.wolf.agency@gmail.com",
+      to: "atendimento@performance.goiania.br",
     };
 
     await sendEmail(clientConfirm);
@@ -96,7 +95,6 @@ function SecondSection() {
   const onSubmit = async (values, { resetForm }) => {
     try {
       await api.post("/contato", values);
-      setContact(values);
       setTimeout(() => {
         sendResponse(values);
       }, 150);
@@ -216,7 +214,7 @@ function SecondSection() {
                     />
                     <PSubmitButton
                       disabled={!formik.isValid || formik.isSubmitting}
-                      onClick={() => {}}
+                      onClick={() => { }}
                       buttonTitle={
                         formik.isSubmitting ? "Carregando..." : "Enviar"
                       }
