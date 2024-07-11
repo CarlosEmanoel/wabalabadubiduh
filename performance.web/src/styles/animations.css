@@ -1,0 +1,121 @@
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-15px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce-animation {
+    animation: bounce 1.5s ease-in-out;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.blinking {
+    animation: blink 0.2s step-start 2;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* styles.css */
+.path-circle {
+    stroke-dasharray: 63;
+    stroke-dashoffset: 63;
+    animation: dash .5s ease-in-out forwards, fill .5s .5s forwards;
+}
+
+.path-check {
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    animation: dash-check .5s .5s ease-in-out forwards;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill {
+    from {
+        fill: transparent;
+    }
+
+    to {
+        fill: transparent;
+    }
+}
+
+@keyframes dash-check {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+
+    to {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+
+    to {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}
+
+.scale-in {
+    animation: scaleIn 0.3s forwards;
+}
+
+.scale-out {
+    animation: scaleOut 0.3s forwards;
+}

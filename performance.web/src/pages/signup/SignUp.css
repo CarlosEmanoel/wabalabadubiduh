@@ -1,0 +1,86 @@
+#background-1 {
+  background-image: url("https://expansaodigital.tec.br/performance.api/files/stock_lecture_from_behind");
+  animation: fadeInOut 30s ease-in-out infinite,
+    moveBackground 45s infinite linear;
+}
+
+#background-2 {
+  background-image: url("https://expansaodigital.tec.br/performance.api/files/stock_business_presentation_event");
+  animation: fadeInOut2 30s ease-in-out infinite,
+    moveBackground 45s infinite linear;
+}
+
+#background-3 {
+  background-image: url("https://expansaodigital.tec.br/performance.api/files/stock_symposium_audience");
+  animation: fadeInOut3 30s ease-in-out infinite,
+    moveBackground 45s infinite linear;
+}
+
+.background-image {
+  background-image: radial-gradient(
+    circle at 100% 100%,
+    #00b4eb,
+    #0099d6,
+    #007fc5,
+    #015a8a
+  );
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeInOut {
+  0%,
+  33.33%,
+  100% {
+    opacity: 0;
+  }
+
+  8.33%,
+  25% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInOut2 {
+  0%,
+  25%,
+  66.66% {
+    opacity: 0;
+  }
+
+  33.33%,
+  58.33% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInOut3 {
+  0%,
+  58.33%,
+  91.66% {
+    opacity: 0;
+  }
+
+  66.66%,
+  83.33% {
+    opacity: 1;
+  }
+}
+
+@keyframes moveBackground {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-2.5vw, -2.5vh);
+  }
+
+  50% {
+    transform: translate(-5vw, -5vh);
+  }
+
+  75% {
+    transform: translate(-2.5vw, -2.5vh);
+  }
+}

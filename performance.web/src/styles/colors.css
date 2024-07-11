@@ -1,0 +1,165 @@
+:root {
+    /* Pretos */
+    --primary-black: #000000;
+    --secondary-black: #1b1b1b;
+    --tertiary-black: #303030;
+
+    /* Cinzas */
+    --primary-ltgray: #d4d4d4;
+    --secondary-ltgray: #ababab;
+    --tertiary-ltgray: #848484;
+
+    --primary-gray: #b9b9b9;
+    --secondary-gray: #838383;
+    --tertiary-gray: #555555;
+
+    /* Brancos */
+    --primary-white: #ffffff;
+    --secondary-white: #ececec;
+    --tertiary-white: #d4d4d4;
+
+    --primary-white-transparent-hover: #ffffffc4;
+
+    /* Blue Logo Colors */
+    --primary-blue: #0E2547;
+    --secondary-blue: #007FC5;
+    --tertiary-blue: #00C4F5;
+
+    --primary-blue-hover: #192f51;
+    --primary-blue-transparent-hover: #192f516e;
+    --secondary-blue-hover: #0d93dc;
+    --tertiary-blue-hover: #16c7f4;
+
+    /* Cores de Status */
+    --error: #c70202;
+    --success: #00fc42;
+    --warning: #ffcc00;
+    --info: #005dd1;
+
+    --error-hover: #ca2828;
+    --success-hover: #28fe61;
+    --warning-hover: #fcd641;
+    --info-hover: #2570cc;
+}
+
+/* Estilos de Cores Para o Texto */
+/* .text-primary-black {
+    color: var(--primary-black);
+}
+
+.text-secondary-black {
+    color: var(--secondary-black);
+}
+
+.text-tertiary-black {
+    color: var(--tertiary-black);
+}
+
+.text-primary-gray {
+    color: var(--primary-gray);
+}
+
+.text-secondary-gray {
+    color: var(--secondary-gray);
+}
+
+.text-tertiary-gray {
+    color: var(--tertiary-gray);
+}
+
+.text-primary-white {
+    color: var(--primary-white);
+}
+
+.text-secondary-white {
+    color: var(--secondary-white);
+}
+
+.text-tertiary-white {
+    color: var(--tertiary-white);
+}
+
+.text-primary-blue {
+    color: var(--primary-blue);
+}
+
+.text-secondary-blue {
+    color: var(--secondary-blue);
+}
+
+.text-error {
+    color: var(--error);
+}
+
+.text-success {
+    color: var(--success);
+}
+
+.text-warning {
+    color: var(--warning);
+}
+
+.text-info {
+    color: var(--info);
+}
+
+// Estilos de Cores Para o Background
+.background-primary-black {
+    background: var(--primary-black);
+}
+
+.background-secondary-black {
+    background: var(--secondary-black);
+}
+
+.background-tertiary-black {
+    background: var(--tertiary-black);
+}
+
+.background-primary-gray {
+    background: var(--primary-gray);
+}
+
+.background-secondary-gray {
+    background: var(--secondary-gray);
+}
+
+.background-tertiary-gray {
+    background: var(--tertiary-gray);
+}
+
+.background-primary-white {
+    background: var(--primary-white);
+}
+
+.background-secondary-white {
+    background: var(--secondary-white);
+}
+
+.background-tertiary-white {
+    background: var(--tertiary-white);
+}
+
+.background-primary-blue {
+    background: var(--primary-blue);
+}
+
+.background-secondary-blue {
+    background: var(--secondary-blue);
+}
+
+.background-error {
+    background: var(--error);
+}
+
+.background-success {
+    background: var(--success);
+}
+
+.background-warning {
+    background: var(--warning);
+}
+
+.background-info {
+    background: var(--info);
+} */
